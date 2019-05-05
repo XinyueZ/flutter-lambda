@@ -1,0 +1,16 @@
+const APP_DISPLAY_NAME = "Lorem Picsum";
+const API_BASE = "picsum.photos";
+const API_HOST = "https://$API_BASE/v2";
+const API_END_POINT = "/list?page=%s&limit=%s";
+const PING_HOST = "https://httpbin.org";
+const PING_END_POINT = "/ip";
+const START_PAGE = 0;
+const DEFAULT_LIMIT = 8;
+const NULL_PLACEHOLDER = "n/a";
+const NULL_URI = "http://mock.io";
+const PLACEHOLDER_URI = "asserts/images/img_placeholder.png";
+const ERROR_URI = "asserts/images/img_error.png";
+const COLUMN_COUNT = 2;
+const THUMBNAIL_SIZE = 200;
+const PROJECT_LOCATION = "http://tinyurl.com/yy56jzl3";
+const API_PROVIDER = "https://picsum.photos";
