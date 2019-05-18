@@ -1,4 +1,3 @@
-
 import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
@@ -13,6 +12,9 @@ import '../config.dart';
 //"download_url": "https://picsum.photos/id/0/5616/3744"
 //}
 //
+
+const thumbnailSize = 200;
+
 class Photo {
   String id;
   String author;
@@ -27,6 +29,21 @@ class Photo {
   Uri get webLocation => Uri.parse(url);
 
   Uri get downloadLocation => Uri.parse(downloadUrl);
+
+  Uri get thumbnail {
+    //
+    //Download is "https://picsum.photos/id/121/1600/1067"
+    //Thumbnail shall be  "https://picsum.photos/id/121/$thumbnailSize/$thumbnailSize"
+    //
+    final heightSlash = downloadUrl.lastIndexOf("/"); //find: /1067
+    final removeHeightSlashToEnd = downloadUrl.substring(0, heightSlash);
+    final widthSlash = removeHeightSlashToEnd.lastIndexOf("/"); //find: /1600
+    final removeWidthSlashToEnd =
+        removeHeightSlashToEnd.substring(0, widthSlash);
+    final thumbnailUrl = "$removeWidthSlashToEnd/$thumbnailSize/$thumbnailSize";
+
+    return Uri.parse(thumbnailUrl);
+  }
 
   int get originWidth => width;
 

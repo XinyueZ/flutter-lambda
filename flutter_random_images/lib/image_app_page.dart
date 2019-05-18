@@ -80,7 +80,7 @@ class _ImageCellState extends State<ImageCell> {
                       errorUri,
                       fit: BoxFit.cover,
                     ),
-                imageUrl: widget._photo.downloadUrl,
+                imageUrl: widget._photo.thumbnail.toString(),
                 fit: BoxFit.cover,
               ),
             ),
