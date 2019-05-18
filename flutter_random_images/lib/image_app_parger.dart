@@ -14,6 +14,8 @@ class ImageAppPager extends StatefulWidget {
 const BACKWARD = 0;
 const HOME = 1;
 const FORWARD = 2;
+const PAGE_DURATION = Duration(milliseconds: 200);
+const PAGE_SAWTOOTH = SawTooth(10);
 
 class _ImageAppPagerState extends State<ImageAppPager> {
   int _selectedIndex = HOME;
@@ -29,58 +31,66 @@ class _ImageAppPagerState extends State<ImageAppPager> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 15,
-        title: Text(widget._title),
-      ),
-      body: _initPageView(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_left),
-            title: Text("Backward"),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          elevation: 15,
+          title: Text(widget._title),
+        ),
+        body: _initPageView(),
+        bottomNavigationBar: Builder(
+          builder: (cxt) => BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.arrow_left),
+                title: Text("Backward"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                title: Text("Home"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.arrow_right),
+                title: Text("Forward"),
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.black,
+            onTap: (index) {
+              _onItemTapped(cxt, index);
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_right),
-            title: Text("Forward"),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
-      ),
-    );
+        ));
   }
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(BuildContext cxt, int index) {
     setState(() {
       _selectedIndex = index;
 
       switch (index) {
         case BACKWARD:
-          // For the 0.page(first page), ignore.
+        // For the 0.page(first page), ignore.
           if (_pageView.controller.page < 1) {
-            debugPrint("to page, ignore on first page");
+            final SnackBar snackBar = SnackBar(
+              content: Text("Already at homepage 👌"),
+              duration: Duration(milliseconds: 500),
+            );
+            Scaffold.of(cxt).showSnackBar(snackBar);
             return;
           }
-          _backwardPager(Duration(milliseconds: 200), SawTooth(5));
+          _backwardPager();
           return;
         case HOME:
-          _toHome(Duration(milliseconds: 200), SawTooth(5));
+          _toHome();
           return;
         case FORWARD:
-          _forwardPager(Duration(milliseconds: 200), SawTooth(5));
+          _forwardPager();
           return;
       }
     });
   }
 
-  void _forwardPager(Duration duration, Curve curve) {
+  void _forwardPager(
+      {Duration duration = PAGE_DURATION, Curve curve = PAGE_SAWTOOTH}) {
     int toPage = (_pageView.controller.page + 1.0).toInt();
 
     _pageView.controller.nextPage(duration: duration, curve: curve);
@@ -88,7 +98,8 @@ class _ImageAppPagerState extends State<ImageAppPager> {
     debugPrint("to page $toPage");
   }
 
-  void _toHome(Duration duration, Curve curve) {
+  void _toHome(
+      {Duration duration = PAGE_DURATION, Curve curve = PAGE_SAWTOOTH}) {
     int toPage = 0;
 
     _pageView.controller
@@ -97,7 +108,8 @@ class _ImageAppPagerState extends State<ImageAppPager> {
     debugPrint("to page $toPage");
   }
 
-  void _backwardPager(Duration duration, Curve curve) {
+  void _backwardPager(
+      {Duration duration = PAGE_DURATION, Curve curve = PAGE_SAWTOOTH}) {
     int toPage = (_pageView.controller.page - 1.0).toInt();
 
     _pageView.controller.previousPage(duration: duration, curve: curve);
