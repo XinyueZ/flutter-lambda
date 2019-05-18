@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_random_images/image_app_page.dart';
+
+import 'image_app_parger.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,11 +9,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lorem Picsum',
+      title: "Lorem Picsum",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ImageAppPage(title: 'Lorem Picsum'),
+      home: ImageAppPager("Lorem Picsum"),
     );
   }
 }

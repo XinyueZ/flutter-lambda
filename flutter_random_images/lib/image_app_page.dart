@@ -7,20 +7,23 @@ import 'package:flutter_random_images/viewmodel/image_app_page_view_model.dart';
 import 'domain/photo.dart';
 
 class ImageAppPage extends StatefulWidget {
-  ImageAppPage({Key key, this.title}) : super(key: key);
-  final String title;
+  final int index;
+
+  ImageAppPage({Key key, this.index}) : super(key: key);
 
   @override
-  _ImageAppPageState createState() => _ImageAppPageState();
+  _ImageAppPageState createState() => _ImageAppPageState(index);
 }
 
 class _ImageAppPageState extends State<ImageAppPage> {
+  final int index;
   final PhotoList photoList = PhotoList();
   final ImageAppPageViewModel viewModel = ImageAppPageViewModel();
 
+  _ImageAppPageState(this.index);
+
   Future<PhotoList> _loadPhotoList() async {
-    PhotoList photoList =
-        await viewModel.loadPhotoList(startPage, defaultLimit);
+    PhotoList photoList = await viewModel.loadPhotoList(index, defaultLimit);
     return photoList;
   }
 
@@ -36,11 +39,8 @@ class _ImageAppPageState extends State<ImageAppPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: GridView.builder(
+    return Container(
+      child: GridView.builder(
           itemCount: photoList.data.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: lineCount),
