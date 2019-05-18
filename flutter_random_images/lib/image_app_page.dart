@@ -64,7 +64,7 @@ class _ImageCellState extends State<ImageCell> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 8,
+      elevation: 5,
       child: Hero(
         tag: widget._photo.id,
         child: Material(

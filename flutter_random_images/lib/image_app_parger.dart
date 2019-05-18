@@ -17,7 +17,7 @@ class _ImageAppPagerState extends State<ImageAppPager> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        elevation: 10,
+        elevation: 15,
         title: Text(widget._title),
       ),
       body: PageView.builder(
