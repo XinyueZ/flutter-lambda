@@ -6,5 +6,5 @@ class ImageAppPageViewModel {
   final Service service = Service(HttpClientProvider());
 
   Future<PhotoList> loadPhotoList(int page, int limit) async =>
-      service.getPhotoList(page, limit);
+      service.getPhotoList(page + 1, limit);
 }
