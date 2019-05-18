@@ -27,10 +27,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  image: 2.0.7
   flutter_launcher_icons: ^0.7.0
   sprintf: ^4.0.0
   mockito: ^4.0.0
   pedantic: ^1.0.0
+  cached_network_image: ^0.8.0
 
 flutter_icons:
   android: true
@@ -50,8 +52,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+    - asserts/images/img_placeholder.png
+    - asserts/images/img_error.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

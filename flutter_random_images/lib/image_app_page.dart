@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_random_images/config.dart';
@@ -53,7 +54,7 @@ class _ImageAppPageState extends State<ImageAppPage> {
 class ImageCell extends StatelessWidget {
   final Photo photo;
 
-  const ImageCell({this.photo});
+  ImageCell({this.photo});
 
   @override
   Widget build(BuildContext context) => Card(
@@ -63,7 +64,18 @@ class ImageCell extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(3),
               child: GridTile(
-                child: Image.network(photo.downloadUrl, fit: BoxFit.cover),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => Image.asset(
+                        placeholderUri,
+                        fit: BoxFit.cover,
+                      ),
+                  errorWidget: (context, url, error) => Image.asset(
+                        errorUri,
+                        fit: BoxFit.cover,
+                      ),
+                  imageUrl: photo.downloadUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
               onTap: () {},
             ),
