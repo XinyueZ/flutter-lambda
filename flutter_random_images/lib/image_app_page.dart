@@ -17,14 +17,14 @@ class ImageAppPage extends StatefulWidget {
 }
 
 class _ImageAppPageState extends State<ImageAppPage> {
-  final int index;
-  final PhotoList photoList = PhotoList();
-  final ImageAppPageViewModel viewModel = ImageAppPageViewModel();
+  final int _index;
+  final PhotoList _photoList = PhotoList();
+  final ImageAppPageViewModel _viewModel = ImageAppPageViewModel();
 
-  _ImageAppPageState(this.index);
+  _ImageAppPageState(this._index);
 
   Future<PhotoList> _loadPhotoList() async {
-    PhotoList photoList = await viewModel.loadPhotoList(index, defaultLimit);
+    PhotoList photoList = await _viewModel.loadPhotoList(_index, defaultLimit);
     return photoList;
   }
 
@@ -32,7 +32,7 @@ class _ImageAppPageState extends State<ImageAppPage> {
   void initState() {
     _loadPhotoList().then((newList) {
       setState(() {
-        photoList.data.addAll(newList.data);
+        _photoList.data.addAll(newList.data);
       });
     });
     super.initState();
@@ -42,44 +42,52 @@ class _ImageAppPageState extends State<ImageAppPage> {
   Widget build(BuildContext context) {
     return Container(
       child: GridView.builder(
-          itemCount: photoList.data.length,
+          itemCount: _photoList.data.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: lineCount),
           itemBuilder: (BuildContext context, int index) =>
-              ImageCell(photo: photoList.data[index])),
+              ImageCell(_photoList.data[index])),
     );
   }
 }
 
-class ImageCell extends StatelessWidget {
-  final Photo photo;
+class ImageCell extends StatefulWidget {
+  final Photo _photo;
 
-  ImageCell({this.photo});
+  ImageCell(this._photo);
 
   @override
-  Widget build(BuildContext context) => Card(
-        child: Hero(
-          tag: photo.id,
-          child: Material(
-            child: InkWell(
-              borderRadius: BorderRadius.circular(3),
-              child: GridTile(
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => Image.asset(
-                        placeholderUri,
-                        fit: BoxFit.cover,
-                      ),
-                  errorWidget: (context, url, error) => Image.asset(
-                        errorUri,
-                        fit: BoxFit.cover,
-                      ),
-                  imageUrl: photo.downloadUrl,
-                  fit: BoxFit.cover,
-                ),
+  _ImageCellState createState() => _ImageCellState();
+}
+
+class _ImageCellState extends State<ImageCell> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 8,
+      child: Hero(
+        tag: widget._photo.id,
+        child: Material(
+          child: InkWell(
+            borderRadius: BorderRadius.circular(3),
+            child: GridTile(
+              child: CachedNetworkImage(
+                placeholder: (context, url) => Image.asset(
+                      placeholderUri,
+                      fit: BoxFit.cover,
+                    ),
+                errorWidget: (context, url, error) => Image.asset(
+                      errorUri,
+                      fit: BoxFit.cover,
+                    ),
+                imageUrl: widget._photo.downloadUrl,
+                fit: BoxFit.cover,
               ),
-              onTap: () {},
             ),
+            onTap: () {},
           ),
         ),
-      );
+      ),
+    );
+  }
 }
