@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'image_app_parger.dart';
+import 'image_app_pager.dart';
 
 void main() => runApp(MyApp());
 
