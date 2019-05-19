@@ -26,6 +26,14 @@ class Photo {
   Photo(this.id, this.author, this.width, this.height, this.url,
       this.downloadUrl);
 
+  factory Photo.from(Map<String, dynamic> map) => Photo(
+      map["id"] ?? nullPlaceholder,
+      map["author"] ?? nullPlaceholder,
+      map["width"] ?? -1,
+      map["height"] ?? -1,
+      map["url"] ?? nullPlaceholder,
+      map["download_url"] ?? nullPlaceholder);
+
   Uri get webLocation => Uri.parse(url);
 
   Uri get downloadLocation => Uri.parse(downloadUrl);
@@ -53,12 +61,4 @@ class Photo {
   String toString() => sprintf(
       "id:%s, author:%s, width:%d, height:%d, url:%s, downloadUrl:%s",
       [id, author, width, height, url, downloadUrl]);
-
-  static Photo from(Map<String, dynamic> map) => Photo(
-      map["id"] ?? nullPlaceholder,
-      map["author"] ?? nullPlaceholder,
-      map["width"] ?? -1,
-      map["height"] ?? -1,
-      map["url"] ?? nullPlaceholder,
-      map["download_url"] ?? nullPlaceholder);
 }
