@@ -1,7 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_random_images/domain/Ping.dart';
+import 'package:flutter_random_images/image_app_pager.dart';
+import 'package:flutter_random_images/viewmodel/image_app_splash_view_model.dart';
 
-class ImageAppSplash extends StatelessWidget {
+import 'config.dart';
+
+class ImageAppSplash extends StatefulWidget {
+  final ImageAppSplashViewModel _viewModel;
+
+  ImageAppSplash(this._viewModel);
+
+  @override
+  _ImageAppSplashState createState() => _ImageAppSplashState(_viewModel);
+}
+
+class _ImageAppSplashState extends State<ImageAppSplash> {
+  final ImageAppSplashViewModel _viewModel;
+
+  _ImageAppSplashState(this._viewModel);
+
+  @override
+  void initState() {
+    Future<bool> successfullyFuture = _viewModel.ping();
+    successfullyFuture.then((successfully) {
+      switch (successfully) {
+        case true:
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            return ImageAppPager(appDisplayName);
+          }));
+          break;
+        case false:
+          break;
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
