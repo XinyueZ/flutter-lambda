@@ -22,15 +22,29 @@ class Photo {
   int height;
   String url;
   String downloadUrl;
+  Uri _thumbnail;
+  Uri _webLocation;
+  Uri _downloadLocation;
 
   Photo(this.id, this.author, this.width, this.height, this.url,
-      this.downloadUrl);
+      this.downloadUrl) {
+    _thumbnail = thumbnail;
+    _webLocation = webLocation;
+    _downloadLocation = downloadLocation;
+  }
 
-  Uri get webLocation => Uri.parse(url);
+  Uri get webLocation {
+    if (_webLocation != null) return _webLocation;
+    return Uri.parse(url);
+  }
 
-  Uri get downloadLocation => Uri.parse(downloadUrl);
+  Uri get downloadLocation {
+    if (_downloadLocation != null) return _downloadLocation;
+    return Uri.parse(downloadUrl);
+  }
 
   Uri get thumbnail {
+    if (_thumbnail != null) return _thumbnail;
     //
     //Download is "https://picsum.photos/id/121/1600/1067"
     //Thumbnail shall be  "https://picsum.photos/id/121/$thumbnailSize/$thumbnailSize"
@@ -59,6 +73,6 @@ class Photo {
       map["author"] ?? nullPlaceholder,
       map["width"] ?? -1,
       map["height"] ?? -1,
-      map["url"] ?? nullPlaceholder,
-      map["download_url"] ?? nullPlaceholder);
+      map["url"] ?? nullUri,
+      map["download_url"] ?? nullUri);
 }
