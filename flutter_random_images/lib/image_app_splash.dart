@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_random_images/domain/Ping.dart';
 import 'package:flutter_random_images/image_app_pager.dart';
 import 'package:flutter_random_images/viewmodel/image_app_splash_view_model.dart';
 
