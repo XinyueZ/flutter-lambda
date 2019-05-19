@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_random_images/config.dart';
 import 'package:flutter_random_images/domain/photo_list.dart';
+import 'package:flutter_random_images/image_app_detail.dart';
 import 'package:flutter_random_images/viewmodel/image_app_page_view_model.dart';
 
 import 'domain/photo.dart';
@@ -85,7 +86,11 @@ class _ImageCellState extends State<ImageCell> {
                 fit: BoxFit.cover,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return ImageAppDetail(widget._photo);
+              }));
+            },
           ),
         ),
       ),
