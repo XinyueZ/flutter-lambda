@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'image_app_pager.dart';
+import 'image_app_splash.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ImageAppPager("Lorem Picsum"),
+      home: ImageAppSplash(),
     );
   }
 }
