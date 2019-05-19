@@ -16,12 +16,12 @@ import '../config.dart';
 const thumbnailSize = 200;
 
 class Photo {
-  String id;
-  String author;
-  int width;
-  int height;
-  String url;
-  String downloadUrl;
+  final String id;
+  final String author;
+  final int width;
+  final int height;
+  final String url;
+  final String downloadUrl;
 
   Photo(this.id, this.author, this.width, this.height, this.url,
       this.downloadUrl);
