@@ -1,3 +1,4 @@
+import 'package:flutter_random_images/config.dart';
 import 'package:flutter_random_images/domain/photo.dart';
 import 'package:test_api/test_api.dart';
 

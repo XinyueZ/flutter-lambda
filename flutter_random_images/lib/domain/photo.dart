@@ -13,8 +13,6 @@ import '../config.dart';
 //}
 //
 
-const thumbnailSize = 200;
-
 class Photo {
   String id;
   String author;
