@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'image_app_page.dart';
+import 'viewmodel/image_app_page_view_model.dart';
 
 class ImageAppPager extends StatefulWidget {
   final String _title;
@@ -18,13 +19,12 @@ const PAGE_DURATION = Duration(milliseconds: 200);
 const PAGE_SAWTOOTH = SawTooth(10);
 
 class _ImageAppPagerState extends State<ImageAppPager> {
-  int _selectedIndex = HOME;
   PageView _pageView;
 
   PageView _initPageView() {
     _pageView = PageView.builder(
         itemBuilder: (BuildContext context, int index) =>
-            ImageAppPage(index: index));
+            ImageAppPage(ImageAppPageViewModel(), index: index));
     return _pageView;
   }
 
@@ -39,38 +39,36 @@ class _ImageAppPagerState extends State<ImageAppPager> {
         body: _initPageView(),
         bottomNavigationBar: Builder(
           builder: (cxt) => BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.arrow_left),
-                title: Text("Backward"),
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_left),
+                    title: Text("Backward"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    title: Text("Home"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_right),
+                    title: Text("Forward"),
+                  ),
+                ],
+                currentIndex: HOME,
+                selectedItemColor: Colors.black,
+                onTap: (index) {
+                  _onItemTapped(cxt, index);
+                },
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text("Home"),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.arrow_right),
-                title: Text("Forward"),
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.black,
-            onTap: (index) {
-              _onItemTapped(cxt, index);
-            },
-          ),
         ));
   }
 
   void _onItemTapped(BuildContext cxt, int index) {
     setState(() {
-      _selectedIndex = index;
-
       switch (index) {
         case BACKWARD:
-        // For the 0.page(first page), ignore.
+          // For the 0.page(first page), ignore.
           if (_pageView.controller.page < 1) {
-            final SnackBar snackBar = SnackBar(
+            final SnackBar snackBar = const SnackBar(
               content: Text("Already at homepage 👌"),
               duration: Duration(milliseconds: 500),
             );
@@ -98,12 +96,10 @@ class _ImageAppPagerState extends State<ImageAppPager> {
     debugPrint("to page $toPage");
   }
 
-  void _toHome(
-      {Duration duration = PAGE_DURATION, Curve curve = PAGE_SAWTOOTH}) {
+  void _toHome() {
     int toPage = 0;
 
-    _pageView.controller
-        .animateToPage(toPage, duration: duration, curve: curve);
+    _pageView.controller.jumpTo(toPage.toDouble());
 
     debugPrint("to page $toPage");
   }

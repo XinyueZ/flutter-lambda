@@ -9,19 +9,20 @@ import 'domain/photo.dart';
 
 class ImageAppPage extends StatefulWidget {
   final int index;
+  final ImageAppPageViewModel _viewModel;
 
-  ImageAppPage({Key key, this.index}) : super(key: key);
+  ImageAppPage(this._viewModel, {Key key, this.index}) : super(key: key);
 
   @override
-  _ImageAppPageState createState() => _ImageAppPageState(index);
+  _ImageAppPageState createState() => _ImageAppPageState(index, _viewModel);
 }
 
 class _ImageAppPageState extends State<ImageAppPage> {
   final int _index;
   final PhotoList _photoList = PhotoList();
-  final ImageAppPageViewModel _viewModel = ImageAppPageViewModel();
+  final ImageAppPageViewModel _viewModel;
 
-  _ImageAppPageState(this._index);
+  _ImageAppPageState(this._index, this._viewModel);
 
   Future<PhotoList> _loadPhotoList() async {
     PhotoList photoList = await _viewModel.loadPhotoList(_index, defaultLimit);

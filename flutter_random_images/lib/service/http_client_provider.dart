@@ -8,7 +8,7 @@ abstract class IHttpClientProvider {
 }
 
 class HttpClientProvider implements IHttpClientProvider {
-  HttpClient _createHttpClient() => HttpClient();
+  final HttpClient _httpClient = HttpClient();
 
   @visibleForTesting
   Uri createUri(String endpoint, String data) => Uri.parse(endpoint + data);
@@ -16,15 +16,15 @@ class HttpClientProvider implements IHttpClientProvider {
   Future<HttpClientRequest> createRequest(
       String host, String endpoint, String method) {
     if (method.toUpperCase() == "GET") {
-      return _createHttpClient().getUrl(createUri(host, endpoint));
+      return _httpClient.getUrl(createUri(host, endpoint));
     }
 
     if (method.toUpperCase() == "POST") {
-      return _createHttpClient().postUrl(createUri(host, endpoint));
+      return _httpClient.postUrl(createUri(host, endpoint));
     }
 
     if (method.toUpperCase() == "PUT") {
-      return _createHttpClient().putUrl(createUri(host, endpoint));
+      return _httpClient.putUrl(createUri(host, endpoint));
     }
 
     throw ArgumentError("Not found method, method shall be GET, POST, PUT");
