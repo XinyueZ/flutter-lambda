@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: ImageAppSplash(ImageAppSplashViewModel(
           Service(HttpClientProvider()),
-          () => InternetAddress.lookup('google.com'))),
+          () => InternetAddress.lookup(apiBase))),
     );
   }
 }

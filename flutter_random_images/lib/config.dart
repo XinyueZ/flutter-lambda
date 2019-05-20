@@ -1,5 +1,6 @@
 const appDisplayName = "Lorem Picsum";
-const apiHost = "https://picsum.photos/v2";
+const apiBase = "picsum.photos";
+const apiHost = "https://$apiBase/v2";
 const apiEndpoint = "/list?page=%s&limit=%s";
 const pingHost = "https://httpbin.org";
 const pingEndpoint = "/ip";
