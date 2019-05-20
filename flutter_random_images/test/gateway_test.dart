@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_random_images/config.dart';
 import 'package:flutter_random_images/domain/photo.dart';
 import 'package:flutter_random_images/domain/photo_list.dart';
+import 'package:flutter_random_images/domain/ping.dart';
 import 'package:flutter_random_images/service/decoder_helper.dart';
 import 'package:flutter_random_images/service/gateway.dart';
 import 'package:flutter_random_images/service/http_client_provider.dart';
@@ -18,15 +19,15 @@ class MockStreamString extends Mock implements Stream<String> {}
 class MockHttpClientProvider extends Mock implements IHttpClientProvider {}
 
 void main() {
-  group("gateway test-suit", () {
-    final String hostTest = "http://mocks.io";
-    final String endpointTest = "/mockApi";
+  final String hostTest = "http://mocks.io";
+  final String endpointTest = "/mockApi";
 
-    final HttpClientRequest mockRequest = MockHttpClientRequest();
-    final HttpClientResponse mockResponse = MockHttpClientResponse();
-    final Stream<String> mockStream = MockStreamString();
-    final IHttpClientProvider mockClientProvider = MockHttpClientProvider();
+  final HttpClientRequest mockRequest = MockHttpClientRequest();
+  final HttpClientResponse mockResponse = MockHttpClientResponse();
+  final Stream<String> mockStream = MockStreamString();
+  final IHttpClientProvider mockClientProvider = MockHttpClientProvider();
 
+  group("gateway for photo and photo-list test-suit", () {
     final server = Service(mockClientProvider);
 
     when(mockResponse.transform(DecoderHelper.getUtf8Decoder()))
@@ -136,16 +137,55 @@ void main() {
       expect(nullPlaceholder, photo_1.author);
       expect(photo_1.width < 0, true);
       expect(photo_1.height < 0, true);
-      expect(nullUri, photo_1.url);
-      expect(nullUri, photo_1.downloadUrl);
+      expect(nullPlaceholder, photo_1.url);
+      expect(nullPlaceholder, photo_1.downloadUrl);
 
       final Photo photo_2 = response.data.first;
       expect(nullPlaceholder, photo_2.id);
       expect(nullPlaceholder, photo_2.author);
       expect(photo_2.width < 0, true);
       expect(photo_2.height < 0, true);
-      expect(nullUri, photo_2.url);
-      expect(nullUri, photo_2.downloadUrl);
+      expect(nullPlaceholder, photo_2.url);
+      expect(nullPlaceholder, photo_2.downloadUrl);
+    });
+  });
+
+  group("gateway for ping test-suit", () {
+    final server = Service(mockClientProvider);
+    when(mockClientProvider.createRequest(hostTest, endpointTest, "GET"))
+        .thenAnswer((_) => Future.value(mockRequest));
+
+    test("should get device ping future", () async {
+      final String pingResponse = """
+      {
+        "origin": "77.8.99.189, 77.8.99.189"
+      }
+      """;
+      when(mockStream.join()).thenAnswer((_) => Future.value(pingResponse));
+      final Ping response =
+          await server.ping(host: hostTest, endpoint: endpointTest);
+      expect("77.8.99.189, 77.8.99.189", response.origin);
+    });
+
+    test("should get device ping but null value if the origin isn't provided",
+        () async {
+      final String pingResponse = """
+      {
+      }
+      """;
+      when(mockStream.join()).thenAnswer((_) => Future.value(pingResponse));
+      final Ping response =
+          await server.ping(host: hostTest, endpoint: endpointTest);
+      expect(nullPlaceholder, response.origin);
+    });
+
+    test("should get device ping but null value if the feeds is totally empty",
+        () async {
+      final String pingResponse = """""";
+      when(mockStream.join()).thenAnswer((_) => Future.value(pingResponse));
+      final Ping response =
+          await server.ping(host: hostTest, endpoint: endpointTest);
+      expect(nullPlaceholder, response.origin);
     });
   });
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter_random_images/domain/photo.dart';
 import 'package:flutter_random_images/domain/photo_list.dart';
+import 'package:flutter_random_images/domain/ping.dart';
 import 'package:meta/meta.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -56,5 +57,22 @@ class Service extends Gateway {
     });
 
     return Future.value(returnValue);
+  }
+
+  Future<Ping> ping(
+      {String host = pingHost,
+      String endpoint = pingEndpoint,
+      String method = "GET"}) async {
+    final HttpClientRequest req =
+        await httpClient.createRequest(host, endpoint, method);
+    final String res = await getResponseString(req);
+
+    if (res.trim().isEmpty) return Ping(nullPlaceholder);
+
+    final Map<String, dynamic> feedsMap =
+        DecoderHelper.getJsonDecoder().convert(res);
+    final Ping returnValue = Ping.from(feedsMap);
+
+    return returnValue;
   }
 }

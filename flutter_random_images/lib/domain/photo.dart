@@ -14,22 +14,26 @@ import '../config.dart';
 //
 
 class Photo {
-  String id;
-  String author;
-  int width;
-  int height;
-  String url;
-  String downloadUrl;
+  final String id;
+  final String author;
+  final int width;
+  final int height;
+  final String url;
+  final String downloadUrl;
   Uri _thumbnail;
   Uri _webLocation;
   Uri _downloadLocation;
 
   Photo(this.id, this.author, this.width, this.height, this.url,
-      this.downloadUrl) {
-    _thumbnail = thumbnail;
-    _webLocation = webLocation;
-    _downloadLocation = downloadLocation;
-  }
+      this.downloadUrl);
+
+  factory Photo.from(Map<String, dynamic> map) => Photo(
+      map["id"] ?? nullPlaceholder,
+      map["author"] ?? nullPlaceholder,
+      map["width"] ?? -1,
+      map["height"] ?? -1,
+      map["url"] ?? nullPlaceholder,
+      map["download_url"] ?? nullPlaceholder);
 
   Uri get webLocation {
     if (_webLocation != null) return _webLocation;
@@ -65,12 +69,4 @@ class Photo {
   String toString() => sprintf(
       "id:%s, author:%s, width:%d, height:%d, url:%s, downloadUrl:%s",
       [id, author, width, height, url, downloadUrl]);
-
-  static Photo from(Map<String, dynamic> map) => Photo(
-      map["id"] ?? nullPlaceholder,
-      map["author"] ?? nullPlaceholder,
-      map["width"] ?? -1,
-      map["height"] ?? -1,
-      map["url"] ?? nullUri,
-      map["download_url"] ?? nullUri);
 }

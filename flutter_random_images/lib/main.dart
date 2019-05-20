@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-import 'image_app_pager.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_random_images/viewmodel/image_app_splash_view_model.dart';
+
+import 'config.dart';
+import 'image_app_splash.dart';
+import 'service/gateway.dart';
+import 'service/http_client_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,11 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Lorem Picsum",
+      title: appDisplayName,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      home: ImageAppPager("Lorem Picsum"),
+      home: ImageAppSplash(ImageAppSplashViewModel(
+          Service(HttpClientProvider()),
+          () => InternetAddress.lookup('google.com'))),
     );
   }
 }

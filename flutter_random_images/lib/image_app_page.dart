@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_random_images/config.dart';
 import 'package:flutter_random_images/domain/photo_list.dart';
-import 'package:flutter_random_images/image_app_detail.dart';
 import 'package:flutter_random_images/viewmodel/image_app_page_view_model.dart';
 
 import 'domain/photo.dart';
+import 'image_app_detail.dart';
 
 class ImageAppPage extends StatefulWidget {
   final int index;

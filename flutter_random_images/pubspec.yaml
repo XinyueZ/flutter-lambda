@@ -55,7 +55,7 @@ flutter:
   assets:
     - asserts/images/img_placeholder.png
     - asserts/images/img_error.png
-  #  - images/a_dot_ham.jpeg
+    - asserts/launcher_icon/icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
