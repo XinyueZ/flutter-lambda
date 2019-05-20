@@ -12,7 +12,6 @@ class ImageAppSplashViewModel {
 
   ImageAppSplashViewModel(this._service, this._internetAddressLookup);
 
-  //TODO unittest
   Future<bool> ping() async {
     final Ping ping = await _service.ping();
     switch (ping.origin) {
@@ -22,7 +21,6 @@ class ImageAppSplashViewModel {
     return true;
   }
 
-  //TODO unittest
   Future<bool> checkApiBase() async {
     try {
       final List<InternetAddress> result = await _internetAddressLookup();
