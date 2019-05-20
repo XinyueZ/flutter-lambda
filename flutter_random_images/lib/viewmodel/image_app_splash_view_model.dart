@@ -1,17 +1,34 @@
+import 'dart:io';
+
 import 'package:flutter_random_images/config.dart';
 import 'package:flutter_random_images/domain/ping.dart';
 import 'package:flutter_random_images/service/gateway.dart';
-import 'package:flutter_random_images/service/http_client_provider.dart';
+
+typedef InternetAddressLookup = Future<List<InternetAddress>> Function();
 
 class ImageAppSplashViewModel {
-  final Service service = Service(HttpClientProvider());
+  final Service _service;
+  final InternetAddressLookup _internetAddressLookup;
 
+  ImageAppSplashViewModel(this._service, this._internetAddressLookup);
+
+  //TODO unittest
   Future<bool> ping() async {
-    final Ping ping = await service.ping();
+    final Ping ping = await _service.ping();
     switch (ping.origin) {
       case nullPlaceholder:
         return false;
     }
     return true;
+  }
+
+  //TODO unittest
+  Future<bool> checkApiBase() async {
+    try {
+      final List<InternetAddress> result = await _internetAddressLookup();
+      return (result.isNotEmpty && result[0].rawAddress.isNotEmpty);
+    } catch (_) {
+      return false;
+    }
   }
 }
