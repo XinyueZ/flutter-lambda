@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_random_images/domain/photo.dart';
 
 import 'config.dart';
@@ -9,34 +10,60 @@ class ImageAppDetail extends StatelessWidget {
 
   ImageAppDetail(this._photo);
 
-  void _showPhotoInformation(context){
-    showModalBottomSheet(
+  void _showPhotoInformation(context) {
+    showModalBottomSheet<void>(
         context: context,
-        builder: (BuildContext bc){
-          return Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.music_note),
-                    title: new Text('Music'),
-                    onTap: () => {}
-                ),
-                new ListTile(
-                  leading: new Icon(Icons.videocam),
-                  title: new Text('Video'),
-                  onTap: () => {},
-                ),
-              ],
-            ),
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              new ListTile(
+                leading: Icon(Icons.people),
+                title: Text(_photo.author),
+              ),
+              new ListTile(
+                leading: Icon(Icons.format_size),
+                title: Text("${_photo.width} x ${_photo.height}"),
+              ),
+              new ListTile(
+                leading: Icon(Icons.web),
+                title: InkWell(
+                    child: Text("${_photo.webLocation}",
+                        style: TextStyle(
+                            color: Colors.lightBlue,
+                            decoration: TextDecoration.underline)),
+                    onTap: () => _launchURL(context, _photo.webLocation)),
+              ),
+            ],
           );
-        }
-    );
+        });
   }
 
+  void _launchURL(BuildContext context, Uri target) async {
+    try {
+      await launch(
+        target.toString(),
+        option: new CustomTabsOption(
+          toolbarColor: Colors.black,
+          //Theme.of(context).primaryColor,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          animation: new CustomTabsAnimation.slideIn(),
+          extraCustomTabs: <String>[
+            'org.mozilla.firefox',
+            'com.microsoft.emmx',
+          ],
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    _showPhotoInformation(context);
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -58,6 +85,16 @@ class ImageAppDetail extends StatelessWidget {
             backgroundColor: Colors.transparent,
           ),
           backgroundColor: Colors.transparent,
+          floatingActionButton: new FloatingActionButton(
+            onPressed: () {
+              _showPhotoInformation(context);
+            },
+            backgroundColor: Colors.pinkAccent,
+            child: new Icon(
+              Icons.info,
+              color: Colors.white,
+            ),
+          ),
         ),
       ],
     );
