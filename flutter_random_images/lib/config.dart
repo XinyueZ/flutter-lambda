@@ -12,6 +12,5 @@ const placeholderUri = "asserts/images/img_placeholder.png";
 const errorUri = "asserts/images/img_error.png";
 const lineCount = 2;
 const thumbnailSize = 200;
-const project_location =
-    "https://github.com/XinyueZ/flutter-lambda/tree/master/flutter_random_images";
-const api_provider = "https://picsum.photos/";
+const project_location = "http://tinyurl.com/yy56jzl3";
+const api_provider = "https://picsum.photos";
