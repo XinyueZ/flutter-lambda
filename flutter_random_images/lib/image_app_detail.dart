@@ -11,18 +11,29 @@ class ImageAppDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: CachedNetworkImage(
-      placeholder: (context, url) => Image.asset(
-            placeholderUri,
-            fit: BoxFit.cover,
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        CachedNetworkImage(
+          placeholder: (context, url) => Image.asset(
+                placeholderUri,
+                fit: BoxFit.cover,
+              ),
+          errorWidget: (context, url, error) => Image.asset(
+                errorUri,
+                fit: BoxFit.cover,
+              ),
+          imageUrl: _photo.downloadUrl.toString(),
+          fit: BoxFit.cover,
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text(_photo.author),
+            backgroundColor: Colors.transparent,
           ),
-      errorWidget: (context, url, error) => Image.asset(
-            errorUri,
-            fit: BoxFit.cover,
-          ),
-      imageUrl: _photo.downloadUrl.toString(),
-      fit: BoxFit.cover,
-    ));
+          backgroundColor: Colors.transparent,
+        ),
+      ],
+    );
   }
 }
