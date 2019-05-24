@@ -17,15 +17,15 @@ class ImageAppDetail extends StatelessWidget {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              new ListTile(
+              ListTile(
                 leading: Icon(Icons.people),
                 title: Text(_photo.author),
               ),
-              new ListTile(
+              ListTile(
                 leading: Icon(Icons.format_size),
                 title: Text("${_photo.width} x ${_photo.height}"),
               ),
-              new ListTile(
+              ListTile(
                 leading: Icon(Icons.web),
                 title: InkWell(
                     child: Text("${_photo.webLocation}",
@@ -43,13 +43,13 @@ class ImageAppDetail extends StatelessWidget {
     try {
       await launch(
         target.toString(),
-        option: new CustomTabsOption(
+        option: CustomTabsOption(
           toolbarColor: Colors.black,
           //Theme.of(context).primaryColor,
           enableDefaultShare: true,
           enableUrlBarHiding: true,
           showPageTitle: true,
-          animation: new CustomTabsAnimation.slideIn(),
+          animation: CustomTabsAnimation.slideIn(),
           extraCustomTabs: <String>[
             'org.mozilla.firefox',
             'com.microsoft.emmx',
@@ -85,12 +85,12 @@ class ImageAppDetail extends StatelessWidget {
             backgroundColor: Colors.transparent,
           ),
           backgroundColor: Colors.transparent,
-          floatingActionButton: new FloatingActionButton(
+          floatingActionButton: FloatingActionButton(
             onPressed: () {
               _showPhotoInformation(context);
             },
             backgroundColor: Colors.pinkAccent,
-            child: new Icon(
+            child: Icon(
               Icons.info,
               color: Colors.white,
             ),
