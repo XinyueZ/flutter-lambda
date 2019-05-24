@@ -81,7 +81,6 @@ class ImageAppDetail extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text(_photo.author),
             backgroundColor: Colors.transparent,
           ),
           backgroundColor: Colors.transparent,
