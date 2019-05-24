@@ -60,22 +60,24 @@ class ImageAppDetail extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-          ),
-          backgroundColor: Colors.transparent,
-          floatingActionButton: FloatingActionButton(
-            elevation: 15,
-            onPressed: () {
-              _showPhotoInformation(context);
-            },
-            backgroundColor: Colors.pinkAccent,
-            child: Icon(
-              Icons.share,
-              color: Colors.white,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
             ),
-          ),
-        ),
+            backgroundColor: Colors.transparent,
+            floatingActionButton: Padding(
+              padding: EdgeInsets.only(bottom: 50),
+              child: FloatingActionButton(
+                elevation: 15,
+                onPressed: () {
+                  _showPhotoInformation(context);
+                },
+                backgroundColor: Colors.pinkAccent,
+                child: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                ),
+              ),
+            )),
       ],
     );
   }
