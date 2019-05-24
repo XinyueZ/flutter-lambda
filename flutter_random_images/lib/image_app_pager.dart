@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'config.dart';
 import 'image_app_page.dart';
+import 'utils.dart';
 import 'viewmodel/image_app_page_view_model.dart';
 
 class ImageAppPager extends StatefulWidget {
@@ -28,6 +30,40 @@ class _ImageAppPagerState extends State<ImageAppPager> {
     return _pageView;
   }
 
+  void _showAboutPopup() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Text("About $appDisplayName"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: openWebLinkText(
+                    context, "API provider", Uri.parse(api_provider)),
+              ),
+              openWebLinkText(
+                  context, "Source on Github", Uri.parse(project_location)),
+            ],
+          ),
+          actions: <Widget>[
+            MaterialButton(
+              child: Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +71,14 @@ class _ImageAppPagerState extends State<ImageAppPager> {
           backgroundColor: Colors.black,
           elevation: 15,
           title: Text(widget._title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () {
+                _showAboutPopup();
+              },
+            )
+          ],
         ),
         body: _initPageView(),
         bottomNavigationBar: Builder(
