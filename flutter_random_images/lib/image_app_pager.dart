@@ -37,7 +37,7 @@ class _ImageAppPagerState extends State<ImageAppPager> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: Text("About $appDisplayName"),
+          title: Text("About"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
