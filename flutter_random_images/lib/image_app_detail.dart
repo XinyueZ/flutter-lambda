@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_random_images/domain/photo.dart';
+import 'package:share/share.dart';
 
 import 'config.dart';
 import 'utils.dart';
@@ -18,17 +19,23 @@ class ImageAppDetail extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
+                  leading: Icon(Icons.share),
+                  title: InkWell(
+                    child: Text("Share me"),
+                    onTap: () => Share.share(_photo.url),
+                  )),
+              ListTile(
+                leading: Icon(Icons.web),
+                title:
+                    openWebLinkText(context, "Open on web", _photo.webLocation),
+              ),
+              ListTile(
                 leading: Icon(Icons.people),
                 title: Text(_photo.author),
               ),
               ListTile(
                 leading: Icon(Icons.format_size),
                 title: Text("${_photo.width} x ${_photo.height}"),
-              ),
-              ListTile(
-                leading: Icon(Icons.web),
-                title:
-                    openWebLinkText(context, "Open on web", _photo.webLocation),
               ),
             ],
           );
@@ -58,12 +65,13 @@ class ImageAppDetail extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           floatingActionButton: FloatingActionButton(
+            elevation: 15,
             onPressed: () {
               _showPhotoInformation(context);
             },
             backgroundColor: Colors.pinkAccent,
             child: Icon(
-              Icons.info,
+              Icons.share,
               color: Colors.white,
             ),
           ),

@@ -34,6 +34,7 @@ dev_dependencies:
   pedantic: ^1.0.0
   cached_network_image: ^0.8.0
   flutter_custom_tabs: ^0.6.0
+  share: ^0.6.1
 
 flutter_icons:
   android: true
