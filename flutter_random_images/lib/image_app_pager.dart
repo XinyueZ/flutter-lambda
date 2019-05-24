@@ -41,20 +41,37 @@ class _ImageAppPagerState extends State<ImageAppPager> {
           builder: (cxt) => BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.arrow_left),
-                    title: Text("Backward"),
+                    icon: Icon(
+                      Icons.arrow_left,
+                      color: Colors.white,
+                    ),
+                    title:
+                        Text("Backward", style: TextStyle(color: Colors.white)),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    title: Text("Home"),
+                    icon: Icon(
+                      Icons.home,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Home",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.arrow_right),
-                    title: Text("Forward"),
+                    icon: Icon(
+                      Icons.arrow_right,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Forward",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
                 currentIndex: HOME,
                 selectedItemColor: Colors.black,
+                backgroundColor: Colors.black,
                 onTap: (index) {
                   _onItemTapped(cxt, index);
                 },
