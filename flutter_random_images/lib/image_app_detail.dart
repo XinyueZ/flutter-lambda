@@ -27,12 +27,8 @@ class ImageAppDetail extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.web),
-                title: InkWell(
-                    child: Text("${_photo.webLocation}",
-                        style: TextStyle(
-                            color: Colors.lightBlue,
-                            decoration: TextDecoration.underline)),
-                    onTap: () => launchURL(context, _photo.webLocation)),
+                title:
+                    openWebLinkText(context, "Open on web", _photo.webLocation),
               ),
             ],
           );
