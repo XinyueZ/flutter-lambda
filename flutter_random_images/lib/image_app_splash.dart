@@ -27,14 +27,14 @@ class _ImageAppSplashState extends State<ImageAppSplash> {
       switch (ping) {
         case true:
           setState(() {
-            connStatus = "Internet access ✅";
+            connStatus = "Internet  ✅";
           });
           Future<bool> checkApiFuture = _viewModel.checkApiBase();
           checkApiFuture.then((checkApi) {
             switch (checkApi) {
               case true:
                 setState(() {
-                  connStatus = "API OK ✅";
+                  connStatus = "API  ✅";
                 });
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (_) {
@@ -43,7 +43,7 @@ class _ImageAppSplashState extends State<ImageAppSplash> {
                 break;
               case false:
                 setState(() {
-                  connStatus = "API OK ❌";
+                  connStatus = "API  ❌";
                 });
                 break;
             }
@@ -51,7 +51,7 @@ class _ImageAppSplashState extends State<ImageAppSplash> {
           break;
         case false:
           setState(() {
-            connStatus = "Internet access ❌";
+            connStatus = "Internet  ❌";
           });
           break;
       }
