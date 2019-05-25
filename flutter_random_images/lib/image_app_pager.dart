@@ -30,8 +30,10 @@ class _ImageAppPagerState extends State<ImageAppPager> {
     return _pageView;
   }
 
-  void _showAboutPopup() {
+  void _showAboutPopup() async {
     // flutter defined function
+    final aboutList = await _viewModel.getAboutList(context);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -41,7 +43,7 @@ class _ImageAppPagerState extends State<ImageAppPager> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: _viewModel.getAboutList(context),
+            children: aboutList,
           ),
           actions: <Widget>[
             MaterialButton(
