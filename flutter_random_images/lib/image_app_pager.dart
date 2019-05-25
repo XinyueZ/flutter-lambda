@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'config.dart';
 import 'image_app_page.dart';
-import 'utils.dart';
 import 'viewmodel/image_app_page_view_model.dart';
+import 'viewmodel/image_app_pager_view_model.dart';
 
 class ImageAppPager extends StatefulWidget {
   final String _title;
@@ -22,6 +21,7 @@ const PAGE_SAWTOOTH = SawTooth(10);
 
 class _ImageAppPagerState extends State<ImageAppPager> {
   PageView _pageView;
+  final ImageAppPagerViewModel _viewModel = ImageAppPagerViewModel();
 
   PageView _initPageView() {
     _pageView = PageView.builder(
@@ -41,15 +41,7 @@ class _ImageAppPagerState extends State<ImageAppPager> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: openWebLinkText(
-                    context, "API provider", Uri.parse(api_provider)),
-              ),
-              openWebLinkText(
-                  context, "Source on Github", Uri.parse(project_location)),
-            ],
+            children: _viewModel.getAboutList(context),
           ),
           actions: <Widget>[
             MaterialButton(
