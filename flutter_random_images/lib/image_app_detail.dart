@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_random_images/domain/photo.dart';
-import 'package:share/share.dart';
 
 import 'config.dart';
-import 'utils.dart';
+import 'viewmodel/image_app_detail_view_model.dart';
 
 class ImageAppDetail extends StatelessWidget {
   final Photo _photo;
+  final ImageAppDetailViewModel _viewModel;
 
-  ImageAppDetail(this._photo);
+  ImageAppDetail(this._photo) : _viewModel = ImageAppDetailViewModel(_photo);
 
-  void _showPhotoInformation(context) {
+  void _showPhotoInformation(BuildContext context) {
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
@@ -19,24 +19,24 @@ class ImageAppDetail extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                  leading: Icon(Icons.share),
-                  title: InkWell(
-                    child: Text("Share me"),
-                    onTap: () => Share.share(_photo.url),
-                  )),
-              ListTile(
-                leading: Icon(Icons.web),
-                title:
-                    openWebLinkText(context, "Open on web", _photo.webLocation),
+                leading: Icon(Icons.share),
+                title: _viewModel.share,
               ),
               ListTile(
+                  leading: Icon(Icons.web),
+                  title: _viewModel.getWebLocation(context)),
+              ListTile(
                 leading: Icon(Icons.people),
-                title: Text(_photo.author),
+                title: _viewModel.author,
               ),
               ListTile(
                 leading: Icon(Icons.format_size),
-                title: Text("${_photo.width} x ${_photo.height}"),
+                title: _viewModel.size,
               ),
+              _viewModel.getDownload(context),
+              SizedBox(
+                height: 10,
+              )
             ],
           );
         });
