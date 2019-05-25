@@ -1,10 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_random_images/domain/photo.dart';
-import 'package:network_to_file_image/network_to_file_image.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 import 'package:toast/toast.dart';
 
+import '../config.dart';
 import '../utils.dart';
 
 class ImageAppDetailViewModel {
@@ -39,13 +41,19 @@ class ImageAppDetailViewModel {
       ),
       color: Theme.of(context).accentColor,
       elevation: 5.0,
-      splashColor: Colors.blueGrey,
+      splashColor: Colors.black38,
       onPressed: () async {
-        final fn = "${_photo.downloadUrl}.jpg";
-        Image(
-            image: NetworkToFileImage(
-                url: _photo.downloadUrl, file: await file(fn)));
-        Toast.show("Downloaded ${_photo.downloadUrl}.jpg", context);
+        final dir = await getApplicationDocumentsDirectory();
+        final fn =
+            "${dir.path}/$appDisplayName-${_photo.author}-${_photo.id}-${_photo.width}x${_photo.height}.jpg";
+        Dio dio = Dio();
+        dio.download(_photo.downloadUrl, fn, onReceiveProgress: (rec, total) {
+          debugPrint("Rec: $rec , Total: $total");
+          if (rec == total) {
+            Toast.show("Downloaded $fn", context,
+                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+          }
+        });
       },
     );
   }
