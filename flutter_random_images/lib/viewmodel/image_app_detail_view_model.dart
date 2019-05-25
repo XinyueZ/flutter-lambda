@@ -26,7 +26,16 @@ class ImageAppDetailViewModel {
     return RaisedButton(
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[Icon(Icons.file_download), Text("Download")],
+        children: <Widget>[
+          Icon(
+            Icons.file_download,
+            color: Colors.white,
+          ),
+          Text(
+            "Download",
+            style: TextStyle(color: Colors.white),
+          )
+        ],
       ),
       color: Theme.of(context).accentColor,
       elevation: 5.0,
