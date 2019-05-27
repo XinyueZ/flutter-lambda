@@ -28,12 +28,12 @@ class Photo {
       this.downloadUrl);
 
   factory Photo.from(Map<String, dynamic> map) => Photo(
-      map["id"] ?? nullPlaceholder,
-      map["author"] ?? nullPlaceholder,
+      map["id"] ?? NULL_PLACEHOLDER,
+      map["author"] ?? NULL_PLACEHOLDER,
       map["width"] ?? -1,
       map["height"] ?? -1,
-      map["url"] ?? nullPlaceholder,
-      map["download_url"] ?? nullPlaceholder);
+      map["url"] ?? NULL_PLACEHOLDER,
+      map["download_url"] ?? NULL_PLACEHOLDER);
 
   Uri get webLocation {
     if (_webLocation != null) return _webLocation;
@@ -56,7 +56,8 @@ class Photo {
     final widthSlash = removeHeightSlashToEnd.lastIndexOf("/"); //find: /1600
     final removeWidthSlashToEnd =
         removeHeightSlashToEnd.substring(0, widthSlash);
-    final thumbnailUrl = "$removeWidthSlashToEnd/$thumbnailSize/$thumbnailSize";
+    final thumbnailUrl =
+        "$removeWidthSlashToEnd/$THUMBNAIL_SIZE/$THUMBNAIL_SIZE";
 
     return Uri.parse(thumbnailUrl);
   }

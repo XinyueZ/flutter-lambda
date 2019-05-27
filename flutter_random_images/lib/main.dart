@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: appDisplayName,
+      title: APP_DISPLAY_NAME,
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
       home: ImageAppSplash(ImageAppSplashViewModel(
           Service(HttpClientProvider()),
-          () => InternetAddress.lookup(apiBase))),
+          () => InternetAddress.lookup(API_BASE))),
     );
   }
 }

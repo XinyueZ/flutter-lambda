@@ -45,7 +45,7 @@ class ImageAppDetailViewModel {
       onPressed: () async {
         final dir = await getApplicationDocumentsDirectory();
         final fn =
-            "${dir.path}/$appDisplayName-${_photo.author}-${_photo.id}-${_photo.width}x${_photo.height}.jpg";
+            "${dir.path}/$APP_DISPLAY_NAME-${_photo.author}-${_photo.id}-${_photo.width}x${_photo.height}.jpg";
         Dio dio = Dio();
         dio.download(_photo.downloadUrl, fn, onReceiveProgress: (rec, total) {
           debugPrint("Rec: $rec , Total: $total");

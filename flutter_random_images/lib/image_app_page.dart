@@ -26,7 +26,7 @@ class _ImageAppPageState extends State<ImageAppPage> {
   _ImageAppPageState(this._index, this._viewModel);
 
   Future<PhotoList> _loadPhotoList() async {
-    PhotoList photoList = await _viewModel.loadPhotoList(_index, defaultLimit);
+    PhotoList photoList = await _viewModel.loadPhotoList(_index, DEFAULT_LIMIT);
     return photoList;
   }
 
@@ -46,7 +46,7 @@ class _ImageAppPageState extends State<ImageAppPage> {
       child: GridView.builder(
           itemCount: _photoList.data.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: lineCount),
+              crossAxisCount: LINE_COUNT),
           itemBuilder: (BuildContext context, int index) =>
               ImageCell(_photoList.data[index])),
     );
@@ -75,11 +75,11 @@ class _ImageCellState extends State<ImageCell> {
             child: GridTile(
               child: CachedNetworkImage(
                 placeholder: (context, url) => Image.asset(
-                      placeholderUri,
+                      PLACEHOLDER_URI,
                       fit: BoxFit.cover,
                     ),
                 errorWidget: (context, url, error) => Image.asset(
-                      errorUri,
+                      ERROR_URI,
                       fit: BoxFit.cover,
                     ),
                 imageUrl: widget._photo.thumbnail.toString(),

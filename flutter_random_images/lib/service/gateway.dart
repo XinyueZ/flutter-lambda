@@ -39,8 +39,8 @@ class Service extends Gateway {
   Service(IHttpClientProvider clientProvider) : super(clientProvider);
 
   Future<PhotoList> getPhotoList(int page, int limit,
-      {String host = apiHost,
-      String endpoint = apiEndpoint,
+      {String host = API_HOST,
+      String endpoint = API_END_POINT,
       String method = "GET"}) async {
     final String endpointPageLimit = sprintf(endpoint, [page, limit]);
     final HttpClientRequest req =
@@ -60,14 +60,14 @@ class Service extends Gateway {
   }
 
   Future<Ping> ping(
-      {String host = pingHost,
-      String endpoint = pingEndpoint,
+      {String host = PING_HOST,
+      String endpoint = PING_END_POINT,
       String method = "GET"}) async {
     final HttpClientRequest req =
         await httpClient.createRequest(host, endpoint, method);
     final String res = await getResponseString(req);
 
-    if (res.trim().isEmpty) return Ping(nullPlaceholder);
+    if (res.trim().isEmpty) return Ping(NULL_PLACEHOLDER);
 
     final Map<String, dynamic> feedsMap =
         DecoderHelper.getJsonDecoder().convert(res);

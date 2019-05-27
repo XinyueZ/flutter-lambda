@@ -6,6 +6,6 @@ class Ping {
   Ping(this.origin);
 
   factory Ping.from(Map<String, dynamic> map) => Ping(
-        map["origin"] ?? nullPlaceholder,
+        map["origin"] ?? NULL_PLACEHOLDER,
       );
 }

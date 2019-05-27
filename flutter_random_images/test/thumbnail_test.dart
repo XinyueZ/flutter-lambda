@@ -22,7 +22,7 @@ void main() {
           "https://picsum.photos/id/121/1600/1067");
       expect(
           Uri.parse(
-              "https://picsum.photos/id/121/$thumbnailSize/$thumbnailSize"),
+              "https://picsum.photos/id/121/$THUMBNAIL_SIZE/$THUMBNAIL_SIZE"),
           photo.thumbnail);
     });
   });

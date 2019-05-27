@@ -49,11 +49,11 @@ class ImageAppDetail extends StatelessWidget {
       children: <Widget>[
         CachedNetworkImage(
           placeholder: (context, url) => Image.asset(
-                placeholderUri,
+                PLACEHOLDER_URI,
                 fit: BoxFit.cover,
               ),
           errorWidget: (context, url, error) => Image.asset(
-                errorUri,
+                ERROR_URI,
                 fit: BoxFit.cover,
               ),
           imageUrl: _photo.downloadUrl.toString(),

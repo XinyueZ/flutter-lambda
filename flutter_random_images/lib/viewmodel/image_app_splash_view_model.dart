@@ -15,7 +15,7 @@ class ImageAppSplashViewModel {
   Future<bool> ping() async {
     final Ping ping = await _service.ping();
     switch (ping.origin) {
-      case nullPlaceholder:
+      case NULL_PLACEHOLDER:
         return false;
     }
     return true;

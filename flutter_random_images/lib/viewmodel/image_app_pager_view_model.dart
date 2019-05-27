@@ -15,9 +15,9 @@ class ImageAppPagerViewModel {
       Padding(
         padding: EdgeInsets.all(15),
         child:
-            openWebLinkText(context, "API provider", Uri.parse(api_provider)),
+            openWebLinkText(context, "API provider", Uri.parse(API_PROVIDER)),
       ),
-      openWebLinkText(context, "Source on Github", Uri.parse(project_location)),
+      openWebLinkText(context, "Source on Github", Uri.parse(PROJECT_LOCATION)),
       Padding(
         padding: EdgeInsets.all(15),
         child: Text("Version: $version"),

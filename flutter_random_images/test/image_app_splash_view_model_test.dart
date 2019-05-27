@@ -24,7 +24,7 @@ void main() {
     });
     test("should ping return false when the service cannot give origin",
         () async {
-      Ping ping = Ping(nullPlaceholder);
+      Ping ping = Ping(NULL_PLACEHOLDER);
       when(service.ping()).thenAnswer((_) => Future.value(ping));
 
       final viewModel = ImageAppSplashViewModel(

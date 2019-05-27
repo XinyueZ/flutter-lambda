@@ -38,7 +38,7 @@ class _ImageAppSplashState extends State<ImageAppSplash> {
                 });
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (_) {
-                  return ImageAppPager(appDisplayName);
+                  return ImageAppPager(APP_DISPLAY_NAME);
                 }));
                 break;
               case false:
@@ -70,7 +70,7 @@ class _ImageAppSplashState extends State<ImageAppSplash> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Image.asset("asserts/launcher_icon/icon.png"),
-                Text(appDisplayName,
+                Text(APP_DISPLAY_NAME,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.black, fontSize: 25)),
