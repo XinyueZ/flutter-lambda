@@ -137,16 +137,16 @@ void main() {
       expect(NULL_PLACEHOLDER, photo_1.author);
       expect(photo_1.width < 0, true);
       expect(photo_1.height < 0, true);
-      expect(NULL_PLACEHOLDER, photo_1.url);
-      expect(NULL_PLACEHOLDER, photo_1.downloadUrl);
+      expect(NULL_URI, photo_1.url);
+      expect(NULL_URI, photo_1.downloadUrl);
 
       final Photo photo_2 = response.data.first;
       expect(NULL_PLACEHOLDER, photo_2.id);
       expect(NULL_PLACEHOLDER, photo_2.author);
       expect(photo_2.width < 0, true);
       expect(photo_2.height < 0, true);
-      expect(NULL_PLACEHOLDER, photo_2.url);
-      expect(NULL_PLACEHOLDER, photo_2.downloadUrl);
+      expect(NULL_URI, photo_2.url);
+      expect(NULL_URI, photo_2.downloadUrl);
     });
   });
 
