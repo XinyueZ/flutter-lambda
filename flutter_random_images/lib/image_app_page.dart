@@ -46,7 +46,7 @@ class _ImageAppPageState extends State<ImageAppPage> {
       child: GridView.builder(
           itemCount: _photoList.data.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: LINE_COUNT),
+              crossAxisCount: COLUMN_COUNT),
           itemBuilder: (BuildContext context, int index) =>
               ImageCell(_photoList.data[index])),
     );
