@@ -62,6 +62,31 @@ class ImageAppDetail extends StatelessWidget {
         Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
+              actions: <Widget>[
+                PopupMenuButton(
+                  padding: EdgeInsets.zero,
+                  onSelected: _viewModel.menuSelected,
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        value: "effect",
+                        child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Icon(
+                                Icons.format_paint,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              const Text("Effect")
+                            ]),
+                      )
+                    ];
+                  },
+                )
+              ],
             ),
             backgroundColor: Colors.transparent,
             floatingActionButton: Padding(

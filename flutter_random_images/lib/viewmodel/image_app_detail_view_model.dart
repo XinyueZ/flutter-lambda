@@ -57,4 +57,12 @@ class ImageAppDetailViewModel {
       },
     );
   }
+
+  void menuSelected(String value) {
+    switch (value) {
+      case "effect":
+        debugPrint("Show effect will be waited.");
+        break;
+    }
+  }
 }
