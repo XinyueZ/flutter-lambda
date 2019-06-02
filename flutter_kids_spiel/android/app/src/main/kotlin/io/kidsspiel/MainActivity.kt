@@ -1,4 +1,4 @@
-package io.flutter_kids_spiel
+package io.kidsspiel
 
 import android.os.Bundle
 
