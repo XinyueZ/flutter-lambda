@@ -12,6 +12,9 @@ import '../config.dart';
 //"download_url": "https://picsum.photos/id/0/5616/3744"
 //}
 //
+const BLUR_MAX = 10;
+const BLUR_MIN = 1;
+
 class Photo {
   final String id;
   final String author;
@@ -83,9 +86,9 @@ class Photo {
   }
 
   int _adjustBlur(int blur) {
-    if (blur > 10)
-      blur = 10;
-    else if (blur < 1) blur = 1;
+    if (blur > BLUR_MAX)
+      blur = BLUR_MAX;
+    else if (blur < BLUR_MIN) blur = BLUR_MIN;
     return blur;
   }
 
