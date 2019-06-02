@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
             padding: EdgeInsets.only(bottom: 24),
             child: FloatingActionButton(
               onPressed: () {
-                requestPermission(PermissionGroup.location);
+                _requestPermission(PermissionGroup.location);
               },
               child: Icon(Icons.my_location),
               backgroundColor: _fabColor,
@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> requestPermission(PermissionGroup permission) async {
+  Future<void> _requestPermission(PermissionGroup permission) async {
     final List<PermissionGroup> permissions = <PermissionGroup>[permission];
     final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
         await PermissionHandler().requestPermissions(permissions);
@@ -68,13 +68,13 @@ class _MyAppState extends State<MyApp> {
     bool isShown = await PermissionHandler()
         .shouldShowRequestPermissionRationale(PermissionGroup.location);
 
+    if (!isShown && _permissionStatus == PermissionStatus.denied) {
+      _showPermissionRationale();
+    }
+
     setState(() {
       _permissionStatus = permissionRequestResult[permission];
       _fabColor = _getPermissionColor();
-
-      if (!isShown && _permissionStatus == PermissionStatus.denied) {
-        _showPermissionRationale();
-      }
     });
   }
 
