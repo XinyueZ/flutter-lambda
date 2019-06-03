@@ -61,24 +61,25 @@ class _ImageAppSplashState extends State<ImageAppSplash> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-            alignment: Alignment(0.0, 0.0),
-            padding: const EdgeInsets.all(0.0),
-            color: Colors.white,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Image.asset("asserts/launcher_icon/icon.png"),
-                Text(APP_DISPLAY_NAME,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.black, fontSize: 25)),
-                Text(connStatus,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.black, fontSize: 15)),
-              ],
-            )));
+    return Material(
+        child: Center(
+            child: Container(
+                alignment: Alignment(0.0, 0.0),
+                padding: const EdgeInsets.all(0.0),
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Image.asset("asserts/launcher_icon/icon.png"),
+                    Text(APP_DISPLAY_NAME,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.black, fontSize: 25)),
+                    Text(connStatus,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.black, fontSize: 15)),
+                  ],
+                ))));
   }
 }

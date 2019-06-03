@@ -14,7 +14,7 @@ description: Show list of random images, inspaired by https:&#x2F;&#x2F;picsum.p
 version: 0.0.1+1
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
