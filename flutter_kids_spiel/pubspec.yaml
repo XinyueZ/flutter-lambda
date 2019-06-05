@@ -29,8 +29,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sprintf: ^4.0.0
   image: 2.0.7
   flutter_launcher_icons: ^0.7.0
+  dio: ^2.1.5
+  geolocator: ^4.0.3
 
 flutter_icons:
   android: true
