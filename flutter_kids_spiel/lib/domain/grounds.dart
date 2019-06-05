@@ -1,7 +1,7 @@
 import 'ground.dart';
 
 class Grounds {
-  List<Ground> data = List<Ground>();
+  final List<Ground> data = List<Ground>();
 
   @override
   String toString() {

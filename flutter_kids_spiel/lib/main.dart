@@ -4,15 +4,16 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'map.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatefulWidget {
+class App extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _AppState createState() => _AppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _AppState extends State<App> {
   final navigatorKey = GlobalKey<NavigatorState>();
+  final map = MapView();
   Color _fabColor;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
 
@@ -24,6 +25,8 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _permissionStatus = status;
         _fabColor = _getPermissionColor();
+
+        _syncMapCamera();
       });
     });
     PermissionHandler()
@@ -31,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         .then((isShown) {
       if (!isShown) _requestPermission(false);
     });
+
     super.initState();
   }
 
@@ -43,24 +47,37 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.pink,
       ),
       home: Scaffold(
-          body: MapSample(),
+          body: map,
           floatingActionButton: Padding(
             padding: EdgeInsets.only(bottom: 24),
             child: FloatingActionButton(
               onPressed: () async {
                 await _requestPermission(true);
-
-                if (_permissionStatus == PermissionStatus.granted) {
-                  Position position = await Geolocator().getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.high);
-                  moveCamera(position);
-                }
+                await _moveMapCamera();
               },
               child: Icon(Icons.my_location),
               backgroundColor: _fabColor,
             ),
           )),
     );
+  }
+
+  Future _moveMapCamera() async {
+    if (_permissionStatus == PermissionStatus.granted) {
+      Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      map.animateCamera(position);
+    }
+  }
+
+  void _syncMapCamera() {
+    if (_permissionStatus == PermissionStatus.granted) {
+      Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+          .then((position) {
+        map.animateCamera(position);
+      });
+    }
   }
 
   Color _getPermissionColor() {

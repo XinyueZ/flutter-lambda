@@ -1,3 +1,5 @@
+import 'package:sprintf/sprintf.dart';
+
 import 'latlng_bounds.dart';
 import 'peek_size.dart';
 
@@ -26,18 +28,7 @@ class Request {
   }
 
   //{"left":9.957978664484589,"right":9.979414878931198,"top":53.46215403624407,"bottom":53.4523417770031,"width":999,"height":768,"filter":["playground"],"ts":1559731534147,"result":[]}
-  dynamic toPayload() {
-    final res = {
-      "left": west,
-      "right": east,
-      "top": north,
-      "bottom": south,
-      "width": width,
-      "height": height,
-      "ts": timestamps,
-      "filter": "[\"playground\"]",
-    };
-
-    return res;
-  }
+  String toPayload() => sprintf(""" 
+    {"left":%f, "right":%f, "top":%f,"bottom":%f, "width":%d, "height":%d,  "ts":%d, "filter": ["playground"]}
+    """, [west, east, north, south, width, height, timestamps]);
 }
