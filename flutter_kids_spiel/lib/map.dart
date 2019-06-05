@@ -1,8 +1,21 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'config.dart';
+import 'domain/latlng_bounds.dart' as b;
+import 'domain/peek_size.dart';
+import 'service/gateway.dart';
+
+GoogleMapController mapController;
+
+void moveCamera(Position position) {
+  mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    target: LatLng(position.latitude, position.longitude),
+    zoom: ZOOM.toDouble(),
+  )));
+}
 
 class MapSample extends StatefulWidget {
   @override
@@ -10,36 +23,35 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
+  CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    zoom: 17,
   );
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  void _onCameraIdle() async {
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    final PeekSize peekSize = PeekSize(width, height);
+    final bounds = await mapController.getVisibleRegion();
+    final latLngBounds = b.LatLngBounds.from(bounds);
+
+    await Gateway().loadGrounds(latLngBounds, peekSize);
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
+        initialCameraPosition: _cameraPosition,
         onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
+          mapController = controller;
         },
+        onCameraIdle: _onCameraIdle,
+        myLocationEnabled: true,
         myLocationButtonEnabled: false,
         zoomGesturesEnabled: true,
       ),
     );
-  }
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }
