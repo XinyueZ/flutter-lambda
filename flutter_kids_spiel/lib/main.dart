@@ -25,6 +25,11 @@ class _MyAppState extends State<MyApp> {
         _fabColor = _getPermissionColor();
       });
     });
+    PermissionHandler()
+        .shouldShowRequestPermissionRationale(PermissionGroup.location)
+        .then((isShown) {
+      if (!isShown) _requestPermission(false);
+    });
     super.initState();
   }
 
@@ -42,7 +47,7 @@ class _MyAppState extends State<MyApp> {
             padding: EdgeInsets.only(bottom: 24),
             child: FloatingActionButton(
               onPressed: () {
-                _requestPermission(PermissionGroup.location);
+                _requestPermission(true);
               },
               child: Icon(Icons.my_location),
               backgroundColor: _fabColor,
@@ -60,15 +65,13 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> _requestPermission(PermissionGroup permission) async {
+  Future<void> _requestPermission(bool showRationale,
+      {PermissionGroup permission = PermissionGroup.location}) async {
     final List<PermissionGroup> permissions = <PermissionGroup>[permission];
     final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
         await PermissionHandler().requestPermissions(permissions);
 
-    bool isShown = await PermissionHandler()
-        .shouldShowRequestPermissionRationale(PermissionGroup.location);
-
-    if (!isShown && _permissionStatus == PermissionStatus.denied) {
+    if (showRationale && _permissionStatus != PermissionStatus.granted) {
       _showPermissionRationale();
     }
 
@@ -92,7 +95,7 @@ class _MyAppState extends State<MyApp> {
                   Navigator.of(context).pop();
                   await PermissionHandler().openAppSettings();
                 },
-                child: Text("OK"),
+                child: Text("Open App-Settings"),
               ),
               MaterialButton(
                 onPressed: () {
