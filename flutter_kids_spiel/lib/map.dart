@@ -57,9 +57,12 @@ class MapViewState extends State<MapView> {
 
   void _onCameraIdle() async {
     final GoogleMapController c = await _mapController.future;
+
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
+
     final PeekSize peekSize = PeekSize(width, height);
+
     final bounds = await c.getVisibleRegion();
     final latLngBounds = b.LatLngBounds.from(bounds);
 
@@ -75,6 +78,10 @@ class MapViewState extends State<MapView> {
           markerId: MarkerId(ground.id ?? "unknown ID"),
           position: ground.latLng,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+          onTap: () {
+            _launchURL(
+                "google.navigation:q=${ground.latLng.latitude},${ground.latLng.longitude}");
+          },
         ));
       });
     });
