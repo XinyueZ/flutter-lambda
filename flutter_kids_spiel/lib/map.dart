@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'config.dart';
+import 'domain/grounds.dart';
 import 'domain/latlng_bounds.dart' as b;
 import 'domain/peek_size.dart';
 import 'service/gateway.dart';
@@ -27,6 +28,7 @@ class MapView extends StatefulWidget {
 
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController;
+  Set<Marker> allMarkers = Set<Marker>();
 
   CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -34,17 +36,6 @@ class MapViewState extends State<MapView> {
   );
 
   MapViewState(this._mapController);
-
-  void _onCameraIdle() async {
-    final GoogleMapController c = await _mapController.future;
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-    final PeekSize peekSize = PeekSize(width, height);
-    final bounds = await c.getVisibleRegion();
-    final latLngBounds = b.LatLngBounds.from(bounds);
-
-    await Gateway().loadGrounds(latLngBounds, peekSize);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +46,37 @@ class MapViewState extends State<MapView> {
         onMapCreated: (GoogleMapController controller) {
           _mapController.complete(controller);
         },
+        markers: allMarkers,
         onCameraIdle: _onCameraIdle,
         myLocationEnabled: true,
         myLocationButtonEnabled: false,
         zoomGesturesEnabled: true,
       ),
     );
+  }
+
+  void _onCameraIdle() async {
+    final GoogleMapController c = await _mapController.future;
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    final PeekSize peekSize = PeekSize(width, height);
+    final bounds = await c.getVisibleRegion();
+    final latLngBounds = b.LatLngBounds.from(bounds);
+
+    final grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
+    _postGroundsOnMap(grounds);
+  }
+
+  void _postGroundsOnMap(Grounds grounds) {
+    setState(() {
+      allMarkers.clear();
+      grounds.data.forEach((ground) {
+        allMarkers.add(Marker(
+          markerId: MarkerId(ground.id ?? "unknown ID"),
+          position: ground.latLng,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+        ));
+      });
+    });
   }
 }
