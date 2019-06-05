@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'map.dart';
@@ -46,8 +47,14 @@ class _MyAppState extends State<MyApp> {
           floatingActionButton: Padding(
             padding: EdgeInsets.only(bottom: 24),
             child: FloatingActionButton(
-              onPressed: () {
-                _requestPermission(true);
+              onPressed: () async {
+                await _requestPermission(true);
+
+                if (_permissionStatus == PermissionStatus.granted) {
+                  Position position = await Geolocator().getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high);
+                  moveCamera(position);
+                }
               },
               child: Icon(Icons.my_location),
               backgroundColor: _fabColor,
