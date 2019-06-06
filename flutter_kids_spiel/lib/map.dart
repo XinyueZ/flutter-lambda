@@ -7,8 +7,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'config.dart';
 import 'domain/grounds.dart';
-import 'domain/latlng_bounds.dart' as b;
+import 'domain/latlng_bounds.dart' as llb;
 import 'domain/peek_size.dart';
+import 'navi/navi.dart';
 import 'service/gateway.dart';
 
 class MapView extends StatefulWidget {
@@ -64,9 +65,9 @@ class MapViewState extends State<MapView> {
     final PeekSize peekSize = PeekSize(width, height);
 
     final bounds = await c.getVisibleRegion();
-    final latLngBounds = b.LatLngBounds.from(bounds);
+    final latLngBounds = llb.LatLngBounds.from(bounds);
 
-    final grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
+    final Grounds grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
   }
 
@@ -79,8 +80,7 @@ class MapViewState extends State<MapView> {
           position: ground.latLng,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
           onTap: () {
-            _launchURL(
-                "google.navigation:q=${ground.latLng.latitude},${ground.latLng.longitude}");
+            INavi.build().openMap(ground.latLng);
           },
         ));
       });
