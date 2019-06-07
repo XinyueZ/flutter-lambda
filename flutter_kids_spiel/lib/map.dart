@@ -100,7 +100,7 @@ class MapViewState extends State<MapView> {
   _createMarkerImageFromAsset(BuildContext context) async {
     if (_markerIcon == null) {
       final ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context, size: Size(500, 500));
+          createLocalImageConfiguration(context, size: Size(600, 600));
       BitmapDescriptor.fromAssetImage(
               imageConfiguration, "asserts/images/ic_pin.png")
           .then((BitmapDescriptor bitmap) {
