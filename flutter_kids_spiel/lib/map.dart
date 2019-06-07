@@ -30,6 +30,7 @@ class MapView extends StatefulWidget {
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController;
   Set<Marker> allMarkers = Set<Marker>();
+  BitmapDescriptor _markerIcon;
 
   CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -40,6 +41,7 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+    _createMarkerImageFromAsset(context);
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -71,19 +73,34 @@ class MapViewState extends State<MapView> {
     _postGroundsOnMap(grounds);
   }
 
-  void _postGroundsOnMap(Grounds grounds) {
+  _postGroundsOnMap(Grounds grounds) async {
     setState(() {
       allMarkers.clear();
       grounds.data.forEach((ground) {
         allMarkers.add(Marker(
+          visible: true,
           markerId: MarkerId(ground.id ?? "unknown ID"),
           position: ground.latLng,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+          icon: _markerIcon,
           onTap: () {
             INavi.build().openMap(ground.latLng);
           },
         ));
       });
     });
+  }
+
+  _createMarkerImageFromAsset(BuildContext context) async {
+    if (_markerIcon == null) {
+      final ImageConfiguration imageConfiguration =
+          createLocalImageConfiguration(context, size: Size(500, 500));
+      BitmapDescriptor.fromAssetImage(
+              imageConfiguration, "asserts/images/ic_pin.png")
+          .then((BitmapDescriptor bitmap) {
+        setState(() {
+          _markerIcon = bitmap;
+        });
+      });
+    }
   }
 }
