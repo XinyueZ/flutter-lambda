@@ -66,7 +66,7 @@ class _AppState extends State<App> {
     if (_permissionStatus == PermissionStatus.granted) {
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      map.animateCamera(position);
+      map.center = position;
     }
   }
 
@@ -75,7 +75,7 @@ class _AppState extends State<App> {
       Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
           .then((position) {
-        map.animateCamera(position);
+        map.center = position;
       });
     }
   }
@@ -95,14 +95,16 @@ class _AppState extends State<App> {
     final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
         await PermissionHandler().requestPermissions(permissions);
 
-    if (showRationale && _permissionStatus != PermissionStatus.granted) {
-      _showPermissionRationale();
-    }
-
     setState(() {
       _permissionStatus = permissionRequestResult[permission];
       _fabColor = _getPermissionColor();
     });
+
+    if (showRationale && _permissionStatus != PermissionStatus.granted) {
+      _showPermissionRationale();
+    }
+
+    _syncMapCamera();
   }
 
   void _showPermissionRationale() {

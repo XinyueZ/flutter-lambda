@@ -13,31 +13,26 @@ import 'navi/navi.dart';
 import 'service/gateway.dart';
 
 class MapView extends StatefulWidget {
-  final Completer<GoogleMapController> _mapController = Completer();
+  final MapViewState state = MapViewState();
 
-  void animateCamera(Position position) async {
-    final GoogleMapController c = await _mapController.future;
-    c.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(position.latitude, position.longitude),
-      zoom: ZOOM.toDouble(),
-    )));
+  set center(Position position) {
+    state.animateCamera(position);
   }
 
   @override
-  State<MapView> createState() => MapViewState(_mapController);
+  State<MapView> createState() => state;
 }
 
 class MapViewState extends State<MapView> {
-  final Completer<GoogleMapController> _mapController;
-  Set<Marker> allMarkers = Set<Marker>();
+  final Completer<GoogleMapController> _mapController = Completer();
+  final Set<Marker> allMarkers = Set<Marker>();
   BitmapDescriptor _markerIcon;
+  bool _myLocationEnabled = false;
 
   CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 17,
   );
-
-  MapViewState(this._mapController);
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +46,23 @@ class MapViewState extends State<MapView> {
         },
         markers: allMarkers,
         onCameraIdle: _onCameraIdle,
-        myLocationEnabled: true,
+        myLocationEnabled: _myLocationEnabled,
         myLocationButtonEnabled: false,
         zoomGesturesEnabled: true,
       ),
     );
+  }
+
+  void animateCamera(Position position) async {
+    final GoogleMapController c = await _mapController.future;
+    c.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(position.latitude, position.longitude),
+      zoom: ZOOM.toDouble(),
+    )));
+
+    setState(() {
+      _myLocationEnabled = true;
+    });
   }
 
   void _onCameraIdle() async {
