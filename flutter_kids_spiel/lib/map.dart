@@ -68,7 +68,7 @@ class MapViewState extends State<MapView> {
     )));
 
     setState(() {
-      _myLocationEnabled = true;
+      _myLocationEnabled = Platform.isIOS ? false : true;
     });
   }
 
@@ -86,7 +86,7 @@ class MapViewState extends State<MapView> {
     final Grounds grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
 
-    _loadingGroundsCallback();
+    _loadingGroundsCallback(true);
   }
 
   _postGroundsOnMap(Grounds grounds) async {

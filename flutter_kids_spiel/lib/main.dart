@@ -6,7 +6,7 @@ import 'map.dart';
 
 void main() => runApp(App());
 
-typedef LoadingGroundsCallback = Function();
+typedef LoadingGroundsCallback = Function(bool isDone);
 
 class App extends StatefulWidget {
   @override
@@ -25,8 +25,8 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    _map.loadingGroundsCallback = () {
-      _loadingCompleted(true);
+    _map.loadingGroundsCallback = (isDone) {
+      _loadingCompleted(isDone);
     };
     _initPermissionHandler();
     super.initState();
@@ -84,7 +84,7 @@ class _AppState extends State<App> {
     setState(() {
       if (!_isLoadingCompleted) {
         _fabLabel = Text(
-          "locating...",
+          "searching...",
           style: TextStyle(fontStyle: FontStyle.italic),
         );
         _fabIcon = CircularProgressIndicator(
