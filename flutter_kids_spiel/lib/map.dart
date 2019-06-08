@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -99,10 +100,18 @@ class MapViewState extends State<MapView> {
 
   _createMarkerImageFromAsset(BuildContext context) async {
     if (_markerIcon == null) {
-      final ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context);
-      BitmapDescriptor.fromAssetImage(
-              imageConfiguration, "asserts/images/ic_pin.png")
+      var imageConfiguration;
+      var pin = "asserts/images/ic_pin.png";
+
+      if (Platform.isIOS) {
+        imageConfiguration = createLocalImageConfiguration(context);
+        pin = "asserts/images/ic_ios_pin.png";
+      } else {
+        imageConfiguration =
+            createLocalImageConfiguration(context, size: Size(350, 350));
+      }
+
+      BitmapDescriptor.fromAssetImage(imageConfiguration, pin)
           .then((BitmapDescriptor bitmap) {
         setState(() {
           _markerIcon = bitmap;
