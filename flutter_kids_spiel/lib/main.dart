@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'about/about_app.dart';
 import 'map.dart';
 
 void main() => runApp(App());
@@ -37,31 +38,54 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey,
-      title: 'Kids playground search',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
-      home: Scaffold(
-          body: _map,
-          floatingActionButton: Padding(
-              padding: EdgeInsets.only(bottom: 35),
-              child: FloatingActionButton.extended(
-                onPressed: () async {
-                  _loadingCompleted(false);
-                  await _requestPermission(true);
-                  await _moveMapCamera();
-                },
-                isExtended: !_isLoadingCompleted,
-                label: _fabLabel,
-                icon: Padding(
-                    padding: EdgeInsets.only(
-                      left: 10,
-                    ),
-                    child: _fabIcon),
-                backgroundColor: _fabColor,
-              ))),
-    );
+        navigatorKey: navigatorKey,
+        title: 'Kids playground search',
+        theme: ThemeData(
+          primarySwatch: Colors.pink,
+        ),
+        home: Material(
+          child: Stack(
+            children: <Widget>[
+              Scaffold(
+                  body: _map,
+                  floatingActionButton: FloatingActionButton.extended(
+                    onPressed: () async {
+                      _loadingCompleted(false);
+                      await _requestPermission(true);
+                      await _moveMapCamera();
+                    },
+                    isExtended: !_isLoadingCompleted,
+                    label: _fabLabel,
+                    icon: Padding(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        child: _fabIcon),
+                    backgroundColor: _fabColor,
+                  )),
+              new Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                    margin: new EdgeInsets.only(top: 25.0, right: 15.0),
+                    child: IconButton(
+                      iconSize: 35,
+                      icon: Icon(
+                        Icons.info,
+                        color: Colors.pinkAccent,
+                      ),
+                      onPressed: () async {
+                        final about = await AboutApp().getAbout(
+                            navigatorKey.currentState.overlay.context);
+                        showDialog(
+                          context: navigatorKey.currentState.overlay.context,
+                          builder: (BuildContext context) => about,
+                        );
+                      },
+                    )),
+              ),
+            ],
+          ),
+        ));
   }
 
   void _initPermissionHandler() {
