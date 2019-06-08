@@ -2,6 +2,8 @@ PODS:
   - android_intent (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_custom_tabs (0.0.1):
+    - Flutter
   - geolocator (4.0.3):
     - Flutter
   - google_api_availability (2.0.1):
@@ -16,6 +18,8 @@ PODS:
     - GoogleMaps/Base
   - location_permissions (2.0.1):
     - Flutter
+  - package_info (0.0.1):
+    - Flutter
   - permission_handler (3.1.0):
     - Flutter
   - url_launcher (0.0.1):
@@ -24,10 +28,12 @@ PODS:
 DEPENDENCIES:
   - android_intent (from `.symlinks/plugins/android_intent/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
@@ -40,6 +46,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/android_intent/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
+  flutter_custom_tabs:
+    :path: ".symlinks/plugins/flutter_custom_tabs/ios"
   geolocator:
     :path: ".symlinks/plugins/geolocator/ios"
   google_api_availability:
@@ -48,6 +56,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   url_launcher:
@@ -56,11 +66,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   android_intent: 73316069cd1f6aac919df1c6e640cad190fd5e8b
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_custom_tabs: 9f7596dc1593f2e0d0562ce888dde6447751e97c
   geolocator: 42437f4ba1897906a040c826678815c059b22c80
   google_api_availability: 163b30f802e6148c67f092aa4501c90ddd8eec8d
   google_maps_flutter: 924970f41ec509a201b593548db005efb2a09ee9
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   location_permissions: db47e77cf4f1359866d627523fb7812899a752f3
+  package_info: 78cabb3c322943c55d39676f4a5bfc748c01d055
   permission_handler: fa6b0d784b1a43cb96b468a5b8365cb130b1956a
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
