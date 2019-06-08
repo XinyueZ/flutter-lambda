@@ -6,6 +6,8 @@ import 'map.dart';
 
 void main() => runApp(App());
 
+typedef LoadingGroundsCallback = Function();
+
 class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
@@ -13,12 +15,54 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final navigatorKey = GlobalKey<NavigatorState>();
-  final map = MapView();
+
   Color _fabColor;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
+  bool _isLoadingCompleted = true;
+  Widget _fabLabel = Container(height: 0.0, width: 0.0);
+  Widget _fabIcon = Icon(Icons.my_location);
+  MapView _map = MapView();
 
   @override
   void initState() {
+    _map.loadingGroundsCallback = () {
+      _loadingCompleted(true);
+    };
+    _initPermissionHandler();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      title: 'Kids playground search',
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+      ),
+      home: Scaffold(
+          body: _map,
+          floatingActionButton: Padding(
+              padding: EdgeInsets.only(bottom: 35),
+              child: FloatingActionButton.extended(
+                onPressed: () async {
+                  _loadingCompleted(false);
+                  await _requestPermission(true);
+                  await _moveMapCamera();
+                },
+                isExtended: !_isLoadingCompleted,
+                label: _fabLabel,
+                icon: Padding(
+                    padding: EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: _fabIcon),
+                backgroundColor: _fabColor,
+              ))),
+    );
+  }
+
+  void _initPermissionHandler() {
     PermissionHandler()
         .checkPermissionStatus(PermissionGroup.location)
         .then((PermissionStatus status) {
@@ -34,39 +78,40 @@ class _AppState extends State<App> {
         .then((isShown) {
       if (!isShown) _requestPermission(false);
     });
-
-    super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      title: 'Kids playground search',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
-      home: Scaffold(
-          body: map,
-          floatingActionButton: Padding(
-            padding: EdgeInsets.only(bottom: 24),
-            child: FloatingActionButton(
-              onPressed: () async {
-                await _requestPermission(true);
-                await _moveMapCamera();
-              },
-              child: Icon(Icons.my_location),
-              backgroundColor: _fabColor,
-            ),
-          )),
-    );
+  void _updateFAB() {
+    setState(() {
+      if (!_isLoadingCompleted) {
+        _fabLabel = Text(
+          "locating...",
+          style: TextStyle(fontStyle: FontStyle.italic),
+        );
+        _fabIcon = CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        );
+      } else {
+        _fabLabel = Container(
+          width: 0,
+          height: 0,
+        );
+        _fabIcon = Icon(Icons.my_location);
+      }
+    });
+  }
+
+  void _loadingCompleted(bool completed) {
+    setState(() {
+      _isLoadingCompleted = completed;
+      _updateFAB();
+    });
   }
 
   Future _moveMapCamera() async {
     if (_permissionStatus == PermissionStatus.granted) {
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      map.center = position;
+      _map.center = position;
     }
   }
 
@@ -75,7 +120,7 @@ class _AppState extends State<App> {
       Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
           .then((position) {
-        map.center = position;
+        _map.center = position;
       });
     }
   }

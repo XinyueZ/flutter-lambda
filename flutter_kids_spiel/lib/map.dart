@@ -9,23 +9,29 @@ import 'config.dart';
 import 'domain/grounds.dart';
 import 'domain/latlng_bounds.dart' as llb;
 import 'domain/peek_size.dart';
+import 'main.dart';
 import 'navi/navi.dart';
 import 'service/gateway.dart';
 
 class MapView extends StatefulWidget {
   final MapViewState state = MapViewState();
+  LoadingGroundsCallback loadingGroundsCallback;
 
   set center(Position position) {
     state.animateCamera(position);
   }
 
   @override
-  State<MapView> createState() => state;
+  State<MapView> createState() {
+    state._loadingGroundsCallback = loadingGroundsCallback;
+    return state;
+  }
 }
 
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer();
   final Set<Marker> allMarkers = Set<Marker>();
+  LoadingGroundsCallback _loadingGroundsCallback;
   BitmapDescriptor _markerIcon;
   bool _myLocationEnabled = false;
 
@@ -78,6 +84,8 @@ class MapViewState extends State<MapView> {
 
     final Grounds grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
+
+    _loadingGroundsCallback();
   }
 
   _postGroundsOnMap(Grounds grounds) async {
