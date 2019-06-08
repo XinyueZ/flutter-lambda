@@ -14,9 +14,10 @@ import 'main.dart';
 import 'navi/navi.dart';
 import 'service/gateway.dart';
 
+LoadingGroundsCallback loadingGroundsCallback;
+
 class MapView extends StatefulWidget {
   final MapViewState state = MapViewState();
-  LoadingGroundsCallback loadingGroundsCallback;
 
   set center(Position position) {
     state.animateCamera(position);
@@ -24,7 +25,6 @@ class MapView extends StatefulWidget {
 
   @override
   State<MapView> createState() {
-    state._loadingGroundsCallback = loadingGroundsCallback;
     return state;
   }
 }
@@ -32,7 +32,6 @@ class MapView extends StatefulWidget {
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer();
   final Set<Marker> allMarkers = Set<Marker>();
-  LoadingGroundsCallback _loadingGroundsCallback;
   BitmapDescriptor _markerIcon;
   bool _myLocationEnabled = false;
 
@@ -86,7 +85,7 @@ class MapViewState extends State<MapView> {
     final Grounds grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
 
-    _loadingGroundsCallback(true);
+    loadingGroundsCallback(true);
   }
 
   _postGroundsOnMap(Grounds grounds) async {

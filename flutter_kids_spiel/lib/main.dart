@@ -16,16 +16,18 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final navigatorKey = GlobalKey<NavigatorState>();
 
-  Color _fabColor;
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
   bool _isLoadingCompleted = true;
-  Widget _fabLabel = Container(height: 0.0, width: 0.0);
+
+  Color _fabColor;
   Widget _fabIcon = Icon(Icons.my_location);
+  Widget _fabLabel = Container(height: 0.0, width: 0.0);
+
   MapView _map = MapView();
 
   @override
   void initState() {
-    _map.loadingGroundsCallback = (isDone) {
+    loadingGroundsCallback = (isDone) {
       _loadingCompleted(isDone);
     };
     _initPermissionHandler();
@@ -84,7 +86,7 @@ class _AppState extends State<App> {
     setState(() {
       if (!_isLoadingCompleted) {
         _fabLabel = Text(
-          "searching...",
+          "ping...",
           style: TextStyle(fontStyle: FontStyle.italic),
         );
         _fabIcon = CircularProgressIndicator(
