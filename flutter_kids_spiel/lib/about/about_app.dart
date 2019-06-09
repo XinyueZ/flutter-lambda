@@ -34,6 +34,7 @@ class AboutApp {
     String versionCode = packageInfo.buildNumber;
     final String version = "$versionName+$versionCode";
 
+    //TODO Optimise below codes which contain double coded stuff.
     if (Platform.isIOS)
       return [
         Text("Kids Spiel, brings all togethet."),
