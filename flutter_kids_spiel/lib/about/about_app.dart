@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:package_info/package_info.dart';
@@ -32,7 +34,17 @@ class AboutApp {
     String versionCode = packageInfo.buildNumber;
     final String version = "$versionName+$versionCode";
 
+    if (Platform.isIOS)
+      return [
+        Text("Kids Spiel, brings all togethet."),
+        Padding(
+          padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+          child: Text("Version: $version"),
+        ),
+      ];
+
     return [
+      Text("Kids Spiel, brings all togethet."),
       Padding(
         padding: EdgeInsets.all(15),
         child:
@@ -41,7 +53,7 @@ class AboutApp {
       _openWebLinkText(
           context, "Source on Github", Uri.parse(PROJECT_LOCATION)),
       Padding(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.only(top: 15, left: 15, right: 15),
         child: Text("Version: $version"),
       ),
     ];
