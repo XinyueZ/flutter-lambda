@@ -99,8 +99,16 @@ class _AppState extends State<App> {
           "ping...",
           style: TextStyle(fontStyle: FontStyle.italic),
         );
-        _fabIcon = CircularProgressIndicator(
-          backgroundColor: Colors.white,
+        _fabIcon = Container(
+          margin: EdgeInsets.only(right: 5),
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              backgroundColor: Colors.white,
+            ),
+          ),
         );
       } else {
         _fabLabel = Container(
