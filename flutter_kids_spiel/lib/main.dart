@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,6 +17,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final navigatorKey = GlobalKey<NavigatorState>();
+  final permissionHandler = PermissionHandler();
+  final permissionGroup = PermissionGroup.location;
 
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
   bool _isLoadingCompleted = true;
@@ -37,6 +40,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    _fabColor = _getPermissionColor();
     return MaterialApp(
         navigatorKey: navigatorKey,
         title: 'Kids playground search',
@@ -51,7 +55,7 @@ class _AppState extends State<App> {
                   floatingActionButton: FloatingActionButton.extended(
                     onPressed: () async {
                       _loadingCompleted(false);
-                      await _requestPermission(true);
+                      await _requestPermission(true, permissionGroup);
                       await _moveMapCamera();
                     },
                     isExtended: !_isLoadingCompleted,
@@ -88,24 +92,6 @@ class _AppState extends State<App> {
         ));
   }
 
-  void _initPermissionHandler() {
-    PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.location)
-        .then((PermissionStatus status) {
-      setState(() {
-        _permissionStatus = status;
-        _fabColor = _getPermissionColor();
-
-        _syncMapCamera();
-      });
-    });
-    PermissionHandler()
-        .shouldShowRequestPermissionRationale(PermissionGroup.location)
-        .then((isShown) {
-      if (!isShown) _requestPermission(false);
-    });
-  }
-
   void _updateFAB() {
     setState(() {
       if (!_isLoadingCompleted) {
@@ -126,15 +112,38 @@ class _AppState extends State<App> {
     });
   }
 
-  void _loadingCompleted(bool completed) {
-    setState(() {
-      _isLoadingCompleted = completed;
-      _updateFAB();
+  void _initPermissionHandler() {
+    permissionHandler
+        .checkPermissionStatus(permissionGroup)
+        .then((PermissionStatus status) {
+      setState(() {
+        _permissionStatus = status;
+        _fabColor = _getPermissionColor();
+
+        _syncMapCamera();
+      });
+    });
+    permissionHandler
+        .shouldShowRequestPermissionRationale(permissionGroup)
+        .then((isShown) {
+      if (!isShown) _requestPermission(false, permissionGroup);
     });
   }
 
+  get _hasPermissions => _permissionStatus == PermissionStatus.granted;
+
+  get _noPermissions => _permissionStatus != PermissionStatus.granted;
+
+  void _loadingCompleted(bool completed) {
+    if (_hasPermissions)
+      setState(() {
+        _isLoadingCompleted = completed;
+        _updateFAB();
+      });
+  }
+
   Future _moveMapCamera() async {
-    if (_permissionStatus == PermissionStatus.granted) {
+    if (_hasPermissions) {
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       _map.center = position;
@@ -142,7 +151,7 @@ class _AppState extends State<App> {
   }
 
   void _syncMapCamera() {
-    if (_permissionStatus == PermissionStatus.granted) {
+    if (_hasPermissions) {
       Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
           .then((position) {
@@ -152,53 +161,87 @@ class _AppState extends State<App> {
   }
 
   Color _getPermissionColor() {
-    switch (_permissionStatus) {
-      case PermissionStatus.granted:
-        return Colors.pinkAccent;
-      default:
-        return Colors.grey;
-    }
+    if (_hasPermissions) return Colors.pinkAccent;
+    return Colors.grey;
   }
 
-  Future<void> _requestPermission(bool showRationale,
-      {PermissionGroup permission = PermissionGroup.location}) async {
+  Future<void> _requestPermission(
+      bool showRationale, PermissionGroup permission) async {
     final List<PermissionGroup> permissions = <PermissionGroup>[permission];
     final Map<PermissionGroup, PermissionStatus> permissionRequestResult =
-        await PermissionHandler().requestPermissions(permissions);
+        await permissionHandler.requestPermissions(permissions);
 
     setState(() {
       _permissionStatus = permissionRequestResult[permission];
       _fabColor = _getPermissionColor();
     });
 
-    if (showRationale && _permissionStatus != PermissionStatus.granted) {
-      _showPermissionRationale();
+    bool hasService = await _checkServiceStatus(permission);
+
+    if (hasService && showRationale && _noPermissions) {
+      _askOpenAppSettings();
     }
 
     _syncMapCamera();
   }
 
-  void _showPermissionRationale() {
+  Future<bool> _checkServiceStatus(PermissionGroup permission) async {
+    final status = await permissionHandler.checkServiceStatus(permission);
+    if (status == ServiceStatus.disabled) {
+      _askOpenLocationSettings();
+      return false;
+    } else
+      return true;
+  }
+
+  void _askOpenAppSettings() {
     showDialog(
         context: navigatorKey.currentState.overlay.context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Warning"),
+            title: Text("Info"),
             content: Text(
                 "App needs location permission, please turn on it, otherwise you cannot get current location."),
             actions: <Widget>[
               MaterialButton(
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  await PermissionHandler().openAppSettings();
+                  await AppSettings.openAppSettings();
                 },
-                child: Text("Open App-Settings"),
+                child: Text("App Settings"),
               ),
               MaterialButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
                 child: Text("Cancel"),
+              ),
+            ],
+          );
+        });
+  }
+
+  void _askOpenLocationSettings() {
+    showDialog(
+        context: navigatorKey.currentState.overlay.context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Info"),
+            content: Text(
+                "The system location service hasn't been turned on, please turn it on."),
+            actions: <Widget>[
+              MaterialButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await AppSettings.openLocationSettings();
+                },
+                child: Text("Location Settings"),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Not yet"),
               ),
             ],
           );
