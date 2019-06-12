@@ -32,6 +32,8 @@ class MapView extends StatefulWidget {
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer();
   final Set<Marker> allMarkers = Set<Marker>();
+  final gateway = Gateway();
+
   BitmapDescriptor _markerIcon;
   bool _myLocationEnabled = false;
 
@@ -69,6 +71,11 @@ class MapViewState extends State<MapView> {
     setState(() {
       _myLocationEnabled = Platform.isIOS ? false : true;
     });
+
+    Locale myLocale = Localizations.localeOf(context);
+    final weather = await gateway.loadWeather(
+        position.latitude, position.longitude, myLocale.toLanguageTag());
+    debugPrint("weather: $weather \n");
   }
 
   void _onCameraIdle() async {
@@ -82,7 +89,7 @@ class MapViewState extends State<MapView> {
     final bounds = await c.getVisibleRegion();
     final latLngBounds = llb.LatLngBounds.from(bounds);
 
-    final Grounds grounds = await Gateway().loadGrounds(latLngBounds, peekSize);
+    final Grounds grounds = await gateway.loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
 
     loadingGroundsCallback(true);

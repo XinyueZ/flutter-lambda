@@ -3,7 +3,7 @@ import 'package:sprintf/sprintf.dart';
 import 'latlng_bounds.dart';
 import 'peek_size.dart';
 
-class Request {
+class GroundRequest {
   final double west;
   final double south;
   final double east;
@@ -12,11 +12,11 @@ class Request {
   final int height;
   final num timestamps;
 
-  Request(this.west, this.south, this.east, this.north, this.width, this.height,
-      this.timestamps);
+  GroundRequest(this.west, this.south, this.east, this.north, this.width,
+      this.height, this.timestamps);
 
-  factory Request.from(LatLngBounds bounds, PeekSize peekSize) {
-    final res = Request(
+  factory GroundRequest.from(LatLngBounds bounds, PeekSize peekSize) {
+    final res = GroundRequest(
         bounds.west,
         bounds.south,
         bounds.east,
