@@ -15,6 +15,7 @@ import 'navi/navi.dart';
 import 'service/gateway.dart';
 
 LoadingGroundsCallback loadingGroundsCallback;
+LoadingWeatherCallback loadingWeatherCallback;
 
 class MapView extends StatefulWidget {
   final MapViewState state = MapViewState();
@@ -75,7 +76,7 @@ class MapViewState extends State<MapView> {
     Locale myLocale = Localizations.localeOf(context);
     final weather = await gateway.loadWeather(
         position.latitude, position.longitude, myLocale.toLanguageTag());
-    debugPrint("weather: $weather \n");
+    loadingWeatherCallback(weather);
   }
 
   void _onCameraIdle() async {

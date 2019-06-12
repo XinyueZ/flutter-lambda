@@ -29,6 +29,8 @@ class Weather {
     return Weather(id, name, iconLocation, temperature, TEMP_UNIT);
   }
 
+  get temperatureString => "${temperature.toStringAsFixed(0)} $unit";
+
   @override
   String toString() {
     return sprintf("id:%d, name:%s, icon:%s, temp:%f, unit:%s",

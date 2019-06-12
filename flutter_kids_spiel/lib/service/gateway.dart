@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_kids_spiel/domain/ground.dart';
 import 'package:flutter_kids_spiel/domain/grounds.dart';
 import 'package:flutter_kids_spiel/domain/latlng_bounds.dart';
@@ -36,7 +35,6 @@ class Gateway {
 
   Future<Weather> loadWeather(double lat, double lng, String lang) async {
     final path = sprintf(API_WEATHER, [lat, lng, lang]);
-    debugPrint("$path");
 
     final response = await _dio.get(path);
     final Map<String, dynamic> feedsMap =

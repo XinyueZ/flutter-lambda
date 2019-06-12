@@ -4,11 +4,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'about/about_app.dart';
+import 'config.dart';
+import 'domain/weather.dart';
 import 'map.dart';
 
 void main() => runApp(App());
 
 typedef LoadingGroundsCallback = Function(bool isDone);
+typedef LoadingWeatherCallback = Function(Weather weather);
 
 class App extends StatefulWidget {
   @override
@@ -23,6 +26,8 @@ class _AppState extends State<App> {
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
   bool _isLoadingCompleted = true;
 
+  Weather weather;
+
   Color _fabColor;
   Widget _fabIcon = Icon(Icons.my_location);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
@@ -34,6 +39,12 @@ class _AppState extends State<App> {
     loadingGroundsCallback = (isDone) {
       _loadingCompleted(isDone);
     };
+    loadingWeatherCallback = (weather) {
+      setState(() {
+        this.weather = weather;
+      });
+    };
+
     _initPermissionHandler();
     super.initState();
   }
@@ -67,10 +78,10 @@ class _AppState extends State<App> {
                         child: _fabIcon),
                     backgroundColor: _fabColor,
                   )),
-              new Align(
+              Align(
                 alignment: Alignment.topRight,
                 child: Container(
-                    margin: new EdgeInsets.only(top: 25.0, right: 15.0),
+                    margin: EdgeInsets.only(top: 25.0, right: 15.0),
                     child: IconButton(
                       iconSize: 35,
                       icon: Icon(
@@ -86,6 +97,31 @@ class _AppState extends State<App> {
                         );
                       },
                     )),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: EdgeInsets.only(top: 25.0, left: 15.0),
+                  child: Chip(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                            width: 25,
+                            height: 25,
+                            child: Image.network(
+                                weather?.iconLocation?.toString() ??
+                                    DEFAULT_ICON_URL)),
+                        Text(
+                          weather?.temperatureString ?? DATA_NULL,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: Colors.pinkAccent,
+                  ),
+                ),
               ),
             ],
           ),
