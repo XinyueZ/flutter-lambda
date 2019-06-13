@@ -50,20 +50,12 @@ class _WeatherChipState extends State<WeatherChip> {
               loadingWeatherCallback(weather);
             },
             child: Chip(
-              label: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                      width: 25,
-                      height: 25,
-                      child: Image.network(_weather?.iconLocation?.toString() ??
-                          DEFAULT_ICON_URL)),
-                  Text(
-                    _weather?.temperatureString ?? DATA_NULL,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+              padding: EdgeInsets.only(left: 3),
+              avatar: Image.network(
+                  _weather?.iconLocation?.toString() ?? DEFAULT_ICON_URL),
+              label: Text(
+                _weather?.temperatureString ?? DATA_NULL,
+                style: TextStyle(color: Colors.white),
               ),
               backgroundColor: Colors.pinkAccent,
             ),
