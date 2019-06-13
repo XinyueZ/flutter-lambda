@@ -40,6 +40,7 @@ class _WeatherChipState extends State<WeatherChip> {
           child: InkWell(
             borderRadius: BorderRadius.circular(3),
             onTap: () async {
+              ///TODO Optimise duplicated codes below, there's same code in [map.dart].
               Position position = await Geolocator()
                   .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
               Locale myLocale = Localizations.localeOf(context);
