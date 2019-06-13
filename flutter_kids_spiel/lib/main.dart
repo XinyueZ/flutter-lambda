@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'about.dart';
+import 'about_button.dart';
 import 'map.dart';
 import 'weather_chip.dart';
 
@@ -68,7 +68,7 @@ class _AppState extends State<App> {
                         child: _fabIcon),
                     backgroundColor: _fabColor,
                   )),
-              About(),
+              AboutButton(),
               WeatherChip()
             ],
           ),

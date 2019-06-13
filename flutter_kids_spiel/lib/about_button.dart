@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'about/about_app.dart';
 
-class About extends StatelessWidget {
+class AboutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
