@@ -45,7 +45,6 @@ class _WeatherChipState extends State<WeatherChip> {
               Locale myLocale = Localizations.localeOf(context);
               final weather = await Gateway().loadWeather(position.latitude,
                   position.longitude, myLocale.toLanguageTag());
-              debugPrint(weather.toString());
 
               loadingWeatherCallback(weather);
             },
