@@ -13,6 +13,7 @@ import 'domain/peek_size.dart';
 import 'main.dart';
 import 'navi/navi.dart';
 import 'service/gateway.dart';
+import 'weather_chip.dart';
 
 LoadingGroundsCallback loadingGroundsCallback;
 LoadingWeatherCallback loadingWeatherCallback;
