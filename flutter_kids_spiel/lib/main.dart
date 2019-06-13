@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'about/about_app.dart';
+import 'about.dart';
 import 'map.dart';
 import 'weather_chip.dart';
 
@@ -68,26 +68,7 @@ class _AppState extends State<App> {
                         child: _fabIcon),
                     backgroundColor: _fabColor,
                   )),
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                    margin: EdgeInsets.only(top: 25.0, right: 15.0),
-                    child: IconButton(
-                      iconSize: 35,
-                      icon: Icon(
-                        Icons.info,
-                        color: Colors.pinkAccent,
-                      ),
-                      onPressed: () async {
-                        final about = await AboutApp().getAbout(
-                            navigatorKey.currentState.overlay.context);
-                        showDialog(
-                          context: navigatorKey.currentState.overlay.context,
-                          builder: (BuildContext context) => about,
-                        );
-                      },
-                    )),
-              ),
+              About(),
               WeatherChip()
             ],
           ),
