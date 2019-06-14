@@ -87,14 +87,14 @@ class _ImageAppPagerState extends State<ImageAppPager> {
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.arrow_left,
+                      Icons.arrow_back,
                       color: Colors.white,
                     ),
                     title: SizedBox(width: 0.0, height: 0.0),
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.arrow_right,
+                      Icons.arrow_forward,
                       color: Colors.white,
                     ),
                     title: SizedBox(width: 0.0, height: 0.0),
