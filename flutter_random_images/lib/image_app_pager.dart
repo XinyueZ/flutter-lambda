@@ -14,8 +14,7 @@ class ImageAppPager extends StatefulWidget {
 }
 
 const BACKWARD = 0;
-const HOME = 1;
-const FORWARD = 2;
+const FORWARD = 1;
 const PAGE_DURATION = Duration(milliseconds: 200);
 const PAGE_SAWTOOTH = SawTooth(10);
 
@@ -75,39 +74,33 @@ class _ImageAppPagerState extends State<ImageAppPager> {
           ],
         ),
         body: _initPageView(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _toHome();
+          },
+          child: Icon(Icons.home),
+          backgroundColor: Colors.blueAccent,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Builder(
           builder: (cxt) => BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.arrow_left,
+                      Icons.arrow_back,
                       color: Colors.white,
                     ),
-                    title:
-                        Text("Backward", style: TextStyle(color: Colors.white)),
+                    title: SizedBox(width: 0.0, height: 0.0),
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.home,
+                      Icons.arrow_forward,
                       color: Colors.white,
                     ),
-                    title: Text(
-                      "Home",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.arrow_right,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      "Forward",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    title: SizedBox(width: 0.0, height: 0.0),
                   ),
                 ],
-                currentIndex: HOME,
+                currentIndex: 0,
                 selectedItemColor: Colors.black,
                 backgroundColor: Colors.black,
                 onTap: (index) {
@@ -131,9 +124,6 @@ class _ImageAppPagerState extends State<ImageAppPager> {
             return;
           }
           _backwardPager();
-          return;
-        case HOME:
-          _toHome();
           return;
         case FORWARD:
           _forwardPager();
