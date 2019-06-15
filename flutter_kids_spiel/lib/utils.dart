@@ -1,7 +1,7 @@
 import 'dart:math';
 
 List latlngToTile(final int zoom, final double lat, final double lon) {
-  List<num> tuple = List();
+  final List<num> tuple = List();
 
   int xtile = ((lon + 180) / 360 * (1 << zoom)).floor();
   int ytile = ((1 - log(tan(toRadians(lat)) + 1 / cos(toRadians(lat))) / pi) /
@@ -20,8 +20,8 @@ List latlngToTile(final int zoom, final double lat, final double lon) {
   return tuple;
 }
 
-List tileToLatLng(final int zoom, final int x, final int y) {
-  List<num> tuple = List();
+List tileToLatLng(final int zoom, final num x, final num y) {
+  final List<num> tuple = List();
 
   tuple.add(zoom);
   tuple.add(tile2lat(y, zoom));
@@ -30,17 +30,14 @@ List tileToLatLng(final int zoom, final int x, final int y) {
   return tuple;
 }
 
-toRadians(x) => x * (pi) / 180;
+toRadians(final x) => x * (pi) / 180;
 
-toDegrees(x) => x * 180 / (pi);
+toDegrees(final x) => x * 180 / (pi);
 
 sinh(x) => (pow(e, x) - pow(e, -x)) / 2;
 
-double tile2lat(int y, int z) {
-  double n = pi - (2.0 * pi * y) / pow(2.0, z);
-  return toDegrees(atan(sinh(n)));
-}
+double tile2lat(final num y, final num zoom) =>
+    toDegrees(atan(sinh(pi - (2.0 * pi * y) / pow(2.0, zoom))));
 
-double tile2lon(int x, int z) {
-  return x / pow(2.0, z) * 360.0 - 180;
-}
+double tile2lon(final num x, final num zoom) =>
+    x / pow(2.0, zoom) * 360.0 - 180;
