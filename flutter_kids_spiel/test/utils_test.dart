@@ -24,8 +24,16 @@ void main() {
   });
 
   test("should toRadians and toDegrees be reversing", () {
-    final double radians = toRadians(30);
-    final double degrees = toDegrees(radians);
-    expect(degrees.round(), 30);
+    final double radians30 = toRadians(30);
+    final double degrees30 = toDegrees(radians30);
+    expect(degrees30.round(), 30);
+
+    final double radians47 = toRadians(47);
+    final double degrees47 = toDegrees(radians47);
+    expect(degrees47.round(), 47);
+
+    final double degrees23 = toDegrees(23);
+    final double radians23 = toRadians(degrees23);
+    expect(radians23.round(), 23);
   });
 }
