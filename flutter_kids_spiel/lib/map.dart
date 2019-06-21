@@ -34,7 +34,6 @@ class MapView extends StatefulWidget {
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer();
   final Set<Marker> allMarkers = Set<Marker>();
-  final gateway = Gateway();
 
   BitmapDescriptor _markerIcon;
   bool _myLocationEnabled = false;
@@ -75,7 +74,7 @@ class MapViewState extends State<MapView> {
     });
 
     Locale myLocale = Localizations.localeOf(context);
-    final weather = await gateway.loadWeather(
+    final weather = await Gateway.instance.loadWeather(
         position.latitude, position.longitude, myLocale.toLanguageTag());
     loadingWeatherCallback(weather);
   }
@@ -91,7 +90,8 @@ class MapViewState extends State<MapView> {
     final bounds = await c.getVisibleRegion();
     final latLngBounds = llb.LatLngBounds.from(bounds);
 
-    final Grounds grounds = await gateway.loadGrounds(latLngBounds, peekSize);
+    final Grounds grounds =
+        await Gateway.instance.loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
 
     loadingGroundsCallback(true);
@@ -124,7 +124,7 @@ class MapViewState extends State<MapView> {
         pin = "asserts/images/ic_ios_pin.png";
       } else {
         imageConfiguration =
-            createLocalImageConfiguration(context, size: Size(350, 350));
+            createLocalImageConfiguration(context, size: Size(300, 300));
       }
 
       BitmapDescriptor.fromAssetImage(imageConfiguration, pin)

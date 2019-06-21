@@ -44,8 +44,10 @@ class _WeatherChipState extends State<WeatherChip> {
               Position position = await Geolocator()
                   .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
               Locale myLocale = Localizations.localeOf(context);
-              final weather = await Gateway().loadWeather(position.latitude,
-                  position.longitude, myLocale.toLanguageTag());
+              final weather = await Gateway.instance.loadWeather(
+                  position.latitude,
+                  position.longitude,
+                  myLocale.toLanguageTag());
 
               loadingWeatherCallback(weather);
             },

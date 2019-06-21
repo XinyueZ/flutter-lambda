@@ -10,16 +10,36 @@ import 'package:sprintf/sprintf.dart';
 import '../config.dart';
 import 'decoder_helper.dart';
 
-class Gateway {
-  final Dio _dio = Dio();
+abstract class HttpProvider {
+  Future<dynamic> get(path);
 
-  Gateway() {
+  Future<dynamic> post(path, data);
+}
+
+class DioProvider implements HttpProvider {
+  final Dio _dio = Dio();
+  static final DioProvider instance = DioProvider();
+
+  DioProvider() {
     _dio.options.headers = {"Content-Type": "application/json"};
   }
 
+  @override
+  Future<dynamic> get(path) => _dio.get(path);
+
+  @override
+  Future<dynamic> post(path, data) => _dio.post(path, data: data);
+}
+
+class Gateway {
+  final HttpProvider _httpProvider;
+  static final Gateway instance = Gateway(DioProvider.instance);
+
+  Gateway(this._httpProvider);
+
   Future<Grounds> loadGrounds(LatLngBounds bound, PeekSize peekSize) async {
     final payload = GroundRequest.from(bound, peekSize).toPayload();
-    final response = await _dio.post(API_GROUNDS, data: payload);
+    final response = await _httpProvider.post(API_GROUNDS, payload);
 
     final Map<String, dynamic> feedsMap =
         DecoderHelper.getJsonDecoder().convert(response.toString());
@@ -36,7 +56,7 @@ class Gateway {
   Future<Weather> loadWeather(double lat, double lng, String lang) async {
     final path = sprintf(API_WEATHER, [lat, lng, lang]);
 
-    final response = await _dio.get(path);
+    final response = await _httpProvider.get(path);
     final Map<String, dynamic> feedsMap =
         DecoderHelper.getJsonDecoder().convert(response.toString());
     return Weather.from(feedsMap);

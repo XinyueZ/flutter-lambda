@@ -37,6 +37,7 @@ dev_dependencies:
   flutter_custom_tabs: ^0.6.0
   geolocator: ^4.0.3
   image: 2.0.7
+  mockito: ^4.0.0
   package_info: ^0.4.0+3
   permission_handler: ^3.1.0
   sprintf: ^4.0.0
