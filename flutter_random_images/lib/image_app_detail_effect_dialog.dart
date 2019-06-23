@@ -57,6 +57,7 @@ class _ImageAppDetailEffectDialogState
               ),
               InkResponse(
                 child: Text("Grayscale"),
+                onTap: () => _updateCheckGrayscale(!_checkGrayscale),
               ),
             ],
           ),
@@ -70,6 +71,7 @@ class _ImageAppDetailEffectDialogState
               ),
               InkResponse(
                 child: Text("Blur"),
+                onTap: () => _updateCheckBlur(!_checkBlur),
               ),
             ],
           ),
