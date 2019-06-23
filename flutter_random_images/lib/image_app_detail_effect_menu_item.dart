@@ -15,12 +15,23 @@ class ImageAppDetailEffectMenuItem extends StatefulWidget {
 
 class _ImageAppDetailEffectMenuItemState
     extends State<ImageAppDetailEffectMenuItem> {
-  final bool _checkGrayscale;
-  final bool _checkBlur;
-  final double _blurValue;
+  bool _checkGrayscale;
+  bool _checkBlur;
+  double _blurValue;
 
   _ImageAppDetailEffectMenuItemState(
       this._checkGrayscale, this._checkBlur, this._blurValue);
+
+  @override
+  void initState() {
+    onToggleEffects["ImageAppDetailEffectMenuItem"] =
+        (bool checkGrayscale, bool checkBlur, double blurValue) {
+      _checkGrayscale = checkGrayscale;
+      _checkBlur = checkBlur;
+      _blurValue = blurValue;
+    };
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
