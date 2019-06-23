@@ -71,7 +71,7 @@ class _ImageAppDetailEffectDialogState
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               MaterialButton(
                 onPressed: () async {
