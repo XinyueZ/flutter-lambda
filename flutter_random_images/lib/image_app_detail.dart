@@ -96,38 +96,37 @@ class _ImageAppDetailState extends State<ImageAppDetail> {
           fit: BoxFit.cover,
         ),
         Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              actions: <Widget>[
-                PopupMenuButton(
-                  padding: EdgeInsets.zero,
-                  onSelected: widget._viewModel.menuSelected,
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      PopupMenuItem(
-                        value: "effect",
-                        child: ImageAppDetailEffectMenuItem(),
-                      ),
-                    ];
-                  },
-                )
-              ],
-            ),
+          appBar: AppBar(
             backgroundColor: Colors.transparent,
-            floatingActionButton: Padding(
-              padding: EdgeInsets.only(bottom: 50),
-              child: FloatingActionButton(
-                elevation: 15,
-                onPressed: () {
-                  _showPhotoInformation(context);
+            actions: <Widget>[
+              PopupMenuButton(
+                padding: EdgeInsets.zero,
+                onSelected: widget._viewModel.menuSelected,
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: "effect",
+                      child: ImageAppDetailEffectMenuItem(
+                          _checkGrayscale, _checkBlur, _blurValue),
+                    ),
+                  ];
                 },
-                backgroundColor: Colors.pinkAccent,
-                child: Icon(
-                  Icons.info,
-                  color: Colors.white,
-                ),
-              ),
-            )),
+              )
+            ],
+          ),
+          backgroundColor: Colors.transparent,
+          floatingActionButton: FloatingActionButton(
+            elevation: 15,
+            onPressed: () {
+              _showPhotoInformation(context);
+            },
+            backgroundColor: Colors.pinkAccent,
+            child: Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ],
     );
   }

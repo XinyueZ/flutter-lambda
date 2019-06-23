@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'domain/photo.dart';
+
 enum Effect { Blur, Grayscale }
 
 typedef OnToggleEffect = Function(
@@ -8,9 +10,14 @@ typedef OnToggleEffect = Function(
 OnToggleEffect onToggleEffect;
 
 class ImageAppDetailEffectDialog extends StatefulWidget {
+  final _ImageAppDetailEffectDialogState _state;
+
+  ImageAppDetailEffectDialog(checkGrayscale, checkBlur, blurValue)
+      : _state = _ImageAppDetailEffectDialogState(
+            checkGrayscale, checkBlur, blurValue);
+
   @override
-  _ImageAppDetailEffectDialogState createState() =>
-      _ImageAppDetailEffectDialogState();
+  _ImageAppDetailEffectDialogState createState() => _state;
 }
 
 class _ImageAppDetailEffectDialogState
@@ -18,6 +25,9 @@ class _ImageAppDetailEffectDialogState
   bool _checkGrayscale = false;
   bool _checkBlur = false;
   double _blurValue = 1;
+
+  _ImageAppDetailEffectDialogState(
+      this._checkGrayscale, this._checkBlur, this._blurValue);
 
   void _updateCheckGrayscale(bool value) =>
       setState(() => _checkGrayscale = value);
@@ -66,8 +76,8 @@ class _ImageAppDetailEffectDialogState
           Slider(
             value: _blurValue,
             onChanged: _updateBlurValue,
-            min: 1,
-            max: 10,
+            min: BLUR_MIN.toDouble(),
+            max: BLUR_MAX.toDouble(),
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
