@@ -5,7 +5,7 @@ import 'domain/photo.dart';
 typedef OnToggleEffect = Function(
     bool checkGrayscale, bool checkBlur, double blurValue);
 
-OnToggleEffect onToggleEffect;
+Map<String, OnToggleEffect> onToggleEffects = Map();
 
 class ImageAppDetailEffectDialog extends StatefulWidget {
   final _ImageAppDetailEffectDialogState _state;
@@ -95,8 +95,11 @@ class _ImageAppDetailEffectDialogState
               ),
               MaterialButton(
                 child: Icon(Icons.check),
-                onPressed: () =>
-                    onToggleEffect(_checkGrayscale, _checkBlur, _blurValue),
+                onPressed: () {
+                  onToggleEffects.values.forEach((on) {
+                    on(_checkGrayscale, _checkBlur, _blurValue);
+                  });
+                },
               ),
             ],
           ),

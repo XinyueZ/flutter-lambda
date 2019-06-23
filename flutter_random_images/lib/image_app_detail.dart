@@ -27,7 +27,8 @@ class _ImageAppDetailState extends State<ImageAppDetail> {
   void initState() {
     _imageLocation = widget._photo.downloadLocation;
 
-    onToggleEffect = (bool checkGrayscale, bool checkBlur, double blurValue) {
+    onToggleEffects["ImageAppDetail"] =
+        (bool checkGrayscale, bool checkBlur, double blurValue) {
       setState(() {
         if (checkGrayscale && checkBlur) {
           _imageLocation = widget._photo.getGrayscaleBlur(blurValue.toInt());
