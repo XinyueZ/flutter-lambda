@@ -11,8 +11,11 @@ import '../utils.dart';
 
 class ImageAppDetailViewModel {
   final Photo _photo;
+  Uri downloadLocation;
 
-  ImageAppDetailViewModel(this._photo);
+  ImageAppDetailViewModel(this._photo) {
+    downloadLocation = _photo.downloadLocation;
+  }
 
   Widget get author => Text(_photo.author);
 
@@ -47,7 +50,8 @@ class ImageAppDetailViewModel {
         final fn =
             "${dir.path}/$APP_DISPLAY_NAME-${_photo.author}-${_photo.id}-${_photo.width}x${_photo.height}.jpg";
         Dio dio = Dio();
-        dio.download(_photo.downloadUrl, fn, onReceiveProgress: (rec, total) {
+        dio.download(downloadLocation.toString(), fn,
+            onReceiveProgress: (rec, total) {
           debugPrint("Rec: $rec , Total: $total");
           if (rec == total) {
             Toast.show("Downloaded $fn", context,

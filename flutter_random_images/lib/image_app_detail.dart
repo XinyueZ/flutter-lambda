@@ -39,6 +39,7 @@ class _ImageAppDetailState extends State<ImageAppDetail> {
           _imageLocation = widget._photo.downloadLocation;
         }
 
+        widget._viewModel.downloadLocation = _imageLocation;
         _checkGrayscale = checkGrayscale;
         _checkBlur = checkBlur;
         _blurValue = blurValue;
