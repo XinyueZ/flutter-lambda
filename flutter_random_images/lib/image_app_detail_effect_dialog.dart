@@ -37,6 +37,12 @@ class _ImageAppDetailEffectDialogState
   void _updateBlurValue(double value) =>
       setState(() => _blurValue = _checkBlur ? value : _blurValue);
 
+  _revertAll() {
+    _updateBlurValue(1);
+    _updateCheckBlur(false);
+    _updateCheckGrayscale(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,7 +88,7 @@ class _ImageAppDetailEffectDialogState
             max: BLUR_MAX.toDouble(),
           ),
           Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               MaterialButton(
@@ -90,28 +96,14 @@ class _ImageAppDetailEffectDialogState
                 onPressed: () => _revertAll(),
               ),
               MaterialButton(
-                onPressed: () async {
-                  if (onToggleEffect != null)
-                    onToggleEffect(_checkGrayscale, _checkBlur, _blurValue);
-                },
-                child: Text("Apply"),
-              ),
-              MaterialButton(
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Close"),
+                child: Icon(Icons.check),
+                onPressed: () =>
+                    onToggleEffect(_checkGrayscale, _checkBlur, _blurValue),
               ),
             ],
           ),
         ],
       ),
     );
-  }
-
-  _revertAll() {
-    _updateBlurValue(1);
-    _updateCheckBlur(false);
-    _updateCheckGrayscale(false);
   }
 }

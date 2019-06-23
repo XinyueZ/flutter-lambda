@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 
 import 'image_app_detail_effect_dialog.dart';
 
-class ImageAppDetailEffectMenuItem extends StatelessWidget {
-  bool _checkGrayscale = false;
-  bool _checkBlur = false;
-  double _blurValue = 1;
+class ImageAppDetailEffectMenuItem extends StatefulWidget {
+  final _ImageAppDetailEffectMenuItemState _state;
 
-  ImageAppDetailEffectMenuItem(
+  ImageAppDetailEffectMenuItem(checkGrayscale, checkBlur, blurValue)
+      : _state = _ImageAppDetailEffectMenuItemState(
+            checkGrayscale, checkBlur, blurValue);
+
+  @override
+  _ImageAppDetailEffectMenuItemState createState() => _state;
+}
+
+class _ImageAppDetailEffectMenuItemState
+    extends State<ImageAppDetailEffectMenuItem> {
+  final bool _checkGrayscale;
+  final bool _checkBlur;
+  final double _blurValue;
+
+  _ImageAppDetailEffectMenuItemState(
       this._checkGrayscale, this._checkBlur, this._blurValue);
 
   @override

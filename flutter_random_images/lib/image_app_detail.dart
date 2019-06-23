@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_random_images/domain/photo.dart';
 
 import 'config.dart';
-import 'image_app_detail_effect.dart';
 import 'image_app_detail_effect_dialog.dart';
+import 'image_app_detail_effect_menu_item.dart';
 import 'viewmodel/image_app_detail_view_model.dart';
 
 class ImageAppDetail extends StatefulWidget {
@@ -25,11 +25,9 @@ class _ImageAppDetailState extends State<ImageAppDetail> {
 
   @override
   void initState() {
-    onToggleEffect = (bool checkGrayscale, bool checkBlur, double blurValue) {
-      _checkGrayscale = checkGrayscale;
-      _checkBlur = checkBlur;
-      _blurValue = blurValue;
+    _imageLocation = widget._photo.downloadLocation;
 
+    onToggleEffect = (bool checkGrayscale, bool checkBlur, double blurValue) {
       setState(() {
         if (checkGrayscale && checkBlur) {
           _imageLocation = widget._photo.getGrayscaleBlur(blurValue.toInt());
@@ -40,9 +38,13 @@ class _ImageAppDetailState extends State<ImageAppDetail> {
         } else {
           _imageLocation = widget._photo.downloadLocation;
         }
+
+        _checkGrayscale = checkGrayscale;
+        _checkBlur = checkBlur;
+        _blurValue = blurValue;
       });
     };
-    _imageLocation = widget._photo.downloadLocation;
+
     super.initState();
   }
 
