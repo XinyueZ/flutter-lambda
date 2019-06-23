@@ -27,7 +27,7 @@ class _ImageAppDetailEffectMenuItemState
             const Text("Effect")
           ]),
       onTap: () {
-        showDialog(
+        showModalBottomSheet(
             context: context,
             builder: (context) => ImageAppDetailEffectDialog());
       },

@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+enum Effect { Blur, Grayscale }
+
+typedef OnToggleEffect = Function(
+    bool checkGrayscale, bool checkBlur, double blurValue);
+
+OnToggleEffect onToggleEffect;
+
 class ImageAppDetailEffectDialog extends StatefulWidget {
   @override
   _ImageAppDetailEffectDialogState createState() =>
@@ -22,12 +29,14 @@ class _ImageAppDetailEffectDialogState
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text("Effect"),
-      content: Column(
+    return Container(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          SizedBox(
+            height: 5,
+          ),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -60,16 +69,27 @@ class _ImageAppDetailEffectDialogState
             min: 1,
             max: 10,
           ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              MaterialButton(
+                onPressed: () async {
+                  if (onToggleEffect != null)
+                    onToggleEffect(_checkGrayscale, _checkBlur, _blurValue);
+                },
+                child: Text("Apply"),
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Close"),
+              ),
+            ],
+          ),
         ],
       ),
-      actions: <Widget>[
-        MaterialButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text("Close"),
-        ),
-      ],
     );
   }
 }

@@ -9,10 +9,6 @@ import 'package:toast/toast.dart';
 import '../config.dart';
 import '../utils.dart';
 
-enum Effect { Blur, Grayscale }
-
-typedef OnToggleEffect = Function(Effect effect);
-
 class ImageAppDetailViewModel {
   final Photo _photo;
 
