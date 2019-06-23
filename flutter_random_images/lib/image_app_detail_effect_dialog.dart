@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'domain/photo.dart';
 
-enum Effect { Blur, Grayscale }
-
 typedef OnToggleEffect = Function(
     bool checkGrayscale, bool checkBlur, double blurValue);
 
