@@ -82,9 +82,13 @@ class _ImageAppDetailEffectDialogState
             max: BLUR_MAX.toDouble(),
           ),
           Row(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
+              MaterialButton(
+                child: Icon(Icons.replay),
+                onPressed: () => _revertAll(),
+              ),
               MaterialButton(
                 onPressed: () async {
                   if (onToggleEffect != null)
@@ -103,5 +107,11 @@ class _ImageAppDetailEffectDialogState
         ],
       ),
     );
+  }
+
+  _revertAll() {
+    _updateBlurValue(1);
+    _updateCheckBlur(false);
+    _updateCheckGrayscale(false);
   }
 }

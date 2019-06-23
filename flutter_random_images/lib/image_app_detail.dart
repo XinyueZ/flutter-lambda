@@ -37,6 +37,8 @@ class _ImageAppDetailState extends State<ImageAppDetail> {
           _imageLocation = widget._photo.grayscale;
         } else if (checkBlur) {
           _imageLocation = widget._photo.getBlur(blurValue.toInt());
+        } else {
+          _imageLocation = widget._photo.downloadLocation;
         }
       });
     };
