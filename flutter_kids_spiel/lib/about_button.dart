@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'about/about_app.dart';
@@ -8,7 +10,8 @@ class AboutButton extends StatelessWidget {
     return Align(
       alignment: Alignment.topRight,
       child: Container(
-          margin: EdgeInsets.only(top: 25.0, right: 15.0),
+          margin: EdgeInsets.only(
+              top: MediaQueryData.fromWindow(window).padding.top, right: 15.0),
           child: IconButton(
             iconSize: 35,
             icon: Icon(
