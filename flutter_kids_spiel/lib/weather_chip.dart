@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -36,7 +38,8 @@ class _WeatherChipState extends State<WeatherChip> {
     return Align(
         alignment: Alignment.topLeft,
         child: Container(
-          margin: EdgeInsets.only(top: 25.0, left: 15.0),
+          margin: EdgeInsets.only(
+              top: MediaQueryData.fromWindow(window).padding.top, left: 15.0),
           child: InkWell(
             borderRadius: BorderRadius.circular(3),
             onTap: () async {
