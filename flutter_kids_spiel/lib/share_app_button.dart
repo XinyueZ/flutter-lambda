@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:sprintf/sprintf.dart';
 
-import 'about/about_app.dart';
+import 'config.dart';
 
-class AboutButton extends StatelessWidget {
+class ShareAppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,15 +15,11 @@ class AboutButton extends StatelessWidget {
         child: IconButton(
           iconSize: 35,
           icon: Icon(
-            Icons.info,
+            Icons.share,
             color: Colors.pinkAccent,
           ),
-          onPressed: () async {
-            final about = await AboutApp().getAbout(context);
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => about,
-            );
+          onPressed: () {
+            Share.share(sprintf(APP_SHARE, [APP_STORE]));
           },
         ));
   }
