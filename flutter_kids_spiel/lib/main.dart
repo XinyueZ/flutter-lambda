@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_kids_spiel/share_app_button.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -68,7 +69,16 @@ class _AppState extends State<App> {
                         child: _fabIcon),
                     backgroundColor: _fabColor,
                   )),
-              AboutButton(),
+              Align(
+                alignment: Alignment.topRight,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    AboutButton(),
+                    ShareAppButton(),
+                  ],
+                ),
+              ),
               WeatherChip()
             ],
           ),
