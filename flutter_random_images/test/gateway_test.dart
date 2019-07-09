@@ -14,6 +14,8 @@ class MockHttpClientRequest extends Mock implements HttpClientRequest {}
 
 class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 
+class MockStreamListInt extends Mock implements Stream<List<int>> {}
+
 class MockStreamString extends Mock implements Stream<String> {}
 
 class MockHttpClientProvider extends Mock implements IHttpClientProvider {}
@@ -24,13 +26,16 @@ void main() {
 
   final HttpClientRequest mockRequest = MockHttpClientRequest();
   final HttpClientResponse mockResponse = MockHttpClientResponse();
+  final MockStreamListInt mockStreamListInt = MockStreamListInt();
   final Stream<String> mockStream = MockStreamString();
   final IHttpClientProvider mockClientProvider = MockHttpClientProvider();
 
   group("gateway for photo and photo-list test-suit", () {
     final server = Service(mockClientProvider);
 
-    when(mockResponse.transform(DecoderHelper.getUtf8Decoder()))
+    //Workaround: https://github.com/dart-lang/co19/issues/383
+    when(mockResponse.cast<List<int>>()).thenAnswer((_) => mockStreamListInt);
+    when(mockStreamListInt.transform(DecoderHelper.getUtf8Decoder()))
         .thenAnswer((_) => mockStream);
     when(mockRequest.uri).thenReturn(Uri.parse("http://mockurl.com"));
     when(mockRequest.close()).thenAnswer((_) => Future.value(mockResponse));

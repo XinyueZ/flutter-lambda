@@ -28,7 +28,9 @@ abstract class Gateway {
   @visibleForTesting
   Future<String> getResponseString(HttpClientRequest req) async {
     final HttpClientResponse res = await getResponse(req);
+    //Workaround: https://github.com/dart-lang/co19/issues/383
     final String ret = await res
+        .cast<List<int>>()
         .transform(DecoderHelper.getUtf8Decoder())
         .join(); // understand utf-8
     return Future.value(ret);
