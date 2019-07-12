@@ -23,7 +23,8 @@ class ImageAppDetailViewModel {
       openWebLinkText(context, "Open on web", _photo.webLocation);
 
   Widget get share => InkWell(
-      child: Text("Share me"), onTap: () => Share.share(_photo.downloadUrl));
+      child: Text("Share me"),
+      onTap: () => Share.share(downloadLocation.toString()));
 
   Widget get size => Text("${_photo.width} x ${_photo.height}");
 
