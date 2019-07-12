@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:sprintf/sprintf.dart';
 
+import 'config.dart';
 import 'image_app_page.dart';
 import 'viewmodel/image_app_page_view_model.dart';
 import 'viewmodel/image_app_pager_view_model.dart';
@@ -70,6 +73,12 @@ class _ImageAppPagerState extends State<ImageAppPager> {
               onPressed: () {
                 _showAboutPopup();
               },
+            ),
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {
+                Share.share(sprintf(APP_SHARE, [APP_STORE]));
+              },
             )
           ],
         ),
@@ -84,29 +93,29 @@ class _ImageAppPagerState extends State<ImageAppPager> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Builder(
           builder: (cxt) => BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                    title: SizedBox(width: 0.0, height: 0.0),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                    ),
-                    title: SizedBox(width: 0.0, height: 0.0),
-                  ),
-                ],
-                currentIndex: 0,
-                selectedItemColor: Colors.black,
-                backgroundColor: Colors.black,
-                onTap: (index) {
-                  _onItemTapped(cxt, index);
-                },
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                title: SizedBox(width: 0.0, height: 0.0),
               ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                ),
+                title: SizedBox(width: 0.0, height: 0.0),
+              ),
+            ],
+            currentIndex: 0,
+            selectedItemColor: Colors.black,
+            backgroundColor: Colors.black,
+            onTap: (index) {
+              _onItemTapped(cxt, index);
+            },
+          ),
         ));
   }
 

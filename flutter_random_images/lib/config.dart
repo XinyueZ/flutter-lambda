@@ -14,3 +14,5 @@ const COLUMN_COUNT = 2;
 const THUMBNAIL_SIZE = 200;
 const PROJECT_LOCATION = "http://tinyurl.com/yy56jzl3";
 const API_PROVIDER = "https://picsum.photos";
+const APP_SHARE = "Lorem Picsum, Picsum Lorem\n%s";
+const APP_STORE = "http://tinyurl.com/y6cszo98";
