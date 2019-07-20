@@ -22,9 +22,19 @@ class _FilePickerWidgetState extends State<FilePickerWidget> {
         body: Center(
           child: RaisedButton(
               color: Colors.amberAccent,
-              child: Text(
-                "Open INVOICE directory",
-                style: TextStyle(color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(Icons.folder_open),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Open INVOICE directory",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
               ),
               onPressed: () {}),
         ),
