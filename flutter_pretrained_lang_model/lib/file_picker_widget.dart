@@ -21,7 +21,12 @@ class _FilePickerWidgetState extends State<FilePickerWidget> {
         ),
         body: Center(
           child: RaisedButton(
-              child: Text("Open INVOICE directory"), onPressed: () {}),
+              color: Colors.amberAccent,
+              child: Text(
+                "Open INVOICE directory",
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {}),
         ),
       ),
     );
