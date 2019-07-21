@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'file_picker_widget.dart';
+import 'invoices_location_picker_widget.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FilePickerWidget(),
+      home: InvoicesLocationPickerWidget(),
     );
   }
 }

@@ -38,8 +38,8 @@ class _InvoicesLocationPickerWidgetState
                 ],
               ),
               onPressed: () async {
-                final path = await FlutterDocumentPicker.openDocument();
-                debugPrint("selected  $path");
+                final String file = await FlutterDocumentPicker.openDocument();
+                debugPrint("file: $file");
               }),
         ),
       ),
