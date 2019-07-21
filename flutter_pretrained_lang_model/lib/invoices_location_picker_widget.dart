@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_document_picker/flutter_document_picker.dart';
 
 import 'config.dart';
 
-class FilePickerWidget extends StatefulWidget {
-  FilePickerWidget({Key key}) : super(key: key);
+class InvoicesLocationPickerWidget extends StatefulWidget {
+  InvoicesLocationPickerWidget({Key key}) : super(key: key);
 
   @override
-  _FilePickerWidgetState createState() => _FilePickerWidgetState();
+  _InvoicesLocationPickerWidgetState createState() =>
+      _InvoicesLocationPickerWidgetState();
 }
 
-class _FilePickerWidgetState extends State<FilePickerWidget> {
+class _InvoicesLocationPickerWidgetState
+    extends State<InvoicesLocationPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -30,13 +33,14 @@ class _FilePickerWidgetState extends State<FilePickerWidget> {
                   SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    "Open INVOICE directory",
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  Text("Open INVOICE directory",
+                      style: TextStyle(color: Colors.black)),
                 ],
               ),
-              onPressed: () {}),
+              onPressed: () async {
+                final path = await FlutterDocumentPicker.openDocument();
+                debugPrint("selected  $path");
+              }),
         ),
       ),
     );
