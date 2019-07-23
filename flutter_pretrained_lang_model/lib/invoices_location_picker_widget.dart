@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_document_picker/flutter_document_picker.dart';
+import 'dart:io';
 
-import 'config.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+
+import 'bill_list_widget.dart';
 
 class InvoicesLocationPickerWidget extends StatefulWidget {
   InvoicesLocationPickerWidget({Key key}) : super(key: key);
@@ -18,7 +20,6 @@ class _InvoicesLocationPickerWidgetState
     return Material(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: MAIN_COLOR,
           elevation: 15,
           title: Text("MOIA INVOICE"),
         ),
@@ -38,11 +39,19 @@ class _InvoicesLocationPickerWidgetState
                 ],
               ),
               onPressed: () async {
-                final String file = await FlutterDocumentPicker.openDocument();
-                debugPrint("file: $file");
+                await _selectFileToOpenDirectory(context);
               }),
         ),
       ),
     );
+  }
+
+  Future _selectFileToOpenDirectory(BuildContext context) async {
+    final String path = await FilePicker.getFilePath(type: FileType.ANY);
+    final File file = File(path);
+
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return BillListWidget(file.parent);
+    }));
   }
 }
