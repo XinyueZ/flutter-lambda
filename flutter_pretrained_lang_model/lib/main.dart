@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: MAIN_COLOR,
+        accentColor: MAIN_COLOR,
         primarySwatch: Colors.blue,
       ),
       home: InvoicesLocationPickerWidget(),

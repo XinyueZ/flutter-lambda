@@ -3,16 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
-class BillListWidget extends StatefulWidget {
+import 'bill_list_widget.dart';
+
+class InvoiceListWidget extends StatefulWidget {
   final Directory _billDirectory;
 
-  BillListWidget(this._billDirectory);
+  InvoiceListWidget(this._billDirectory);
 
   @override
-  _BillListWidgetState createState() => _BillListWidgetState();
+  _InvoiceListWidgetState createState() => _InvoiceListWidgetState();
 }
 
-class _BillListWidgetState extends State<BillListWidget> {
+class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   List<FileSystemEntity> _fileList;
 
   @override
@@ -32,12 +34,17 @@ class _BillListWidgetState extends State<BillListWidget> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: Icon(
-            Icons.functions,
+            Icons.check,
             color: Colors.white,
           ),
-          onPressed: () {}),
+          backgroundColor: Colors.greenAccent,
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+              return BillListWidget(widget._billDirectory);
+            }));
+          }),
       appBar: AppBar(
-        title: Text("Bill List"),
+        title: Text("INVOICES"),
       ),
       body: ListView.builder(
         itemCount: _fileList == null ? 0 : _fileList.length,
@@ -55,7 +62,7 @@ class _BillListWidgetState extends State<BillListWidget> {
                           const EdgeInsets.only(top: 8, bottom: 8, right: 8),
                       child: CircleAvatar(
                         child: Icon(
-                          Icons.monetization_on,
+                          Icons.mail,
                           color: Colors.white,
                         ),
                       ),
