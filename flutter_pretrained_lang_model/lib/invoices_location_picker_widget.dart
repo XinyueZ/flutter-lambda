@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-import 'bill_list_widget.dart';
+import 'invoice_list_widget.dart';
 
 class InvoicesLocationPickerWidget extends StatefulWidget {
   InvoicesLocationPickerWidget({Key key}) : super(key: key);
@@ -51,7 +51,7 @@ class _InvoicesLocationPickerWidgetState
     final File file = File(path);
 
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return BillListWidget(file.parent);
+      return InvoiceListWidget(file.parent);
     }));
   }
 }
