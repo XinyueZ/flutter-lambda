@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
 class BillListWidget extends StatefulWidget {
-  final Directory _billDirectory;
+  final Directory _billFileDirectory;
 
-  BillListWidget(this._billDirectory);
+  BillListWidget(this._billFileDirectory);
 
   @override
   _BillListWidgetState createState() => _BillListWidgetState();
@@ -23,7 +23,7 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   loadDirectoryFiles() async {
     setState(() {
-      _fileList = widget._billDirectory.listSync().toList();
+      _fileList = widget._billFileDirectory.listSync().toList();
     });
   }
 

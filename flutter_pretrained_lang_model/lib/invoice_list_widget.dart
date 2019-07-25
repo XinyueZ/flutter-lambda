@@ -6,9 +6,9 @@ import 'package:path/path.dart';
 import 'bill_list_widget.dart';
 
 class InvoiceListWidget extends StatefulWidget {
-  final Directory _billDirectory;
+  final Directory _invoiceFilesDirectory;
 
-  InvoiceListWidget(this._billDirectory);
+  InvoiceListWidget(this._invoiceFilesDirectory);
 
   @override
   _InvoiceListWidgetState createState() => _InvoiceListWidgetState();
@@ -25,7 +25,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
 
   loadDirectoryFiles() async {
     setState(() {
-      _fileList = widget._billDirectory.listSync().toList();
+      _fileList = widget._invoiceFilesDirectory.listSync().toList();
     });
   }
 
@@ -40,7 +40,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
           backgroundColor: Colors.greenAccent,
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-              return BillListWidget(widget._billDirectory);
+              return BillListWidget(widget._invoiceFilesDirectory);
             }));
           }),
       appBar: AppBar(
