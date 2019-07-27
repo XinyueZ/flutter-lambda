@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 import 'bill_list_widget.dart';
+import 'invoice_file_detector.dart';
 
 class InvoiceListWidget extends StatefulWidget {
   final Directory _invoiceFilesDirectory;
@@ -49,8 +51,17 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
       body: ListView.builder(
         itemCount: _fileList == null ? 0 : _fileList.length,
         itemBuilder: (BuildContext context, int index) {
-          return InkResponse(
-            child: Card(
+          final String filePath = _fileList[index].path;
+          return Card(
+            child: InkWell(
+              onTap: () async {
+                final File file = File(filePath);
+                await OpenFile.open(filePath);
+                InvoiceFileDetector invoiceFileDetector =
+                    InvoiceFileDetector(file);
+                bool isInvoice = await invoiceFileDetector.isInvoice();
+                debugPrint("InvoiceFileDetector: $isInvoice");
+              },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -70,8 +81,8 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
                     Flexible(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(basename(_fileList[index].path),
-                            textAlign: TextAlign.left),
+                        child:
+                            Text(basename(filePath), textAlign: TextAlign.left),
                       ),
                     ),
                   ],
