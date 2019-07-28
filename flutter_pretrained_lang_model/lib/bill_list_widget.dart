@@ -18,11 +18,11 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   @override
   void initState() {
-    this.loadDirectoryFiles();
+    this.loadFilesContainBill();
     super.initState();
   }
 
-  loadDirectoryFiles() async {
+  loadFilesContainBill() async {
     setState(() {
       final dirFiles = widget._billFileDirectory.listSync().toList();
       _fileList = dirFiles.where((dirFile) {
