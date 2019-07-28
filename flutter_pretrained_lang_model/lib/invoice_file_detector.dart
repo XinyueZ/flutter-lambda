@@ -45,6 +45,8 @@ class InvoiceFileDetector extends Pipeline {
 
   final File _file;
 
+  bool _isInvoice = false;
+
   InvoiceFileDetector(this._file) {
     _visionImage = FirebaseVisionImage.fromFile(_file);
     _textRecognizer = FirebaseVision.instance.cloudTextRecognizer();
@@ -77,17 +79,22 @@ class InvoiceFileDetector extends Pipeline {
       _languageTranslator = FirebaseLanguage.instance
           .languageTranslator(_languageLabel.languageCode, "en");
 
-      final x = Stream.fromIterable(_lineList);
-      await for (String line in x) {
+      final lineListStream = Stream.fromIterable(_lineList);
+      await for (String line in lineListStream) {
         debugPrint("$TAG: origin-> $line");
-        final String t = await _languageTranslator.processText(line);
-        debugPrint("$TAG: trans-> $t");
-        _translatedLineList.add(t);
+        final String trans = await _languageTranslator.processText(line);
+        debugPrint("$TAG: trans-> $trans");
+        _translatedLineList.add(trans);
+
+        if (!_isInvoice) _isInvoice = "invoice" == trans.toLowerCase();
       }
       _translatedFulltext = _translatedLineList.join(" ");
     } else {
       _lineList.forEach((line) {
         debugPrint("$TAG: origin-> $line");
+
+        if (!_isInvoice)
+          _isInvoice = "invoice".toLowerCase() == line.toLowerCase();
       });
       _translatedFulltext = _lineList.join(" ");
     }
@@ -107,6 +114,7 @@ class InvoiceFileDetector extends Pipeline {
     debugPrint("$TAG: trans-full-> $_translatedFulltext");
     debugPrint(
         "$TAG: ${_languageLabel.languageCode}/${_languageLabel.confidence}");
-    return true;
+
+    return _isInvoice;
   }
 }
