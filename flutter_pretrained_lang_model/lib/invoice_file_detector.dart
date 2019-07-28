@@ -37,10 +37,7 @@ class InvoiceFileDetector extends Pipeline {
   LanguageLabel _languageLabel;
   LanguageTranslator _languageTranslator;
 
-  String _fulltext;
   List<String> _lineList = List();
-
-  String _translatedFulltext;
   List<String> _translatedLineList = List();
 
   final File _file;
@@ -60,14 +57,12 @@ class InvoiceFileDetector extends Pipeline {
         _lineList.add(line.text);
       }
     }
-    _fulltext = _lineList.join(" ");
-    debugPrint("$TAG: full-> $_fulltext");
-
+    final fulltext = _lineList.join(" ");
     // Get the language of the invoice file, try the best detected
     // confidence(score), use this language for later translation
     // source.
     final List<LanguageLabel> labels =
-        await _languageIdentifier.processText(_fulltext);
+        await _languageIdentifier.processText(fulltext);
     labels.sort((a, b) => b.confidence.compareTo(a.confidence));
 
     _languageLabel = labels.first;
@@ -75,6 +70,9 @@ class InvoiceFileDetector extends Pipeline {
 
   @override
   _translate() async {
+    /**
+     * Translation will be ignored if the detected language is already English.
+     */
     if (_languageLabel.languageCode != "en") {
       _languageTranslator = FirebaseLanguage.instance
           .languageTranslator(_languageLabel.languageCode, "en");
@@ -82,21 +80,13 @@ class InvoiceFileDetector extends Pipeline {
       final lineListStream = Stream.fromIterable(_lineList);
       await for (String line in lineListStream) {
         debugPrint("$TAG: origin-> $line");
-        final String trans = await _languageTranslator.processText(line);
-        debugPrint("$TAG: trans-> $trans");
-        _translatedLineList.add(trans);
-
-        if (!_isInvoice) _isInvoice = "invoice" == trans.toLowerCase();
+        final String lineInEnglish =
+            await _languageTranslator.processText(line);
+        debugPrint("$TAG: in English: $lineInEnglish");
+        _translatedLineList.add(lineInEnglish);
       }
-      _translatedFulltext = _translatedLineList.join(" ");
     } else {
-      _lineList.forEach((line) {
-        debugPrint("$TAG: origin-> $line");
-
-        if (!_isInvoice)
-          _isInvoice = "invoice".toLowerCase() == line.toLowerCase();
-      });
-      _translatedFulltext = _lineList.join(" ");
+      _translatedLineList.addAll(_lineList);
     }
   }
 
@@ -111,9 +101,9 @@ class InvoiceFileDetector extends Pipeline {
     await _findLanguageId();
     await _translate();
 
-    debugPrint("$TAG: trans-full-> $_translatedFulltext");
-    debugPrint(
-        "$TAG: ${_languageLabel.languageCode}/${_languageLabel.confidence}");
+    _isInvoice = _translatedLineList.where((line) {
+      return "invoice".toLowerCase() == line.toLowerCase();
+    }).isNotEmpty;
 
     return _isInvoice;
   }
