@@ -103,7 +103,7 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
   @override
   void _identifyInvoice() {
     _isInvoice = _translatedLineList.where((line) {
-      return "invoice".toLowerCase() == line.toLowerCase();
+      return "invoice" == line.toLowerCase();
     }).isNotEmpty;
   }
 

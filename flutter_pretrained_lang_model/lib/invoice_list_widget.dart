@@ -124,7 +124,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   }
 
   /*
-   * Open the list of files which are confirmed as an invoice file.
+   * Open the list of files which are confirmed as invoice files.
    * The FAB will be update to "loading" status until finishing.
    */
   _openBillListWidget(BuildContext context) async {
