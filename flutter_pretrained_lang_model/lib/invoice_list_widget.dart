@@ -138,6 +138,18 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
     }
 
     _toggleFiltering(true);
+    List<File> listConfirmed = await _filterInvoiceFiles();
+    _toggleFiltering(false);
+
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return BillListWidget(widget._invoiceFilesDirectory, listConfirmed);
+    }));
+  }
+
+  /*
+   * Find invoice files which contain bill.
+   */
+  Future<List<File>> _filterInvoiceFiles() async {
     final listConfirmed = List<File>();
     final fileListStream = Stream.fromIterable(_fileList);
     await for (File file in fileListStream) {
@@ -147,9 +159,6 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
         listConfirmed.add(file);
       }
     }
-    _toggleFiltering(false);
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return BillListWidget(widget._invoiceFilesDirectory, listConfirmed);
-    }));
+    return listConfirmed;
   }
 }
