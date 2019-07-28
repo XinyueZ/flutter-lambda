@@ -60,7 +60,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
                 InvoiceFileDetector invoiceFileDetector =
                     InvoiceFileDetector(file);
                 bool isInvoice = await invoiceFileDetector.isInvoice();
-                debugPrint("InvoiceFileDetector: $isInvoice");
+                debugPrint("${InvoiceFileDetector.TAG}: $isInvoice");
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

@@ -8,17 +8,17 @@ abstract class Pipeline {
   /*
    * Detect invoice file language. 
    */
-  Future<String> _findLanguageId();
+  _findLanguageId();
 
   /*
    * Translate invoice to English from any source language.
    */
-  Future<String> _translate();
+  _translate();
 
   /*
    * Extract text from invoice.
    */
-  Future<bool> _textRecognize();
+  _textRecognize();
 
   /*
    * [true] when the file is confirmed as an invoice file.
@@ -28,11 +28,20 @@ abstract class Pipeline {
 }
 
 class InvoiceFileDetector extends Pipeline {
+  static final TAG = "IFD";
+
   TextRecognizer _textRecognizer;
   LanguageIdentifier _languageIdentifier;
   FirebaseVisionImage _visionImage;
   VisionText _visionText;
   LanguageLabel _languageLabel;
+  LanguageTranslator _languageTranslator;
+
+  String _fulltext;
+  List<String> _lineList = List();
+
+  String _translatedFulltext;
+  List<String> _translatedLineList = List();
 
   final File _file;
 
@@ -43,42 +52,50 @@ class InvoiceFileDetector extends Pipeline {
   }
 
   @override
-  Future<String> _findLanguageId() async {
-    final List<String> lineList = List();
-
+  _findLanguageId() async {
     for (TextBlock block in _visionText.blocks) {
       for (TextLine line in block.lines) {
-        lineList.add(line.text);
+        _lineList.add(line.text);
       }
     }
-
-    lineList.forEach((text) {
-      debugPrint("InvoiceFileDetector: $text");
-    });
-
-    final fulltext = lineList.join(" ");
-    debugPrint("InvoiceFileDetector: $fulltext");
+    _fulltext = _lineList.join(" ");
+    debugPrint("$TAG: full-> $_fulltext");
 
     // Get the language of the invoice file, try the best detected
     // confidence(score), use this language for later translation
     // source.
     final List<LanguageLabel> labels =
-        await _languageIdentifier.processText(fulltext);
+        await _languageIdentifier.processText(_fulltext);
     labels.sort((a, b) => b.confidence.compareTo(a.confidence));
 
     _languageLabel = labels.first;
-    return _languageLabel.languageCode;
   }
 
   @override
-  Future<String> _translate() async {
-    return "unknown";
+  _translate() async {
+    if (_languageLabel.languageCode != "en") {
+      _languageTranslator = FirebaseLanguage.instance
+          .languageTranslator(_languageLabel.languageCode, "en");
+
+      final x = Stream.fromIterable(_lineList);
+      await for (String line in x) {
+        debugPrint("$TAG: origin-> $line");
+        final String t = await _languageTranslator.processText(line);
+        debugPrint("$TAG: trans-> $t");
+        _translatedLineList.add(t);
+      }
+      _translatedFulltext = _translatedLineList.join(" ");
+    } else {
+      _lineList.forEach((line) {
+        debugPrint("$TAG: origin-> $line");
+      });
+      _translatedFulltext = _lineList.join(" ");
+    }
   }
 
   @override
-  Future<bool> _textRecognize() async {
+  _textRecognize() async {
     _visionText = await _textRecognizer.processImage(_visionImage);
-    return _visionText.blocks.isNotEmpty;
   }
 
   @override
@@ -87,8 +104,9 @@ class InvoiceFileDetector extends Pipeline {
     await _findLanguageId();
     await _translate();
 
+    debugPrint("$TAG: trans-full-> $_translatedFulltext");
     debugPrint(
-        "InvoiceFileDetector: ${_languageLabel.languageCode}/${_languageLabel.confidence}");
+        "$TAG: ${_languageLabel.languageCode}/${_languageLabel.confidence}");
     return true;
   }
 }
