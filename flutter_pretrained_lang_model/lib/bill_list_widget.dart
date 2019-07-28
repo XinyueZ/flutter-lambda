@@ -5,8 +5,9 @@ import 'package:path/path.dart';
 
 class BillListWidget extends StatefulWidget {
   final Directory _billFileDirectory;
+  final List<File> _invoiceFileList;
 
-  BillListWidget(this._billFileDirectory);
+  BillListWidget(this._billFileDirectory, this._invoiceFileList);
 
   @override
   _BillListWidgetState createState() => _BillListWidgetState();
@@ -23,7 +24,12 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   loadDirectoryFiles() async {
     setState(() {
-      _fileList = widget._billFileDirectory.listSync().toList();
+      final dirFiles = widget._billFileDirectory.listSync().toList();
+      _fileList = dirFiles.where((dirFile) {
+        return widget._invoiceFileList
+            .where((invoiceFile) => invoiceFile.path == dirFile.path)
+            .isNotEmpty;
+      }).toList();
     });
   }
 

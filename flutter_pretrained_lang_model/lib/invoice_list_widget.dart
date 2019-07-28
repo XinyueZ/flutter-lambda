@@ -41,9 +41,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
           ),
           backgroundColor: Colors.greenAccent,
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-              return BillListWidget(widget._invoiceFilesDirectory);
-            }));
+            _openBillListWidget(context);
           }),
       appBar: AppBar(
         title: Text("INVOICES"),
@@ -55,12 +53,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
           return Card(
             child: InkWell(
               onTap: () async {
-                final File file = File(filePath);
                 await OpenFile.open(filePath);
-                InvoiceFileDetector invoiceFileDetector =
-                    InvoiceFileDetector(file);
-                bool isInvoice = await invoiceFileDetector.isInvoice();
-                debugPrint("${InvoiceFileDetector.TAG}: $isInvoice");
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -93,5 +86,23 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
         },
       ),
     );
+  }
+
+  /*
+   * Open the list of files which are confirmed as an invoice file.
+   */
+  _openBillListWidget(BuildContext context) async {
+    final listConfirmed = List<File>();
+    final fileListStream = Stream.fromIterable(_fileList);
+    await for (File file in fileListStream) {
+      InvoiceFileDetector invoiceFileDetector = InvoiceFileDetector(file);
+      bool isInvoice = await invoiceFileDetector.isInvoice();
+      if (isInvoice) {
+        listConfirmed.add(file);
+      }
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return BillListWidget(widget._invoiceFilesDirectory, listConfirmed);
+    }));
   }
 }
