@@ -19,8 +19,8 @@ class InvoiceListWidget extends StatefulWidget {
 
 class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   List<FileSystemEntity> _fileList;
-  bool _isFiltering = false;
 
+  bool _isFiltering = false;
   Widget _fabIcon = Icon(Icons.check);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
 
