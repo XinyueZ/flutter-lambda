@@ -4,7 +4,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 import 'package:flutter/material.dart';
 
-abstract class Pipeline {
+abstract class IInvoiceFileDetector {
   /*
    * Detect invoice file language. 
    */
@@ -21,13 +21,18 @@ abstract class Pipeline {
   _textRecognize();
 
   /*
+   * Confirm the file is an invoice file. 
+   */
+  _identifyInvoice();
+
+  /*
    * [true] when the file is confirmed as an invoice file.
    * [false] otherwise not a invoice file.
    */
   Future<bool> isInvoice();
 }
 
-class InvoiceFileDetector extends Pipeline {
+class InvoiceFileDetector extends IInvoiceFileDetector {
   static final TAG = "IFD";
 
   TextRecognizer _textRecognizer;
@@ -96,14 +101,18 @@ class InvoiceFileDetector extends Pipeline {
   }
 
   @override
+  void _identifyInvoice() {
+    _isInvoice = _translatedLineList.where((line) {
+      return "invoice".toLowerCase() == line.toLowerCase();
+    }).isNotEmpty;
+  }
+
+  @override
   Future<bool> isInvoice() async {
     await _textRecognize();
     await _findLanguageId();
     await _translate();
-
-    _isInvoice = _translatedLineList.where((line) {
-      return "invoice".toLowerCase() == line.toLowerCase();
-    }).isNotEmpty;
+    _identifyInvoice();
 
     return _isInvoice;
   }
