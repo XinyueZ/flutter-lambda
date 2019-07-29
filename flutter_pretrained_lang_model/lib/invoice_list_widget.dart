@@ -124,6 +124,22 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   }
 
   /*
+   * Find invoice files which contain bill.
+   */
+  Future<List<File>> _filterInvoiceFiles() async {
+    final listConfirmed = List<File>();
+    final fileListStream = Stream.fromIterable(_fileList);
+    await for (File file in fileListStream) {
+      InvoiceFileDetector invoiceFileDetector = InvoiceFileDetector(file);
+      bool isInvoice = await invoiceFileDetector.isInvoice();
+      if (isInvoice) {
+        listConfirmed.add(file);
+      }
+    }
+    return listConfirmed;
+  }
+
+  /*
    * Open the list of files which are confirmed as invoice files.
    * The FAB will be update to "loading" status until finishing.
    */
@@ -144,21 +160,5 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return BillListWidget(widget._invoiceFilesDirectory, listConfirmed);
     }));
-  }
-
-  /*
-   * Find invoice files which contain bill.
-   */
-  Future<List<File>> _filterInvoiceFiles() async {
-    final listConfirmed = List<File>();
-    final fileListStream = Stream.fromIterable(_fileList);
-    await for (File file in fileListStream) {
-      InvoiceFileDetector invoiceFileDetector = InvoiceFileDetector(file);
-      bool isInvoice = await invoiceFileDetector.isInvoice();
-      if (isInvoice) {
-        listConfirmed.add(file);
-      }
-    }
-    return listConfirmed;
   }
 }

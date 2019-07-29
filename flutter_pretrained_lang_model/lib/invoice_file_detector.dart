@@ -84,7 +84,7 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
 
       final lineListStream = Stream.fromIterable(_lineList);
       await for (String line in lineListStream) {
-        debugPrint("$TAG: origin-> $line");
+        debugPrint("$TAG: origin: $line");
         final String lineInEnglish =
             await _languageTranslator.processText(line);
         debugPrint("$TAG: in English: $lineInEnglish");
@@ -92,6 +92,9 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
       }
     } else {
       _translatedLineList.addAll(_lineList);
+      _translatedLineList.forEach((line) {
+        debugPrint("$TAG: origin: $line");
+      });
     }
   }
 
