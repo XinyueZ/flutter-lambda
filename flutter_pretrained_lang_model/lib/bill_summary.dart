@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:flutter/widgets.dart';
 
 abstract class IBillSummary {
   /*
@@ -16,7 +17,7 @@ abstract class IBillSummary {
   /*
    * Return summary.
    */
-  Future<double> getSummary();
+  Future<double> getTotalPrice();
 }
 
 class BillSummary extends IBillSummary {
@@ -24,9 +25,9 @@ class BillSummary extends IBillSummary {
 
   TextRecognizer _textRecognizer;
   List _priceList = List<double>();
-  double _summary = 0.0;
+  double _totalPrice = 0.0;
 
-  final List<File> _files;
+  final List<FileSystemEntity> _files;
 
   BillSummary(this._files) {
     _textRecognizer = FirebaseVision.instance.cloudTextRecognizer();
@@ -41,7 +42,10 @@ class BillSummary extends IBillSummary {
       for (TextBlock block in visionText.blocks) {
         for (TextLine line in block.lines) {
           if (line.text.contains("€")) {
-            final s = line.text.replaceFirst(RegExp(','), '.').trim();
+            var s = line.text.replaceFirst(RegExp('€'), '');
+            s = s.replaceFirst(RegExp(','), '.').trim();
+
+            debugPrint("$TAG s: ${s}");
             final d = double.parse(s);
             _priceList.add(d);
           }
@@ -52,14 +56,15 @@ class BillSummary extends IBillSummary {
 
   @override
   _calc() {
-    _priceList.forEach((d) => (_summary += d));
+    _priceList.forEach((d) => (_totalPrice += d));
   }
 
   @override
-  Future<double> getSummary() async {
+  Future<double> getTotalPrice() async {
     await _textRecognize();
     _calc();
 
-    return _summary;
+    debugPrint("$TAG: total price: $_totalPrice");
+    return _totalPrice;
   }
 }
