@@ -92,6 +92,30 @@ class _BillListWidgetState extends State<BillListWidget> {
             _toggleRunning(true);
             final totalPrice = await summary.getTotalPrice();
             _toggleRunning(false);
+
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("Summary"),
+                    content: Text(
+                        "${_fileList.length} day trips, total cost $totalPrice €. Export as different format."),
+                    actions: <Widget>[
+                      MaterialButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("PDF"),
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("PNG"),
+                      ),
+                    ],
+                  );
+                });
           }),
       appBar: AppBar(
         title: Text("Bill List"),
