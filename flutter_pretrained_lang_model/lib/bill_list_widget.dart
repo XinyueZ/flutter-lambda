@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
+import 'bill.dart';
 import 'bill_summary.dart';
 
 class BillListWidget extends StatefulWidget {
@@ -17,6 +18,7 @@ class BillListWidget extends StatefulWidget {
 
 class _BillListWidgetState extends State<BillListWidget> {
   List<FileSystemEntity> _fileList;
+  BillOverview _billOverview = BillOverview(0, List<Bill>());
 
   bool _isRunning = false;
   Widget _fabIcon = Icon(Icons.functions);
@@ -30,13 +32,9 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   _loadFilesContainBill() async {
     setState(() {
-      final dirFiles = widget._billFileDirectory.listSync().toList();
-      _fileList = dirFiles.where((dirFile) {
-        return widget._invoiceFileList
-            .where((invoiceFile) => invoiceFile.path == dirFile.path)
-            .isNotEmpty;
-      }).toList();
+      _initBillOverviewList();
     });
+    _updateBillOverviewList(this.context);
   }
 
   _updateFAB() {
@@ -79,49 +77,13 @@ class _BillListWidgetState extends State<BillListWidget> {
               child: _fabIcon),
           isExtended: _isRunning,
           onPressed: () async {
-            if (_isRunning) return;
-
-            _toggleRunning(bool isRunning) {
-              setState(() {
-                _isRunning = isRunning;
-                _updateFAB();
-              });
-            }
-
-            final summary = BillSummary(_fileList);
-            _toggleRunning(true);
-            final totalPrice = await summary.getTotalPrice();
-            _toggleRunning(false);
-
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Summary"),
-                    content: Text(
-                        "${_fileList.length} day trips, total cost $totalPrice €. Export as different format."),
-                    actions: <Widget>[
-                      MaterialButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text("PDF"),
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text("PNG"),
-                      ),
-                    ],
-                  );
-                });
+            await _updateBillOverviewList(context);
           }),
       appBar: AppBar(
         title: Text("Bill List"),
       ),
       body: ListView.builder(
-        itemCount: _fileList == null ? 0 : _fileList.length,
+        itemCount: _billOverview.billList.length,
         itemBuilder: (BuildContext context, int index) {
           return InkResponse(
             child: Card(
@@ -141,11 +103,45 @@ class _BillListWidgetState extends State<BillListWidget> {
                         ),
                       ),
                     ),
-                    Flexible(
+                    Align(
+                      alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(basename(_fileList[index].path),
+                        child: Text(
+                            basename(
+                                _billOverview.billList[index].invoiceFile.path),
                             textAlign: TextAlign.left),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _billOverview.billList[index].priceText,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _billOverview.billList[index].dateText,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -156,5 +152,63 @@ class _BillListWidgetState extends State<BillListWidget> {
         },
       ),
     );
+  }
+
+  _initBillOverviewList() {
+    final dirFiles = widget._billFileDirectory.listSync().toList();
+    _fileList = dirFiles.where((dirFile) {
+      return widget._invoiceFileList
+          .where((invoiceFile) => invoiceFile.path == dirFile.path)
+          .isNotEmpty;
+    }).toList();
+
+    final newBillOverview = BillOverview(0, List<Bill>());
+    _fileList.forEach((f) {
+      newBillOverview.billList.add(Bill(f));
+    });
+    _billOverview = newBillOverview;
+  }
+
+  _updateBillOverviewList(BuildContext context) async {
+    if (_isRunning) return;
+
+    _toggleRunning(bool isRunning) {
+      setState(() {
+        _isRunning = isRunning;
+        _updateFAB();
+      });
+    }
+
+    final summary = BillSummary(_fileList);
+    _toggleRunning(true);
+    final billOverview = await summary.getTotalPrice();
+    setState(() {
+      _billOverview = billOverview;
+    });
+    _toggleRunning(false);
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Summary"),
+            content: Text(
+                "${billOverview.billList.length} day trips, total cost ${billOverview.totalPrice} €. Export as different format."),
+            actions: <Widget>[
+              MaterialButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+                child: Text("PDF"),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("PNG"),
+              ),
+            ],
+          );
+        });
   }
 }

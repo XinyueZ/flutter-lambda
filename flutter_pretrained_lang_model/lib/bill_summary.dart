@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/widgets.dart';
 
+import 'bill.dart';
+
 abstract class IBillSummary {
   /*
    * Extract price overall
@@ -17,37 +19,61 @@ abstract class IBillSummary {
   /*
    * Return summary.
    */
-  Future<double> getTotalPrice();
+  Future<BillOverview> getTotalPrice();
 }
 
 class BillSummary extends IBillSummary {
   static final TAG = "BS";
 
   TextRecognizer _textRecognizer;
-  List _priceList = List<double>();
-  double _totalPrice = 0.0;
-
   final List<FileSystemEntity> _files;
 
+  List _priceList = List<double>();
+  BillOverview _billOverview = BillOverview.from(0, List<Bill>());
+
   BillSummary(this._files) {
-    _textRecognizer = FirebaseVision.instance.cloudTextRecognizer();
+    _textRecognizer = FirebaseVision.instance.textRecognizer();
   }
 
   @override
   _textRecognize() async {
     final fileListStream = Stream.fromIterable(_files);
     await for (File file in fileListStream) {
+      String dateText;
+      String datePattern =
+          r"([^a-zA-Z0-9]|0*[1-9]|1[012])[- /.](0*[1-9]|[12][0-9]|3[01])[- /.]\d\d";
+      RegExp regEx = RegExp(datePattern);
+
       final visionImage = FirebaseVisionImage.fromFile(file);
       final visionText = await _textRecognizer.processImage(visionImage);
       for (TextBlock block in visionText.blocks) {
+        /**
+         * One invoice file has one chance to get bill date.
+         * As long as it is set, it will never be set again.
+         */
+        if (regEx.hasMatch(block.text.trim()) && dateText == null) {
+          dateText = block.text.trim();
+        }
         for (TextLine line in block.lines) {
+          debugPrint("$TAG line: ${line.text}");
           if (line.text.contains("€")) {
-            var s = line.text.replaceFirst(RegExp('€'), '');
-            s = s.replaceFirst(RegExp(','), '.').trim();
-
-            debugPrint("$TAG s: ${s}");
-            final d = double.parse(s);
+            /**
+             * Convert from "22,34€" to "22.34".
+             * Put the formatted value to [_priceList] to summary total price.
+             */
+            final standard = // for UI therefor remove , O
+                line.text
+                    .replaceFirst(RegExp(','), '.')
+                    .replaceFirst(RegExp('O'), '0')
+                    .replaceFirst(RegExp('o'), '0');
+            final normalized = // for summary calc therefor remove €
+                standard.replaceFirst(RegExp('€'), '').trim();
+            final d = double.parse(normalized);
             _priceList.add(d);
+
+            debugPrint(
+                "$TAG standard: $standard, normalized: $normalized, dateText: $dateText, file: ${file.path}");
+            _billOverview.billList.add(Bill.from(standard, dateText, file));
           }
         }
       }
@@ -56,15 +82,14 @@ class BillSummary extends IBillSummary {
 
   @override
   _calc() {
-    _priceList.forEach((d) => (_totalPrice += d));
+    _priceList.forEach((d) => (_billOverview.totalPrice += d));
   }
 
   @override
-  Future<double> getTotalPrice() async {
+  Future<BillOverview> getTotalPrice() async {
     await _textRecognize();
     _calc();
 
-    debugPrint("$TAG: total price: $_totalPrice");
-    return _totalPrice;
+    return _billOverview;
   }
 }
