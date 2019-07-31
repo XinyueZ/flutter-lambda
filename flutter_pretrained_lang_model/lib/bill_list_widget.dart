@@ -24,6 +24,8 @@ class _BillListWidgetState extends State<BillListWidget> {
   Widget _fabIcon = Icon(Icons.functions);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
 
+  MainAxisAlignment _rowMainAxisAlignment = MainAxisAlignment.start;
+
   @override
   void initState() {
     _loadFilesContainBill();
@@ -90,8 +92,7 @@ class _BillListWidgetState extends State<BillListWidget> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: _rowMainAxisAlignment,
                   children: <Widget>[
                     Padding(
                       padding:
@@ -103,45 +104,27 @@ class _BillListWidgetState extends State<BillListWidget> {
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            basename(
-                                _billOverview.billList[index].invoiceFile.path),
-                            textAlign: TextAlign.left),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          basename(
+                              _billOverview.billList[index].invoiceFile.path),
+                          textAlign: TextAlign.left),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        _billOverview.billList[index].dateText,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                _billOverview.billList[index].priceText,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                _billOverview.billList[index].dateText,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(fontStyle: FontStyle.italic),
-                              ),
-                            ),
-                          ),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        _billOverview.billList[index].priceText,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -184,6 +167,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     final billOverview = await summary.getTotalPrice();
     setState(() {
       _billOverview = billOverview;
+      _rowMainAxisAlignment = MainAxisAlignment.spaceBetween;
     });
     _toggleRunning(false);
 
