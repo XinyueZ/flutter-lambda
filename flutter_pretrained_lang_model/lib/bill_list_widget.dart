@@ -27,6 +27,7 @@ class _BillListWidgetState extends State<BillListWidget> {
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
 
   MainAxisAlignment _rowMainAxisAlignment = MainAxisAlignment.start;
+  BillSummary _summery;
 
   @override
   void initState() {
@@ -146,6 +147,16 @@ class _BillListWidgetState extends State<BillListWidget> {
     );
   }
 
+  @override
+  void dispose() {
+    _releaseSummary();
+    super.dispose();
+  }
+
+  void _releaseSummary() {
+    if (_summery != null) _summery.release();
+  }
+
   _initBillOverviewList() {
     final dirFiles = widget._billFileDirectory.listSync().toList();
     _fileList = dirFiles.where((dirFile) {
@@ -171,9 +182,11 @@ class _BillListWidgetState extends State<BillListWidget> {
       });
     }
 
-    final summary = BillSummary(_fileList);
+    _releaseSummary();
+    _summery = BillSummary(_fileList);
+
     _toggleRunning(true);
-    final billOverview = await summary.getTotalPrice();
+    final billOverview = await _summery.getTotalPrice();
     setState(() {
       _billOverview = billOverview;
       _rowMainAxisAlignment = MainAxisAlignment.spaceBetween;

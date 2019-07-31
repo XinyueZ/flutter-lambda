@@ -25,6 +25,8 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   Widget _fabIcon = Icon(Icons.check);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
 
+  InvoiceFileDetector _invoiceFileDetector;
+
   @override
   void initState() {
     this.loadDirectoryFiles();
@@ -127,6 +129,16 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
     );
   }
 
+  @override
+  void dispose() {
+    _releaseInvoiceFileDetector();
+    super.dispose();
+  }
+
+  void _releaseInvoiceFileDetector() {
+    if (_invoiceFileDetector != null) _invoiceFileDetector.release();
+  }
+
   /*
    * Find invoice files which contain bill.
    */
@@ -134,8 +146,9 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
     final listConfirmed = List<File>();
     final fileListStream = Stream.fromIterable(_fileList);
     await for (File file in fileListStream) {
-      InvoiceFileDetector invoiceFileDetector = InvoiceFileDetector(file);
-      bool isInvoice = await invoiceFileDetector.isInvoice();
+      _releaseInvoiceFileDetector();
+      _invoiceFileDetector = InvoiceFileDetector(file);
+      bool isInvoice = await _invoiceFileDetector.isInvoice();
       if (isInvoice) {
         listConfirmed.add(file);
       }

@@ -17,6 +17,11 @@ abstract class IBillSummary {
   _calc();
 
   /*
+   * Release all resource.
+   */
+  release();
+
+  /*
    * Return summary.
    */
   Future<BillOverview> getTotalPrice();
@@ -102,6 +107,11 @@ class BillSummary extends IBillSummary {
   @override
   _calc() {
     _priceList.forEach((d) => (_billOverview.totalPrice += d));
+  }
+
+  @override
+  release() {
+    _textRecognizer.close();
   }
 
   @override

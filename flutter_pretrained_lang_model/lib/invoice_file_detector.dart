@@ -26,6 +26,11 @@ abstract class IInvoiceFileDetector {
   _identifyInvoice();
 
   /*
+   * Release all resource.
+   */
+  release();
+
+  /*
    * [true] when the file is confirmed as an invoice file.
    * [false] otherwise not a invoice file.
    */
@@ -111,6 +116,11 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
     _isInvoice = _translatedLineList.where((line) {
       return "invoice" == line.toLowerCase();
     }).isNotEmpty;
+  }
+
+  @override
+  release() {
+    _textRecognizer.close();
   }
 
   @override
