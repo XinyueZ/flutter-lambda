@@ -74,6 +74,9 @@ class BillSummary extends IBillSummary {
           }
 
           if (!shouldBeTotalPriceNext) {
+            /**
+             * TODO Use translation model is here better than hard-coding.
+             */
             shouldBeTotalPriceNext =
                 (line.text == "Price total" || line.text == "Gesamtpreis");
           }
