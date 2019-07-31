@@ -40,6 +40,9 @@ class BillSummary extends IBillSummary {
     final fileListStream = Stream.fromIterable(_files);
     await for (File file in fileListStream) {
       String dateText;
+      bool shouldBeTotalPriceNext = false;
+      String totalPriceText;
+
       String datePattern =
           r"([^a-zA-Z0-9]|0*[1-9]|1[012])[- /.](0*[1-9]|[12][0-9]|3[01])[- /.]\d\d";
       RegExp regEx = RegExp(datePattern);
@@ -47,17 +50,13 @@ class BillSummary extends IBillSummary {
       final visionImage = FirebaseVisionImage.fromFile(file);
       final visionText = await _textRecognizer.processImage(visionImage);
       for (TextBlock block in visionText.blocks) {
-        /**
-         * One invoice file has one chance to get bill date.
-         * As long as it is set, it will never be set again.
-         */
-        if (regEx.hasMatch(block.text.trim()) && dateText == null) {
-          dateText = block.text.trim();
-        }
+        debugPrint("$TAG block: ${block.text}");
         for (TextLine line in block.lines) {
           debugPrint("$TAG line: ${line.text}");
-          if (line.text.contains("€")) {
+          if (totalPriceText == null && shouldBeTotalPriceNext) {
             /**
+             * Extract total price:
+             *
              * Convert from "22,34€" to "22.34".
              * Put the formatted value to [_priceList] to summary total price.
              */
@@ -65,18 +64,35 @@ class BillSummary extends IBillSummary {
                 line.text
                     .replaceFirst(RegExp(','), '.')
                     .replaceFirst(RegExp('O'), '0')
-                    .replaceFirst(RegExp('o'), '0');
+                    .replaceFirst(RegExp('o'), '0')
+                    .trim();
+            totalPriceText = standard;
             final normalized = // for summary calc therefor remove €
                 standard.replaceFirst(RegExp('€'), '').trim();
             final d = double.parse(normalized);
             _priceList.add(d);
+          }
 
-            debugPrint(
-                "$TAG standard: $standard, normalized: $normalized, dateText: $dateText, file: ${file.path}");
-            _billOverview.billList.add(Bill.from(standard, dateText, file));
+          if (!shouldBeTotalPriceNext) {
+            shouldBeTotalPriceNext =
+                (line.text == "Price total" || line.text == "Gesamtpreis");
+          }
+
+          for (TextElement element in line.elements) {
+            /**
+             * Extract date:
+             *
+             * One invoice file has one chance to get bill date.
+             * As long as it is set, it will never be set again.
+             */
+            debugPrint("$TAG element: ${element.text}");
+            if (regEx.hasMatch(element.text.trim()) && dateText == null) {
+              dateText = element.text.trim();
+            }
           }
         }
       }
+      _billOverview.billList.add(Bill.from(totalPriceText, dateText, file));
     }
   }
 
