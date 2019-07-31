@@ -47,6 +47,7 @@ class BillSummary extends IBillSummary {
       String dateText;
       bool shouldBeTotalPriceNext = false;
       String totalPriceText;
+      double price;
 
       String datePattern =
           r"([^a-zA-Z0-9]|0*[1-9]|1[012])[- /.](0*[1-9]|[12][0-9]|3[01])[- /.]\d\d";
@@ -60,7 +61,7 @@ class BillSummary extends IBillSummary {
           debugPrint("$TAG line: ${line.text}");
           if (totalPriceText == null && shouldBeTotalPriceNext) {
             /**
-             * Extract total price:
+             * Extract trip price:
              *
              * Convert from "22,34€" to "22.34".
              * Put the formatted value to [_priceList] to summary total price.
@@ -77,8 +78,8 @@ class BillSummary extends IBillSummary {
                     .replaceFirst(RegExp('€'), '')
                     .replaceFirst(RegExp('E'), '')
                     .trim();
-            final d = double.parse(normalized);
-            _priceList.add(d);
+            price = double.parse(normalized);
+            _priceList.add(price);
           }
 
           if (!shouldBeTotalPriceNext) {
@@ -91,7 +92,7 @@ class BillSummary extends IBillSummary {
 
           for (TextElement element in line.elements) {
             /**
-             * Extract date:
+             * Extract trip date:
              *
              * One invoice file has one chance to get bill date.
              * As long as it is set, it will never be set again.
@@ -105,9 +106,16 @@ class BillSummary extends IBillSummary {
       }
       _billOverview.billList.add(Bill.from(
           totalPriceText.replaceFirst(RegExp('E'), '€').trim(),
+          price,
           dateText,
           file));
-    }
+
+      /**
+       * DESC sort the price text on the bill overview list.
+       */
+      _billOverview.billList
+          .sort((first, second) => second.price.compareTo(first.price));
+    } // One invoice has been handled.
   }
 
   @override
