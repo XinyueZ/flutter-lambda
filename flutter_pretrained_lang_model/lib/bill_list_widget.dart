@@ -82,7 +82,7 @@ class _BillListWidgetState extends State<BillListWidget> {
             await _updateBillOverviewList(context);
           }),
       appBar: AppBar(
-        title: Text("Bill List"),
+        title: Text("Bill's overview list"),
       ),
       body: ListView.builder(
         itemCount: _billOverview.billList.length,
