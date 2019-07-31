@@ -46,7 +46,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     setState(() {
       if (_isRunning) {
         _fabLabel = Text(
-          "running...",
+          "summary...",
           style: TextStyle(fontStyle: FontStyle.italic),
         );
         _fabIcon = Container(

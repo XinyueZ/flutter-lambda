@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 import 'package:flutter/widgets.dart';
 
 import 'bill.dart';
@@ -9,7 +10,7 @@ abstract class IBillSummary {
   /*
    * Extract price overall
    */
-  _textRecognize();
+  _billDateTotalPriceRecognize();
 
   /*
    * Summary all price values.
@@ -41,20 +42,24 @@ class BillSummary extends IBillSummary {
   }
 
   @override
-  _textRecognize() async {
+  _billDateTotalPriceRecognize() async {
+    final LanguageIdentifier languageIdentifier =
+        FirebaseLanguage.instance.languageIdentifier();
     final fileListStream = Stream.fromIterable(_files);
+
     await for (File file in fileListStream) {
       String dateText;
       bool shouldBeTotalPriceNext = false;
       String totalPriceText;
       double price;
 
-      String datePattern =
+      final String datePattern =
           r"([^a-zA-Z0-9]|0*[1-9]|1[012])[- /.](0*[1-9]|[12][0-9]|3[01])[- /.]\d\d";
-      RegExp regEx = RegExp(datePattern);
+      final RegExp regEx = RegExp(datePattern);
 
       final visionImage = FirebaseVisionImage.fromFile(file);
       final visionText = await _textRecognizer.processImage(visionImage);
+
       for (TextBlock block in visionText.blocks) {
         debugPrint("$TAG block: ${block.text}");
         for (TextLine line in block.lines) {
@@ -83,11 +88,27 @@ class BillSummary extends IBillSummary {
           }
 
           if (!shouldBeTotalPriceNext) {
-            /**
-             * TODO Use translation model is here better than hard-coding.
-             */
-            shouldBeTotalPriceNext =
-                (line.text == "Price total" || line.text == "Gesamtpreis");
+            String lineText;
+            try {
+              final List<LanguageLabel> labels =
+                  await languageIdentifier.processText(line.text);
+              labels.sort((a, b) => b.confidence.compareTo(a.confidence));
+
+              if (labels.first.languageCode != "en") {
+                final LanguageTranslator languageTranslator = FirebaseLanguage
+                    .instance
+                    .languageTranslator(labels.first.languageCode, "en");
+                lineText = await languageTranslator.processText(line.text);
+              } else {
+                lineText = line.text;
+              }
+            } catch (e) {
+              lineText = line.text;
+            }
+
+            lineText = lineText.toLowerCase();
+            shouldBeTotalPriceNext = lineText.contains("price") &&
+                (lineText.contains("total") || lineText.contains("overall"));
           }
 
           for (TextElement element in line.elements) {
@@ -133,7 +154,7 @@ class BillSummary extends IBillSummary {
 
   @override
   Future<BillOverview> getTotalPrice() async {
-    await _textRecognize();
+    await _billDateTotalPriceRecognize();
     _calc();
 
     return _billOverview;
