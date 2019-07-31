@@ -57,11 +57,6 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
 
   @override
   _findLanguageId() async {
-    for (TextBlock block in _visionText.blocks) {
-      for (TextLine line in block.lines) {
-        _lineList.add(line.text);
-      }
-    }
     final fulltext = _lineList.join(" ");
     // Get the language of the invoice file, try the best detected
     // confidence(score), use this language for later translation
@@ -101,6 +96,14 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
   @override
   _textRecognize() async {
     _visionText = await _textRecognizer.processImage(_visionImage);
+
+    for (TextBlock block in _visionText.blocks) {
+      for (TextLine line in block.lines) {
+        for (TextElement element in line.elements) {
+          _lineList.add(element.text);
+        }
+      }
+    }
   }
 
   @override
