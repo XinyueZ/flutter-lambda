@@ -25,7 +25,7 @@ abstract class IBillSummary {
   /*
    * Return summary.
    */
-  Future<BillOverview> getTotalPrice();
+  Future<BillOverview> getBillOverview();
 }
 
 class BillSummary extends IBillSummary {
@@ -153,7 +153,7 @@ class BillSummary extends IBillSummary {
   }
 
   @override
-  Future<BillOverview> getTotalPrice() async {
+  Future<BillOverview> getBillOverview() async {
     await _billDateTotalPriceRecognize();
     _calc();
 

@@ -186,7 +186,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     _summery = BillSummary(_fileList);
 
     _toggleRunning(true);
-    final billOverview = await _summery.getTotalPrice();
+    final billOverview = await _summery.getBillOverview();
     setState(() {
       _billOverview = billOverview;
       _rowMainAxisAlignment = MainAxisAlignment.spaceBetween;
