@@ -20,6 +20,7 @@ class InvoiceListWidget extends StatefulWidget {
 class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   List<FileSystemEntity> _fileList;
 
+  bool _fabVisible = true;
   bool _isFiltering = false;
   Widget _fabIcon = Icon(Icons.check);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
@@ -66,18 +67,21 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-          label: _fabLabel,
-          icon: Padding(
-              padding: EdgeInsets.only(
-                left: 10,
-              ),
-              child: _fabIcon),
-          backgroundColor: Colors.greenAccent,
-          isExtended: _isFiltering,
-          onPressed: () {
-            _openBillListWidget(context);
-          }),
+      floatingActionButton: Visibility(
+        visible: _fabVisible,
+        child: FloatingActionButton.extended(
+            label: _fabLabel,
+            icon: Padding(
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: _fabIcon),
+            backgroundColor: Colors.greenAccent,
+            isExtended: _isFiltering,
+            onPressed: () {
+              _openBillListWidget(context);
+            }),
+      ),
       appBar: AppBar(
         title: Text("INVOICES"),
       ),

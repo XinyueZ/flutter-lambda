@@ -21,6 +21,7 @@ class _BillListWidgetState extends State<BillListWidget> {
   List<FileSystemEntity> _fileList;
   BillOverview _billOverview = BillOverview(0, List<Bill>());
 
+  bool _fabVisible = true;
   bool _isRunning = false;
   Widget _fabIcon = Icon(Icons.functions);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
@@ -71,17 +72,20 @@ class _BillListWidgetState extends State<BillListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-          label: _fabLabel,
-          icon: Padding(
-              padding: EdgeInsets.only(
-                left: 10,
-              ),
-              child: _fabIcon),
-          isExtended: _isRunning,
-          onPressed: () async {
-            await _updateBillOverviewList(context);
-          }),
+      floatingActionButton: Visibility(
+        visible: _fabVisible,
+        child: FloatingActionButton.extended(
+            label: _fabLabel,
+            icon: Padding(
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: _fabIcon),
+            isExtended: _isRunning,
+            onPressed: () async {
+              await _updateBillOverviewList(context);
+            }),
+      ),
       appBar: AppBar(
         title: Text("Bill's overview list"),
       ),
