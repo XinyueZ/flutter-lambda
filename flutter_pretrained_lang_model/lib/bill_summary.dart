@@ -103,7 +103,10 @@ class BillSummary extends IBillSummary {
           }
         }
       }
-      _billOverview.billList.add(Bill.from(totalPriceText, dateText, file));
+      _billOverview.billList.add(Bill.from(
+          totalPriceText.replaceFirst(RegExp('E'), '€').trim(),
+          dateText,
+          file));
     }
   }
 
@@ -114,7 +117,10 @@ class BillSummary extends IBillSummary {
 
   @override
   release() {
-    _textRecognizer.close();
+    _files?.clear();
+    _priceList?.clear();
+    _billOverview?.release();
+    _textRecognizer?.close();
   }
 
   @override

@@ -131,12 +131,11 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
 
   @override
   void dispose() {
-    _releaseInvoiceFileDetector();
+    _fileList?.clear();
+    _fabVisible = true;
+    _isFiltering = false;
+    _invoiceFileDetector?.release();
     super.dispose();
-  }
-
-  void _releaseInvoiceFileDetector() {
-    if (_invoiceFileDetector != null) _invoiceFileDetector.release();
   }
 
   /*
@@ -146,7 +145,7 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
     final listConfirmed = List<File>();
     final fileListStream = Stream.fromIterable(_fileList);
     await for (File file in fileListStream) {
-      _releaseInvoiceFileDetector();
+      _invoiceFileDetector?.release();
       _invoiceFileDetector = InvoiceFileDetector(file);
       bool isInvoice = await _invoiceFileDetector.isInvoice();
       if (isInvoice) {

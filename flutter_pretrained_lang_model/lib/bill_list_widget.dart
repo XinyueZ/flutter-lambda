@@ -149,12 +149,12 @@ class _BillListWidgetState extends State<BillListWidget> {
 
   @override
   void dispose() {
-    _releaseSummary();
+    _fileList?.clear();
+    _billOverview?.release();
+    _fabVisible = true;
+    _isRunning = false;
+    _summery?.release();
     super.dispose();
-  }
-
-  void _releaseSummary() {
-    if (_summery != null) _summery.release();
   }
 
   _initBillOverviewList() {
@@ -182,7 +182,7 @@ class _BillListWidgetState extends State<BillListWidget> {
       });
     }
 
-    _releaseSummary();
+    _summery?.release();
     _summery = BillSummary(_fileList);
 
     _toggleRunning(true);

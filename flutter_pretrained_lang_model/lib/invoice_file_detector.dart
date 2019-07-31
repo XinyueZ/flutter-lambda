@@ -120,7 +120,10 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
 
   @override
   release() {
-    _textRecognizer.close();
+    _isInvoice = false;
+    _lineList?.clear();
+    _translatedLineList?.clear();
+    _textRecognizer?.close();
   }
 
   @override

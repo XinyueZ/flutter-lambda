@@ -19,4 +19,9 @@ class BillOverview {
   BillOverview(this.totalPrice, this.billList);
 
   BillOverview.from(this.totalPrice, this.billList);
+
+  release() {
+    totalPrice = 0;
+    billList?.clear();
+  }
 }
