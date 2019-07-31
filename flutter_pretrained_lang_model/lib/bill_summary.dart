@@ -37,7 +37,7 @@ class BillSummary extends IBillSummary {
   BillOverview _billOverview = BillOverview.from(0, List<Bill>());
 
   BillSummary(this._files) {
-    _textRecognizer = FirebaseVision.instance.textRecognizer();
+    _textRecognizer = FirebaseVision.instance.cloudTextRecognizer();
   }
 
   @override
@@ -73,7 +73,10 @@ class BillSummary extends IBillSummary {
                     .trim();
             totalPriceText = standard;
             final normalized = // for summary calc therefor remove €
-                standard.replaceFirst(RegExp('€'), '').trim();
+                standard
+                    .replaceFirst(RegExp('€'), '')
+                    .replaceFirst(RegExp('E'), '')
+                    .trim();
             final d = double.parse(normalized);
             _priceList.add(d);
           }
