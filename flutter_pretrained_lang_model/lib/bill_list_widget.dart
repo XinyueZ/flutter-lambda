@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 import 'bill.dart';
@@ -87,8 +88,12 @@ class _BillListWidgetState extends State<BillListWidget> {
       body: ListView.builder(
         itemCount: _billOverview.billList.length,
         itemBuilder: (BuildContext context, int index) {
-          return InkResponse(
-            child: Card(
+          return Card(
+            child: InkWell(
+              onTap: () async {
+                await OpenFile.open(
+                    _billOverview.billList[index].invoiceFile.path);
+              },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
