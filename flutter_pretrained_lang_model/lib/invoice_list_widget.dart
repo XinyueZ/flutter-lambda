@@ -80,8 +80,8 @@ class _InvoiceListWidgetState extends State<InvoiceListWidget> {
                 child: _fabIcon),
             backgroundColor: Colors.greenAccent,
             isExtended: _isFiltering,
-            onPressed: () {
-              _openBillListWidget(context);
+            onPressed: () async {
+              await _openBillListWidget(context);
             }),
       ),
       appBar: AppBar(

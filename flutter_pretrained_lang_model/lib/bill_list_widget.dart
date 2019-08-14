@@ -39,7 +39,7 @@ class _BillListWidgetState extends State<BillListWidget> {
     setState(() {
       _initBillOverviewList();
     });
-    _updateBillOverviewList(this.context);
+    await _updateBillOverviewList(this.context);
   }
 
   _updateFAB() {

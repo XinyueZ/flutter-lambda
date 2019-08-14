@@ -46,7 +46,7 @@ class _InvoicesLocationPickerWidgetState
     );
   }
 
-  Future _selectFileToOpenDirectory(BuildContext context) async {
+  _selectFileToOpenDirectory(BuildContext context) async {
     final String path = await FilePicker.getFilePath(type: FileType.ANY);
     final File file = File(path);
 
