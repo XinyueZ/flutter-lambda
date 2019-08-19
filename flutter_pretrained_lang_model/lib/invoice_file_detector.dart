@@ -129,9 +129,13 @@ class InvoiceFileDetector extends IInvoiceFileDetector {
   @override
   Future<bool> isInvoice() async {
     await _textRecognize();
-    await _findLanguageId();
-    await _translate();
     _identifyInvoice();
+
+    if (!_isInvoice) {
+      await _findLanguageId();
+      await _translate();
+      _identifyInvoice();
+    }
 
     return _isInvoice;
   }
