@@ -73,9 +73,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'com.google.firebase:firebase-core:17.0.1'
     api 'com.google.firebase:firebase-ml-vision:22.0.0'
-    api 'com.google.firebase:firebase-ml-natural-language:20.0.2'
-    api 'com.google.firebase:firebase-ml-natural-language-language-id-model:20.0.2'
-    api 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.2'
+    api 'com.google.firebase:firebase-ml-natural-language:21.0.0'
+    api 'com.google.firebase:firebase-ml-natural-language-language-id-model:20.0.3'
+    api 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
