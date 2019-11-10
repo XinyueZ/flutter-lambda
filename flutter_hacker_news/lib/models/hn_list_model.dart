@@ -15,6 +15,8 @@ class HNListModel extends ChangeNotifier {
 
   int get storyCount => storyList.length;
 
+  HNStory getStory(int index) => storyList[index];
+
   int _from = 0;
   int _to = 0;
 
@@ -26,15 +28,7 @@ class HNListModel extends ChangeNotifier {
   ));
 
   HNListModel() {
-    _from = 0;
-    _to = _from + PAGE_SIZE;
-
-    () async {
-      _elements.clear();
-      await _fetchElements();
-      _stories.clear();
-      await _fetchStories(_from, _to);
-    }();
+    fetchInit();
   }
 
   _fetchElements() async {
@@ -47,13 +41,24 @@ class HNListModel extends ChangeNotifier {
   }
 
   _fetchStories(int from, int to) async {
+    print("load from $_from to $_to");
     _stories.addAll(await _elements.sublist(from, to).buildStories(_dio));
     notifyListeners();
   }
 
+  fetchInit() async {
+    _from = 0;
+    _to = _from + INIT_PAGE_SIZE;
+
+    _elements.clear();
+    await _fetchElements();
+    _stories.clear();
+    await _fetchStories(_from, _to);
+  }
+
   fetchNext() async {
     _from = _to;
-    _to = _from + PAGE_SIZE;
+    _to = _from + NEXT_PAGE_SIZE;
     _fetchStories(_from, _to);
   }
 }

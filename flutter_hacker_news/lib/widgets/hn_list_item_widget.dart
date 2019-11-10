@@ -12,18 +12,15 @@ class HNListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         margin: EdgeInsets.only(left: 10, right: 10),
-        child: SizedBox(
-          height: 140,
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  HNAuthorBadgeWidget(_item),
-                  HNTextWidget(_item),
-                ],
-              ),
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                HNAuthorBadgeWidget(_item),
+                HNTextWidget(_item),
+              ],
             ),
           ),
         ),
