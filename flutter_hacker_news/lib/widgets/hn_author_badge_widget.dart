@@ -18,7 +18,7 @@ class HNAuthorBadgeWidget extends StatelessWidget {
               width: 45,
               height: 45,
               child: Center(
-                child: Text(_item.by[0].toUpperCase()),
+                child: Center(child: Text(_item.by[0].toUpperCase())),
               ),
             ),
             onTap: () {},
