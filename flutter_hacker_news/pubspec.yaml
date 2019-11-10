@@ -27,6 +27,7 @@ dependencies:
   dio: ^3.0.4
   pedantic: ^1.0.0
   provider:  ^3.1.0+1
+  pull_to_refresh: ^1.5.7
   sprintf: ^4.0.0
 dev_dependencies:
   flutter_test:

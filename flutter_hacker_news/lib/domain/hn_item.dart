@@ -4,12 +4,12 @@ import '../config.dart';
 import 'hn_type.dart';
 
 class HNElement {
-  final num _id;
+  final num id;
 
-  HNElement(this._id);
+  HNElement(this.id);
 
   @override
-  String toString() => "$_id";
+  String toString() => "$id";
 }
 
 abstract class HNItem extends HNElement {
@@ -46,7 +46,7 @@ class HNStory extends HNItem {
 
   @override
   String toString() {
-    final String string = sprintf("[%s]: %s", [_id, title]);
+    final String string = sprintf("[%s]: %s", [id, title]);
     return string;
   }
 }
@@ -68,7 +68,7 @@ class HNComment extends HNItem {
 
   @override
   String toString() {
-    final String string = sprintf("[%s] by %s: %s", [_id, by, text]);
+    final String string = sprintf("[%s] by %s: %s", [id, by, text]);
     return string;
   }
 }
