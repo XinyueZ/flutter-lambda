@@ -4,7 +4,12 @@ import 'package:provider/provider.dart';
 
 import 'hn_list_item_widget.dart';
 
-class HNListWidget extends StatelessWidget {
+class HNListWidget extends StatefulWidget {
+  @override
+  _HNListWidgetState createState() => _HNListWidgetState();
+}
+
+class _HNListWidgetState extends State<HNListWidget> {
   @override
   Widget build(BuildContext context) {
     final HNListModel model = Provider.of<HNListModel>(context);
