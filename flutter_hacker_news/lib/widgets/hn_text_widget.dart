@@ -8,11 +8,11 @@ class HNTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: Container(
+          margin: const EdgeInsets.only(left: 16.0),
           child: Text(_item.text,
               textAlign: TextAlign.left,
-              style: TextStyle(
+              style: const TextStyle(
                 height: 1.5,
                 letterSpacing: 2.0,
                 fontSize: 13.0,

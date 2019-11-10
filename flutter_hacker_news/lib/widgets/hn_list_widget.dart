@@ -45,13 +45,13 @@ class _HNListWidgetState extends State<HNListWidget> {
     final HNListModel model = Provider.of<HNListModel>(context);
 
     return SmartRefresher(
-      header: MaterialClassicHeader(),
+      header: const MaterialClassicHeader(),
       enablePullDown: true,
       controller: _refreshCtrl,
       onRefresh: _onRefresh,
       child: ListView.builder(
           controller: _listViewCtrl,
-          itemExtent: 150.0,
+          itemExtent: 200.0,
           itemCount: model.storyCount + 1,
           //+1 for loading indicator
           itemBuilder: (BuildContext context, int index) {

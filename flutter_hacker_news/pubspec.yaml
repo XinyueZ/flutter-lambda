@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   dio: ^3.0.4
+  intl: ^0.16.0
   pedantic: ^1.0.0
   provider:  ^3.1.0+1
   pull_to_refresh: ^1.5.7

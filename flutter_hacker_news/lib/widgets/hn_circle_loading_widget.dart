@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class HNCircleLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
+    return const Center(
+      child: const Padding(
         padding: const EdgeInsets.all(8.0),
-        child: CircularProgressIndicator(),
+        child: const CircularProgressIndicator(),
       ),
     );
   }
