@@ -12,7 +12,7 @@ class HNElement {
   String toString() => "$_id";
 }
 
-class HNItem extends HNElement {
+abstract class HNItem extends HNElement {
   final String by;
   final num time;
   final HNType type;
@@ -37,7 +37,7 @@ class HNStory extends HNItem {
       map["by"] ?? NULL_UNKNOWN,
       map["time"],
       from(map["type"]),
-      map["text"] ?? NULL_PLACEHOLDER,
+      map["text"] ?? (map["title"] ?? NULL_PLACEHOLDER),
       map["kids"] ?? List(),
       map["title"] ?? NULL_PLACEHOLDER,
       map["url"] != null ? Uri.parse(map["url"]) : Uri.parse(NULL_URI),

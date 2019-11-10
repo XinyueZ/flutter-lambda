@@ -6,8 +6,7 @@ import 'hn_list_widget.dart';
 
 class HNContentWidget extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HNListModel>.value(
-        value: HNListModel(), child: HNListWidget());
-  }
+  Widget build(BuildContext context) =>
+      ChangeNotifierProvider<HNListModel>.value(
+          value: HNListModel(), child: HNListWidget());
 }
