@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:flutter_hacker_news/widgets/hn_author_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_comment_widget.dart';
-import 'package:flutter_hacker_news/widgets/hn_details_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_detail_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_score_widget.dart';
 
 import 'hn_author_badge_widget.dart';
@@ -24,7 +24,7 @@ class HNListItemWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HNDetailsWidget(item: item);
+                return HNDetailWidget(item: item);
               }));
             },
             child: Padding(
@@ -51,6 +51,9 @@ class HNListItemWidget extends StatelessWidget {
                           width: 5,
                         ),
                         HNScoreWidget(story: item),
+                        SizedBox(
+                          width: 5,
+                        ),
                       ],
                     ),
                   ),
