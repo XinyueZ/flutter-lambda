@@ -17,14 +17,13 @@ class MyApp extends StatelessWidget {
         primaryColorBrightness: Brightness.light,
       ),
       home: Material(
-          color: APP_PRIMARY_COLOR,
           child: Scaffold(
-            appBar: AppBar(
-              title: Text(APP_NAME),
-              backgroundColor: APP_PRIMARY_COLOR,
-            ),
-            body: HNContentWidget(),
-          )),
+        appBar: AppBar(
+          title: Text(APP_NAME),
+          backgroundColor: APP_PRIMARY_COLOR,
+        ),
+        body: HNContentWidget(),
+      )),
     );
   }
 }
