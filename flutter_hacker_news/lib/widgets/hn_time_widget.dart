@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 class HNTimeWidget extends StatelessWidget {
   final HNItem _item;
-  final DateFormat format = DateFormat("yyyy.MM.dd 'at' HH:mm");
+  final DateFormat format = DateFormat("yyyy.MM.dd HH:mm");
 
   HNTimeWidget(this._item);
 
