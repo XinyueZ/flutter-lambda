@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 
 class HNScoreWidget extends StatelessWidget {
-  final HNStory _story;
+  final HNStory story;
 
-  HNScoreWidget(this._story);
+  HNScoreWidget({
+    Key key,
+    @required this.story,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class HNScoreWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 5),
           child: Text(
-            _story.score.toString(),
+            story.score.toString(),
             style: const TextStyle(color: Colors.grey),
           ),
         )

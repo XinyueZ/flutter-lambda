@@ -58,7 +58,7 @@ class _HNListWidgetState extends State<HNListWidget> {
             if (index == model.storyCount) {
               return HNCircleLoadingWidget();
             } else {
-              return HNListItemWidget(model.getStory(index));
+              return HNListItemWidget(item: model.getStory(index));
             }
           }),
     );

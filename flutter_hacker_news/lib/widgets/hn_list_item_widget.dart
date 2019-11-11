@@ -10,9 +10,12 @@ import 'hn_text_widget.dart';
 import 'hn_time_widget.dart';
 
 class HNListItemWidget extends StatelessWidget {
-  final HNItem _item;
+  final HNItem item;
 
-  HNListItemWidget(this._item);
+  HNListItemWidget({
+    Key key,
+    @required this.item,
+  });
 
   @override
   Widget build(BuildContext context) => Container(
@@ -21,7 +24,7 @@ class HNListItemWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HNDetailsWidget(item: _item);
+                return HNDetailsWidget(item: item);
               }));
             },
             child: Padding(
@@ -33,8 +36,8 @@ class HNListItemWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        HNAuthorBadgeWidget(_item),
-                        HNTextWidget(_item),
+                        HNAuthorBadgeWidget(item: item),
+                        HNTextWidget(item: item),
                       ],
                     ),
                   ),
@@ -43,11 +46,11 @@ class HNListItemWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        HNCommentWidget(_item),
+                        HNCommentWidget(story: item),
                         SizedBox(
                           width: 5,
                         ),
-                        HNScoreWidget(_item),
+                        HNScoreWidget(story: item),
                       ],
                     ),
                   ),
@@ -56,11 +59,11 @@ class HNListItemWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        HNTimeWidget(_item),
+                        HNTimeWidget(item: item),
                         SizedBox(
                           width: 5,
                         ),
-                        HNAuthorWidget(_item),
+                        HNAuthorWidget(item: item),
                         SizedBox(
                           width: 5,
                         ),

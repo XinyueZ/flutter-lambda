@@ -4,9 +4,12 @@ import 'package:flutter_hacker_news/domain/hn_item.dart';
 import '../config.dart';
 
 class HNAuthorBadgeWidget extends StatelessWidget {
-  final HNItem _item;
+  final HNItem item;
 
-  HNAuthorBadgeWidget(this._item);
+  HNAuthorBadgeWidget({
+    Key key,
+    @required this.item,
+  });
 
   @override
   Widget build(BuildContext context) => ClipOval(
@@ -18,7 +21,7 @@ class HNAuthorBadgeWidget extends StatelessWidget {
               width: 45,
               height: 45,
               child: Center(
-                child: Center(child: Text(_item.by[0].toUpperCase())),
+                child: Center(child: Text(item.by[0].toUpperCase())),
               ),
             ),
             onTap: () {},

@@ -23,7 +23,7 @@ class HNDetailListWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                HNTextWidget(item),
+                HNTextWidget(item: item),
               ],
             ),
           ),
@@ -32,11 +32,11 @@ class HNDetailListWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                HNCommentWidget(item),
+                HNCommentWidget(story: item),
                 SizedBox(
                   width: 5,
                 ),
-                HNScoreWidget(item),
+                HNScoreWidget(story: item),
               ],
             ),
           ),
@@ -45,11 +45,11 @@ class HNDetailListWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                HNTimeWidget(item),
+                HNTimeWidget(item: item),
                 SizedBox(
                   width: 5,
                 ),
-                HNAuthorWidget(item),
+                HNAuthorWidget(item: item),
                 SizedBox(
                   width: 5,
                 ),
