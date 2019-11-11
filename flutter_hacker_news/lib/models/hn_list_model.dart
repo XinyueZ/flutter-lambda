@@ -38,8 +38,6 @@ class HNListModel extends ChangeNotifier {
     feedsMap.forEach((elementId) {
       _elements.add(HNElement(elementId));
     });
-    _elements.sort((HNElement element1, HNElement element2) =>
-        element2.id.compareTo(element1.id));
   }
 
   _fetchStories(int from, int to) async {

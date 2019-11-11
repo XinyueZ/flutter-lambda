@@ -25,8 +25,6 @@ extension HNStoryGenerator on List<HNElement> {
         }
       }
     });
-    stories.sort(
-        (HNStory story1, HNStory story2) => story2.time.compareTo(story1.time));
     return stories;
   }
 }
