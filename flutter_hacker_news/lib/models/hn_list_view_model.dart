@@ -6,7 +6,7 @@ import '../config.dart';
 import '../decoder_helper.dart';
 import '../domain/extensions.dart';
 
-class HNListModel extends ChangeNotifier {
+class HNListViewModel extends ChangeNotifier {
   final List<HNElement> _elements = List();
 
   final List<HNStory> _stories = List();
@@ -27,7 +27,7 @@ class HNListModel extends ChangeNotifier {
     responseType: ResponseType.json,
   ));
 
-  HNListModel() {
+  HNListViewModel() {
     fetchInit();
   }
 

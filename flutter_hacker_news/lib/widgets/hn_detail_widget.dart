@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
-import 'package:flutter_hacker_news/models/hn_list_model.dart';
+import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../config.dart';
@@ -16,8 +16,8 @@ class HNDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      ChangeNotifierProvider<HNListModel>.value(
-        value: HNListModel(),
+      ChangeNotifierProvider<HNDetailViewModel>.value(
+        value: HNDetailViewModel(item),
         child: Material(
             child: Scaffold(
           appBar: AppBar(
@@ -31,9 +31,7 @@ class HNDetailWidget extends StatelessWidget {
                   Container(
                     color: APP_BACKGROUND_COLOR,
                     margin: const EdgeInsets.only(left: 10, right: 10),
-                    child: HNDetailListWidget(
-                      item: this.item,
-                    ),
+                    child: HNDetailListWidget(),
                   ),
                 ],
               )),

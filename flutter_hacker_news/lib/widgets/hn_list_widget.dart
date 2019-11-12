@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/models/hn_list_model.dart';
+import 'package:flutter_hacker_news/models/hn_list_view_model.dart';
 import 'package:flutter_hacker_news/widgets/hn_circle_loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,7 +22,7 @@ class _HNListWidgetState extends State<HNListWidget> {
       final bool isEnd =
           _listViewCtrl.offset == _listViewCtrl.position.maxScrollExtent;
       if (isEnd) {
-        Provider.of<HNListModel>(context).fetchNext();
+        Provider.of<HNListViewModel>(context).fetchNext();
       }
     });
 
@@ -30,7 +30,7 @@ class _HNListWidgetState extends State<HNListWidget> {
   }
 
   void _onRefresh() async {
-    await Provider.of<HNListModel>(context).fetchInit();
+    await Provider.of<HNListViewModel>(context).fetchInit();
     _refreshCtrl.refreshCompleted();
   }
 
@@ -42,7 +42,7 @@ class _HNListWidgetState extends State<HNListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final HNListModel model = Provider.of<HNListModel>(context);
+    final HNListViewModel model = Provider.of<HNListViewModel>(context);
 
     return SmartRefresher(
       header: const MaterialClassicHeader(),
