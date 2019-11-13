@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/models/hn_list_view_model.dart';
-import 'package:flutter_hacker_news/widgets/hn_circle_loading_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -56,7 +56,9 @@ class _HNListWidgetState extends State<HNListWidget> {
           //+1 for loading indicator
           itemBuilder: (BuildContext context, int index) {
             if (index == model.storyCount) {
-              return HNCircleLoadingWidget();
+              return Container(
+                  margin: const EdgeInsets.only(left: 10, right: 10),
+                  child: Card(child: HNLoadingWidget()));
             } else {
               return HNListItemWidget(item: model.getStory(index));
             }
