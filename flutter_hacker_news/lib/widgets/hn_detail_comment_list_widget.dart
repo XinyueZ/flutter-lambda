@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_hacker_news/widgets/hn_detail_comment_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../utils.dart';
 
 class HNDetailCommentListWidget extends StatefulWidget {
   @override
@@ -39,16 +37,7 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
             itemBuilder: (BuildContext context, int index) {
               if (model.firstLayerComments.isEmpty) return Text("No comments");
               final HNComment comment = model.firstLayerComments[index];
-              return SingleChildScrollView(
-                padding: const EdgeInsets.only(left: 18, right: 18),
-                child: Html(
-                  data: comment.text,
-                  onLinkTap: (link) {
-                    print("click link $link");
-                    launchURL(context, Uri.parse(link));
-                  },
-                ),
-              );
+              return HNDetailCommentWidget(comment: comment);
             }),
       ),
     );
