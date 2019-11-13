@@ -9,7 +9,7 @@ import 'hn_detail_url_widget.dart';
 import 'hn_score_widget.dart';
 import 'hn_time_widget.dart';
 
-class HNDetailListWidget extends StatelessWidget {
+class HNDetailHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HNDetailViewModel model = Provider.of<HNDetailViewModel>(context);

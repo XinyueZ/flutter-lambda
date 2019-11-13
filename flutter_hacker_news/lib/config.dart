@@ -12,5 +12,5 @@ const INIT_PAGE_SIZE = 30;
 const NEXT_PAGE_SIZE = 5;
 const NULL_UNKNOWN = "unknown";
 const NULL_PLACEHOLDER = "n/a";
-const NULL_NUM = -1;
+const NULL_NUM = null;
 const NULL_URI = "http://mock.io";
