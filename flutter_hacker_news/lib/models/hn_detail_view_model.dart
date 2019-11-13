@@ -23,22 +23,21 @@ class HNDetailViewModel extends ChangeNotifier {
     _fetchFirstLayerComments();
   }
 
-  Future<List<HNComment>> get allComments async =>
-      await currentHackerNews.buildComments(_dio, loadAll: false);
-
   _fetchFirstLayerComments() async {
-    List<HNComment> list =
-        await currentHackerNews.buildComments(_dio, loadAll: false);
-    list = list
-        .where((HNComment comment) => comment.parentId == currentHackerNews.id)
-        .toList();
+    List<HNComment> comments = await fetchComments(currentHackerNews);
 
     if (firstLayerComments == null)
       firstLayerComments = List();
     else
       firstLayerComments.clear();
 
-    firstLayerComments.addAll(list);
+    firstLayerComments.addAll(comments);
     notifyListeners();
+  }
+
+  Future<List<HNComment>> fetchComments(HNItem item) async {
+    List<HNComment> list = await item.buildComments(_dio, loadAll: false);
+    list.sort((HNItem a, HNItem b) => b.time.compareTo(a.time));
+    return list;
   }
 }

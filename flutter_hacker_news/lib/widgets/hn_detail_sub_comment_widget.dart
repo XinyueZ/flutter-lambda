@@ -15,7 +15,7 @@ class HNDetailSubCommentWidget extends StatelessWidget {
       children: <Widget>[
         Icon(
           Icons.comment,
-          color: Colors.lightBlue,
+          color: comment.kids.isEmpty ? Colors.blueGrey : Colors.lightBlue,
         ),
         Container(
           margin: const EdgeInsets.only(left: 5),
