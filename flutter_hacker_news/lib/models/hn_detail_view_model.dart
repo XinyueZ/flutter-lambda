@@ -24,10 +24,11 @@ class HNDetailViewModel extends ChangeNotifier {
   }
 
   Future<List<HNComment>> get allComments async =>
-      await currentHackerNews.buildComments(_dio);
+      await currentHackerNews.buildComments(_dio, loadAll: false);
 
   _fetchFirstLayerComments() async {
-    List<HNComment> list = await currentHackerNews.buildComments(_dio);
+    List<HNComment> list =
+        await currentHackerNews.buildComments(_dio, loadAll: false);
     list = list
         .where((HNComment comment) => comment.parentId == currentHackerNews.id)
         .toList();

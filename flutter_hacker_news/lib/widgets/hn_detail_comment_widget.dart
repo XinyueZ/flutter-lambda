@@ -26,7 +26,9 @@ class HNDetailCommentWidget extends StatelessWidget {
             width: 5,
           ),
           SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: 10),
             child: Html(
+              useRichText: true,
               data: comment.text,
               onLinkTap: (link) {
                 print("click link $link");
@@ -50,9 +52,6 @@ class HNDetailCommentWidget extends StatelessWidget {
                 width: 5,
               ),
             ],
-          ),
-          SizedBox(
-            height: 5,
           ),
           SizedBox(
             height: 5,
