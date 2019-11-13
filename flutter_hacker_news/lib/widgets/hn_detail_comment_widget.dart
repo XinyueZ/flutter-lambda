@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
-import 'package:flutter_hacker_news/widgets/hn_sub_comment_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_detail_sub_comment_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 import '../utils.dart';
@@ -45,7 +45,7 @@ class HNDetailCommentWidget extends StatelessWidget {
               SizedBox(
                 width: 5,
               ),
-              HNSubCommentWidget(comment: comment),
+              HNDetailSubCommentWidget(comment: comment),
               SizedBox(
                 width: 5,
               ),

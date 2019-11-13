@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_comment_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -21,6 +22,11 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
   @override
   Widget build(BuildContext context) {
     final HNDetailViewModel model = Provider.of<HNDetailViewModel>(context);
+
+    if (model.firstLayerComments == null)
+      return HNLoadingWidget(
+        count: 2,
+      );
 
     return Expanded(
       child: SmartRefresher(
