@@ -26,54 +26,60 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 18, right: 18),
-      child: Column(
-        children: <Widget>[
-          Divider(),
-          SizedBox(
-            width: 5,
+    return Column(
+      children: <Widget>[
+        Divider(),
+        SizedBox(
+          width: 5,
+        ),
+        SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Html(
+            useRichText: true,
+            data: widget.comment.text,
+            onLinkTap: (link) {
+              print("click link $link");
+              launchURL(context, Uri.parse(link));
+            },
           ),
-          SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Html(
-              useRichText: true,
-              data: widget.comment.text,
-              onLinkTap: (link) {
-                print("click link $link");
-                launchURL(context, Uri.parse(link));
-              },
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: <Widget>[
+                HNTimeWidget(item: widget.comment),
+                SizedBox(
+                  width: 5,
+                ),
+                HNAuthorWidget(item: widget.comment),
+                SizedBox(
+                  width: 5,
+                ),
+                InkWell(
+                  child: HNDetailCommentInfoWidget(comment: widget.comment),
+                  onTap: () async {
+                    final list = await Provider.of<HNDetailViewModel>(context)
+                        .fetchComments(widget.comment);
+                    if (list.isEmpty) return;
+                    setState(() {
+                      _listOfChildComment = list;
+                    });
+                  },
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+              ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              HNTimeWidget(item: widget.comment),
-              SizedBox(
-                width: 5,
-              ),
-              HNAuthorWidget(item: widget.comment),
-              SizedBox(
-                width: 5,
-              ),
-              InkWell(
-                child: HNDetailCommentInfoWidget(comment: widget.comment),
-                onTap: () async {
-                  final list = await Provider.of<HNDetailViewModel>(context)
-                      .fetchComments(widget.comment);
-                  if (list.isEmpty) return;
-                  setState(() {
-                    _listOfChildComment = list;
-                  });
-                },
-              ),
-              SizedBox(
-                width: 5,
-              ),
-            ],
-          ),
-          ListView.builder(
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 8),
+          child: ListView.builder(
               scrollDirection: Axis.vertical,
+              physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               itemCount: _listOfChildComment.isNotEmpty
                   ? _listOfChildComment.length
@@ -83,11 +89,8 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
                 final HNComment comment = _listOfChildComment[index];
                 return HNDetailCommentWidget(comment: comment);
               }),
-          SizedBox(
-            height: 5,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

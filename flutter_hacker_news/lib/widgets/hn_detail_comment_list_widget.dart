@@ -29,26 +29,29 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
       );
 
     return Expanded(
-      child: SmartRefresher(
-        header: const MaterialClassicHeader(),
-        enablePullDown: true,
-        controller: _refreshCtrl,
-        onRefresh: _onRefresh,
-        child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: model.firstLayerComments.isNotEmpty
-                ? model.firstLayerComments.length
-                : 1,
-            itemBuilder: (BuildContext context, int index) {
-              if (model.firstLayerComments.isEmpty)
-                return Padding(
-                  padding: const EdgeInsets.only(left: 18, right: 18),
-                  child: Text("No comments"),
-                );
-              final HNComment comment = model.firstLayerComments[index];
-              return HNDetailCommentWidget(comment: comment);
-            }),
+      child: Container(
+        margin: const EdgeInsets.only(left: 18, right: 18, bottom: 8),
+        child: SmartRefresher(
+          header: const MaterialClassicHeader(),
+          enablePullDown: true,
+          controller: _refreshCtrl,
+          onRefresh: _onRefresh,
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: model.firstLayerComments.isNotEmpty
+                  ? model.firstLayerComments.length
+                  : 1,
+              itemBuilder: (BuildContext context, int index) {
+                if (model.firstLayerComments.isEmpty)
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 18, right: 18),
+                    child: Text("No comments"),
+                  );
+                final HNComment comment = model.firstLayerComments[index];
+                return HNDetailCommentWidget(comment: comment);
+              }),
+        ),
       ),
     );
   }
