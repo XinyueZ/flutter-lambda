@@ -8,7 +8,7 @@ const API_HOST = "https://hacker-news.firebaseio.com/v0";
 const TOP_STORIES_ID_LIST = "/topstories.json?print=pretty";
 const CONTENT = "/item/%s.json?print=pretty";
 const MAX_ITEM = "/maxitem.json?print=pretty";
-const INIT_PAGE_SIZE = 30;
+const INIT_PAGE_SIZE = 10;
 const NEXT_PAGE_SIZE = 5;
 const NULL_UNKNOWN = "unknown";
 const NULL_PLACEHOLDER = "n/a";
