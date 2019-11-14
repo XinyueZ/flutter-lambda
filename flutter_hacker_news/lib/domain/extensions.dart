@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
@@ -21,7 +22,7 @@ extension HNStoryGenerator on List<HNElement> {
           stories.add(story);
 
           //Debug output
-          print("Story: ${story.toString()}");
+          debugPrint("Story: ${story.toString()}");
         }
       }
     });
@@ -46,7 +47,7 @@ extension HNCommentGenerator on HNItem {
             comments.addAll(await comment.buildComments(dio, loadAll: loadAll));
           }
           //Debug output
-          print("Comment: ${comment.toString()}");
+          debugPrint("Comment: ${comment.toString()}");
         }
       }
     });

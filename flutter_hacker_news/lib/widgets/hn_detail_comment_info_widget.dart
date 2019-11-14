@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 
-class HNDetailSubCommentWidget extends StatelessWidget {
+class HNDetailCommentInfoWidget extends StatelessWidget {
   final HNComment comment;
 
-  HNDetailSubCommentWidget({
+  HNDetailCommentInfoWidget({
     Key key,
     @required this.comment,
   });
