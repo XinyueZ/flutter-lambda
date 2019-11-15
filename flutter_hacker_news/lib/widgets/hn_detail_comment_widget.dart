@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_comment_info_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class HNDetailCommentWidget extends StatefulWidget {
 
 class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
   List<HNComment> _listOfChildComment = List();
+  bool _showLoadingIndicator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +62,17 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
                 InkWell(
                   child: HNDetailCommentInfoWidget(comment: widget.comment),
                   onTap: () async {
+                    setState(() {
+                      _showLoadingIndicator = true;
+                    });
                     final list = await Provider.of<HNDetailViewModel>(context)
                         .fetchComments(widget.comment);
-                    if (list.isEmpty) return;
+                    setState(() {
+                      _showLoadingIndicator = false;
+                    });
+                    if (list.isEmpty) {
+                      return;
+                    }
                     setState(() {
                       _listOfChildComment = list;
                     });
@@ -75,21 +85,23 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
             ),
           ),
         ),
-        Container(
-          margin: const EdgeInsets.only(left: 8),
-          child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: _listOfChildComment.isNotEmpty
-                  ? _listOfChildComment.length
-                  : 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (_listOfChildComment.isEmpty) return Container();
-                final HNComment comment = _listOfChildComment[index];
-                return HNDetailCommentWidget(comment: comment);
-              }),
-        ),
+        _showLoadingIndicator
+            ? HNLoadingWidget()
+            : Container(
+                margin: const EdgeInsets.only(left: 8),
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: _listOfChildComment.isNotEmpty
+                        ? _listOfChildComment.length
+                        : 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (_listOfChildComment.isEmpty) return Container();
+                      final HNComment comment = _listOfChildComment[index];
+                      return HNDetailCommentWidget(comment: comment);
+                    }),
+              ),
       ],
     );
   }
