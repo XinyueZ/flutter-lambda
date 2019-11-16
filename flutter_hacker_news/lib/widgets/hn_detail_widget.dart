@@ -23,6 +23,7 @@ class HNDetailWidget extends StatelessWidget {
             child: Scaffold(
           appBar: AppBar(
             backgroundColor: APP_PRIMARY_COLOR,
+            iconTheme: IconThemeData(color: Colors.white),
           ),
           body: Container(
             color: Colors.white,

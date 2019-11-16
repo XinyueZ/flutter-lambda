@@ -25,7 +25,10 @@ class MyApp extends StatelessWidget {
               onPressed: () {},
             );
           }),
-          title: Text(APP_NAME),
+          title: Text(
+            APP_NAME,
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: APP_PRIMARY_COLOR,
         ),
         body: HNContentWidget(),
