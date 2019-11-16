@@ -5,7 +5,6 @@ import 'package:flutter_hacker_news/widgets/hn_comment_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_score_widget.dart';
 
-import 'hn_author_badge_widget.dart';
 import 'hn_text_widget.dart';
 import 'hn_time_widget.dart';
 
@@ -34,9 +33,8 @@ class HNListItemWidget extends StatelessWidget {
                   Expanded(
                     flex: 5,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        HNAuthorBadgeWidget(item: item),
                         HNTextWidget(item: item),
                       ],
                     ),

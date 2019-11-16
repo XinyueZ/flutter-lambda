@@ -36,10 +36,6 @@ class HNLoadingWidget extends StatelessWidget {
                   lineSpace,
                   __shimmerLine(width / 3),
                   lineSpace,
-                  __shimmerLine(width / 4),
-                  lineSpace,
-                  __shimmerLine(width / 4),
-                  lineSpace,
                 ],
               )),
         ));

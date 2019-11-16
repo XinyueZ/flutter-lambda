@@ -51,7 +51,7 @@ class _HNListWidgetState extends State<HNListWidget> {
       onRefresh: _onRefresh,
       child: ListView.builder(
           controller: _listViewCtrl,
-          itemExtent: 200.0,
+          itemExtent: 150.0,
           itemCount: model.storyCount + 1,
           //+1 for loading indicator
           itemBuilder: (BuildContext context, int index) {
