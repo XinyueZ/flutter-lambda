@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
+import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'hn_author_widget.dart';
@@ -12,7 +12,7 @@ import 'hn_time_widget.dart';
 class HNDetailHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final HNDetailViewModel model = Provider.of<HNDetailViewModel>(context);
+    final HNDetailBloc model = Provider.of<HNDetailBloc>(context);
 
     return Column(
       children: <Widget>[

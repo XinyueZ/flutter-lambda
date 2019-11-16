@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
-import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../config.dart';
@@ -17,8 +17,8 @@ class HNDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      ChangeNotifierProvider<HNDetailViewModel>.value(
-        value: HNDetailViewModel(item),
+      ChangeNotifierProvider<HNDetailBloc>.value(
+        value: HNDetailBloc(item),
         child: Material(
             child: Scaffold(
           appBar: AppBar(

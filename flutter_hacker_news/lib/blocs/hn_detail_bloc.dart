@@ -5,7 +5,7 @@ import 'package:flutter_hacker_news/domain/hn_item.dart';
 
 import '../config.dart';
 
-class HNDetailViewModel extends ChangeNotifier {
+class HNDetailBloc extends ChangeNotifier {
   final Dio _dio = Dio(BaseOptions(
     baseUrl: API_HOST,
     connectTimeout: 3000,
@@ -19,7 +19,7 @@ class HNDetailViewModel extends ChangeNotifier {
 
   List<HNComment> firstLayerComments;
 
-  HNDetailViewModel(this._item) {
+  HNDetailBloc(this._item) {
     _fetchFirstLayerComments();
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
-import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_comment_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final HNDetailViewModel model = Provider.of<HNDetailViewModel>(context);
+    final HNDetailBloc model = Provider.of<HNDetailBloc>(context);
 
     if (model.firstLayerComments == null)
       return HNLoadingWidget(

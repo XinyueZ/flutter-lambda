@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
-import 'package:flutter_hacker_news/models/hn_detail_view_model.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_comment_info_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -65,7 +65,7 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
                     setState(() {
                       _showLoadingIndicator = true;
                     });
-                    final list = await Provider.of<HNDetailViewModel>(context)
+                    final list = await Provider.of<HNDetailBloc>(context)
                         .fetchComments(widget.comment);
                     setState(() {
                       _showLoadingIndicator = false;
