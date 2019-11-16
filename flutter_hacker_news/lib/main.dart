@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/config.dart';
-import 'package:flutter_hacker_news/widgets/hn_content_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_splash_widget.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,23 +16,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColorBrightness: Brightness.light,
       ),
-      home: Material(
-          child: Scaffold(
-        appBar: AppBar(
-          leading: Builder(builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/logo/hn_flutter.png'),
-              onPressed: () {},
-            );
-          }),
-          title: Text(
-            APP_NAME,
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: APP_PRIMARY_COLOR,
-        ),
-        body: HNContentWidget(),
-      )),
+      home: Material(child: HNSplashWidget()),
     );
   }
 }
