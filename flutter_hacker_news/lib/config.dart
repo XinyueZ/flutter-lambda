@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 const APP_NAME = "HN Flutter";
-const APP_PRIMARY_COLOR = const Color.fromRGBO(255, 102, 0, 1);
-const APP_ACCENT_COLOR = const Color.fromRGBO(255, 102, 0, 1);
+const APP_PRIMARY_COLOR = const Color.fromRGBO(255, 121, 0, 1);
+const APP_ACCENT_COLOR = const Color.fromRGBO(255, 121, 0, 1);
 const APP_BACKGROUND_COLOR = const Color.fromRGBO(245, 246, 240, 1);
 const API_HOST = "https://hacker-news.firebaseio.com/v0";
 const TOP_STORIES_ID_LIST = "/topstories.json?print=pretty";

@@ -19,6 +19,12 @@ class MyApp extends StatelessWidget {
       home: Material(
           child: Scaffold(
         appBar: AppBar(
+          leading: Builder(builder: (BuildContext context) {
+            return IconButton(
+              icon: Image.asset('assets/logo/hn_flutter.png'),
+              onPressed: () {},
+            );
+          }),
           title: Text(APP_NAME),
           backgroundColor: APP_PRIMARY_COLOR,
         ),
