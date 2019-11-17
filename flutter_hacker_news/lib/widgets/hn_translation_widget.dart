@@ -41,29 +41,27 @@ class _HNTranslationWidgetState extends State<HNTranslationWidget> {
 
   @override
   Widget build(BuildContext context) => _text != null && !_untranslated
-      ? Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(left: 16.0, top: 8),
-            child: ListView(
-              physics: ClampingScrollPhysics(),
-              children: <Widget>[
-                Html(
-                  defaultTextStyle: const TextStyle(
-                    height: 1.5,
-                    letterSpacing: 2.0,
-                    fontSize: 15.0,
-                  ),
-                  useRichText: true,
-                  data: _text,
-                  renderNewlines: true,
-                  onLinkTap: (link) {
-                    print("click link $link");
-                    launchURL(context, Uri.parse(link));
-                  },
-                )
-              ],
-            ),
-          ),
-        )
+      ? Container(
+        margin: const EdgeInsets.only(left: 16.0, top: 8),
+        child: ListView(
+          physics: ClampingScrollPhysics(),
+          children: <Widget>[
+            Html(
+              defaultTextStyle: const TextStyle(
+                height: 1.5,
+                letterSpacing: 2.0,
+                fontSize: 15.0,
+              ),
+              useRichText: true,
+              data: _text,
+              renderNewlines: true,
+              onLinkTap: (link) {
+                print("click link $link");
+                launchURL(context, Uri.parse(link));
+              },
+            )
+          ],
+        ),
+      )
       : SizedBox(width: 15, height: 15, child: CircularProgressIndicator());
 }
