@@ -4,11 +4,12 @@ import 'package:flutter_hacker_news/widgets/hn_author_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_comment_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_score_widget.dart';
+import 'package:flutter_hacker_news/widgets/hn_translation_widget.dart';
 
 import 'hn_text_widget.dart';
 import 'hn_time_widget.dart';
 
-class HNListItemWidget extends StatelessWidget {
+class HNListItemWidget extends StatefulWidget {
   final HNItem item;
 
   HNListItemWidget({
@@ -17,13 +18,20 @@ class HNListItemWidget extends StatelessWidget {
   });
 
   @override
+  _HNListItemWidgetState createState() => _HNListItemWidgetState();
+}
+
+class _HNListItemWidgetState extends State<HNListItemWidget> {
+  bool translate = false;
+
+  @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: Card(
           child: InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return HNDetailWidget(item: item);
+                return HNDetailWidget(item: widget.item);
               }));
             },
             child: Padding(
@@ -35,7 +43,9 @@ class HNListItemWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        HNTextWidget(item: item),
+                        translate
+                            ? HNTranslationWidget(origin: widget.item.text)
+                            : HNTextWidget(item: widget.item),
                       ],
                     ),
                   ),
@@ -44,11 +54,11 @@ class HNListItemWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        HNCommentWidget(story: item),
+                        HNCommentWidget(story: widget.item),
                         SizedBox(
                           width: 5,
                         ),
-                        HNScoreWidget(story: item),
+                        HNScoreWidget(story: widget.item),
                         SizedBox(
                           width: 5,
                         ),
@@ -60,11 +70,30 @@ class HNListItemWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        HNTimeWidget(item: item),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: IconButton(
+                              padding: EdgeInsets.only(bottom: 0, left: 16),
+                              icon: SizedBox(
+                                child: Icon(
+                                  Icons.translate,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  translate = !translate;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        HNTimeWidget(item: widget.item),
                         SizedBox(
                           width: 5,
                         ),
-                        HNAuthorWidget(item: item),
+                        HNAuthorWidget(item: widget.item),
                         SizedBox(
                           width: 5,
                         ),
