@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
 import 'hn_detail_comment_list_widget.dart';
@@ -24,6 +26,19 @@ class HNDetailWidget extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: APP_PRIMARY_COLOR,
             iconTheme: IconThemeData(color: Colors.white),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.share),
+                onPressed: () {
+                  final String commentLocation =
+                      sprintf(HN_COMMENT_PAGE, [item.id]);
+                  Share.share(
+                      sprintf(ITEM_SHARE_CONTENT,
+                          [this.item.text, commentLocation]),
+                      subject: ITEM_SHARE_SUBJECT);
+                },
+              )
+            ],
           ),
           body: Container(
             color: Colors.white,

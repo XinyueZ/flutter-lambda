@@ -17,9 +17,12 @@ const NULL_UNKNOWN = "unknown";
 const NULL_PLACEHOLDER = "n/a";
 const NULL_NUM = null;
 const NULL_URI = "https://www.google.com";
-const APP_SHARE = "By $APP_NAME";
+const APP_SHARE = "Hacker News by $APP_NAME";
 const APP_STORE = "http://tinyurl.com/tdh4b39";
-const APP_SHARE_CONTENT = "$APP_SHARE\nDownload:$APP_STORE";
+const APP_SHARE_CONTENT = "$APP_SHARE\nGoogle Play: $APP_STORE";
+const HN_COMMENT_PAGE = "https://news.ycombinator.com/item?id=%s";
+const ITEM_SHARE_CONTENT = "%s\n%s\n\n$APP_SHARE_CONTENT";
+const ITEM_SHARE_SUBJECT = "Shared by HN Tree";
 
 initSupportedLanguage() async {
   final ModelManager modelManager = FirebaseLanguage.instance.modelManager();

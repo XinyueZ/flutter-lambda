@@ -38,6 +38,7 @@ dependencies:
   pedantic: ^1.0.0
   provider:  ^3.1.0+1
   pull_to_refresh: ^1.5.7
+  share: ^0.6.3+1
   shimmer: ^1.0.1
   sprintf: ^4.0.0
 flutter_icons:
