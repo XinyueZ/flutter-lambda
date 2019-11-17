@@ -18,13 +18,13 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
   @override
   void initState() {
     super.initState();
-
     () async {
       final HNSplashBloc splashModel =
           HNSplashBloc(() => InternetAddress.lookup("g.cn"));
       final bool pingSuccessfully = await splashModel.pingInternet();
 
       if (pingSuccessfully) {
+        await initSupportedLanguage();
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
           return HNContentWidget();
         }));
@@ -36,19 +36,20 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
 
   @override
   Widget build(BuildContext context) => Material(
-      color: APP_PRIMARY_COLOR,
-      child: Center(
-          child: SizedBox(
-        width: 100,
-        height: 100,
-        child: Container(
-            alignment: Alignment(0.0, 0.0),
-            padding: const EdgeInsets.all(0.0),
+        color: APP_PRIMARY_COLOR,
+        child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/logo/hn_flutter.png'),
-              ],
-            )),
-      )));
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+                width: 120,
+                height: 120,
+                child: Image.asset('assets/logo/hn_flutter.png')),
+            SizedBox(
+              height: 8,
+            ),
+            SizedBox(width: 120, height: 3, child: LinearProgressIndicator())
+          ],
+        )),
+      );
 }

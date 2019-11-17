@@ -23,7 +23,7 @@ class HNTextWidget extends StatelessWidget {
                 defaultTextStyle: const TextStyle(
                   height: 1.5,
                   letterSpacing: 2.0,
-                  fontSize: 13.0,
+                  fontSize: 15.0,
                 ),
                 useRichText: true,
                 data: item.text,
