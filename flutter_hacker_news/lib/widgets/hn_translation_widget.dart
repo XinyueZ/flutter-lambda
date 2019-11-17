@@ -18,7 +18,7 @@ class HNTranslationWidget extends StatefulWidget {
 
 class _HNTranslationWidgetState extends State<HNTranslationWidget> {
   String _text;
-  bool _untranslated = false;
+  bool _untranslated = true;
 
   @override
   void initState() {
@@ -30,38 +30,47 @@ class _HNTranslationWidgetState extends State<HNTranslationWidget> {
       setState(() {
         if (model?.translated?.isNotEmpty == true) {
           _text = model.translated;
-          _untranslated = false;
         } else {
-          _text = null;
-          _untranslated = true;
+          _text = widget.origin;
         }
+        _untranslated = false;
       });
     }();
   }
 
   @override
-  Widget build(BuildContext context) => _text != null && !_untranslated
-      ? Container(
-        margin: const EdgeInsets.only(left: 16.0, top: 8),
-        child: ListView(
-          physics: ClampingScrollPhysics(),
-          children: <Widget>[
-            Html(
-              defaultTextStyle: const TextStyle(
-                height: 1.5,
-                letterSpacing: 2.0,
-                fontSize: 15.0,
-              ),
-              useRichText: true,
-              data: _text,
-              renderNewlines: true,
-              onLinkTap: (link) {
-                print("click link $link");
-                launchURL(context, Uri.parse(link));
-              },
-            )
-          ],
-        ),
-      )
-      : SizedBox(width: 15, height: 15, child: CircularProgressIndicator());
+  Widget build(BuildContext context) => !_untranslated
+      ? Expanded(
+          child: Container(
+            margin: const EdgeInsets.only(left: 16.0),
+            child: ListView(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                Html(
+                  defaultTextStyle: const TextStyle(
+                    height: 1.5,
+                    letterSpacing: 2.0,
+                    fontSize: 15.0,
+                  ),
+                  useRichText: true,
+                  data: _text,
+                  renderNewlines: true,
+                  onLinkTap: (link) {
+                    debugPrint("click link $link");
+                    launchURL(context, Uri.parse(link));
+                  },
+                )
+              ],
+            ),
+          ),
+        )
+      : Expanded(
+          child: Center(
+              child: SizedBox(
+                  width: 15,
+                  height: 15,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ))));
 }

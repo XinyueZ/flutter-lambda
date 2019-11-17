@@ -22,7 +22,7 @@ class HNListItemWidget extends StatefulWidget {
 }
 
 class _HNListItemWidgetState extends State<HNListItemWidget> {
-  bool translate = false;
+  bool _translate = false;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -43,7 +43,7 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        translate
+                        _translate
                             ? HNTranslationWidget(origin: widget.item.text)
                             : HNTextWidget(item: widget.item),
                       ],
@@ -83,7 +83,7 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  translate = !translate;
+                                  _translate = !_translate;
                                 });
                               },
                             ),

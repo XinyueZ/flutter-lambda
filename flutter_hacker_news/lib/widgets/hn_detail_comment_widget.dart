@@ -40,7 +40,7 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
             useRichText: true,
             data: widget.comment.text,
             onLinkTap: (link) {
-              print("click link $link");
+              debugPrint("click link $link");
               launchURL(context, Uri.parse(link));
             },
           ),

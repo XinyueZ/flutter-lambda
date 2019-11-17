@@ -16,11 +16,11 @@ class HNDetailTextWidget extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 10),
           child: Html(
-            defaultTextStyle: const TextStyle(fontSize: 20),
+            defaultTextStyle: const TextStyle(fontSize: 17),
             useRichText: true,
             data: model.currentHackerNews.text,
             onLinkTap: (link) {
-              print("click link $link");
+              debugPrint("click link $link");
               launchURL(context, Uri.parse(link));
             },
           ),

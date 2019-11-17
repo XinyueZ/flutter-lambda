@@ -29,7 +29,7 @@ class HNTextWidget extends StatelessWidget {
                 data: item.text,
                 renderNewlines: true,
                 onLinkTap: (link) {
-                  print("click link $link");
+                  debugPrint("click link $link");
                   launchURL(context, Uri.parse(link));
                 },
               )
