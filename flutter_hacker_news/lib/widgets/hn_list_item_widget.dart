@@ -8,6 +8,7 @@ import 'package:flutter_hacker_news/widgets/hn_translation_widget.dart';
 
 import 'hn_text_widget.dart';
 import 'hn_time_widget.dart';
+import 'hn_translation_button_widget.dart';
 
 class HNListItemWidget extends StatefulWidget {
   final HNItem item;
@@ -70,25 +71,13 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Expanded(
-                          child: Align(
+                        HNTranslationButtonWidget(
                             alignment: Alignment.topLeft,
-                            child: IconButton(
-                              padding: EdgeInsets.only(bottom: 0, left: 16),
-                              icon: SizedBox(
-                                child: Icon(
-                                  Icons.translate,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _translate = !_translate;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
+                            onTranslationClicked: () {
+                              setState(() {
+                                _translate = !_translate;
+                              });
+                            }),
                         HNTimeWidget(item: widget.item),
                         SizedBox(
                           width: 5,

@@ -9,6 +9,7 @@ import 'hn_detail_text_widget.dart';
 import 'hn_detail_url_widget.dart';
 import 'hn_score_widget.dart';
 import 'hn_time_widget.dart';
+import 'hn_translation_button_widget.dart';
 
 class HNDetailHeaderWidget extends StatefulWidget {
   @override
@@ -60,25 +61,13 @@ class _HNDetailHeaderWidgetState extends State<HNDetailHeaderWidget> {
               width: 5,
             ),
             HNScoreWidget(story: model.currentHackerNews),
-            Expanded(
-              child: Align(
+            HNTranslationButtonWidget(
                 alignment: Alignment.topRight,
-                child: IconButton(
-                  padding: EdgeInsets.only(bottom: 0, left: 16),
-                  icon: SizedBox(
-                    child: Icon(
-                      Icons.translate,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _translate = !_translate;
-                    });
-                  },
-                ),
-              ),
-            ),
+                onTranslationClicked: () {
+                  setState(() {
+                    _translate = !_translate;
+                  });
+                }),
             SizedBox(
               width: 5,
               height: 5,
