@@ -12,11 +12,14 @@ class HNDetailTextWidget extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.only(left: 16.0, right: 16),
+        margin: const EdgeInsets.only(left: 16.0),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 10),
           child: Html(
-            defaultTextStyle: const TextStyle(fontSize: 17),
+            defaultTextStyle: const TextStyle(
+              height: 1.5,
+              letterSpacing: 2.0,
+              fontSize: 15.0,
+            ),
             useRichText: true,
             data: model.currentHackerNews.text,
             onLinkTap: (link) {

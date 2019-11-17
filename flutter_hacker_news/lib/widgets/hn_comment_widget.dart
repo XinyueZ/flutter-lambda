@@ -19,7 +19,6 @@ class HNCommentWidget extends StatelessWidget {
             color: Colors.grey,
           ),
           Container(
-            margin: const EdgeInsets.only(left: 5),
             child: Text(
               story.descendants.toString(),
               style: TextStyle(color: Colors.grey),

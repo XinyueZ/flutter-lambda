@@ -6,10 +6,14 @@ import '../utils.dart';
 
 class HNTranslationWidget extends StatefulWidget {
   final String origin;
+  final EdgeInsetsGeometry margin;
+  final TextStyle textStyle;
 
   HNTranslationWidget({
     Key key,
     @required this.origin,
+    this.margin,
+    this.textStyle,
   });
 
   @override
@@ -42,17 +46,13 @@ class _HNTranslationWidgetState extends State<HNTranslationWidget> {
   Widget build(BuildContext context) => !_untranslated
       ? Expanded(
           child: Container(
-            margin: const EdgeInsets.only(left: 16.0),
+            margin: widget.margin,
             child: ListView(
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               children: <Widget>[
                 Html(
-                  defaultTextStyle: const TextStyle(
-                    height: 1.5,
-                    letterSpacing: 2.0,
-                    fontSize: 15.0,
-                  ),
+                  defaultTextStyle: widget.textStyle,
                   useRichText: true,
                   data: _text,
                   renderNewlines: true,

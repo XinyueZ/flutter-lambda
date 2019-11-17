@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import '../utils.dart';
 import 'hn_author_widget.dart';
 import 'hn_time_widget.dart';
+import 'hn_translation_button_widget.dart';
+import 'hn_translation_widget.dart';
 
 class HNDetailCommentWidget extends StatefulWidget {
   final HNComment comment;
@@ -25,26 +27,34 @@ class HNDetailCommentWidget extends StatefulWidget {
 class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
   List<HNComment> _listOfChildComment = List();
   bool _showLoadingIndicator = false;
+  bool _translate = false;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Divider(),
-        SizedBox(
-          width: 5,
-        ),
-        SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Html(
-            useRichText: true,
-            data: widget.comment.text,
-            onLinkTap: (link) {
-              debugPrint("click link $link");
-              launchURL(context, Uri.parse(link));
-            },
-          ),
-        ),
+        _translate
+            ? Row(
+                children: <Widget>[
+                  HNTranslationWidget(
+                    origin: widget.comment.text,
+                    margin: const EdgeInsets.all(0),
+                    textStyle: DefaultTextStyle.of(context).style,
+                  ),
+                ],
+              )
+            : SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Html(
+                  useRichText: true,
+                  data: widget.comment.text,
+                  onLinkTap: (link) {
+                    debugPrint("click link $link");
+                    launchURL(context, Uri.parse(link));
+                  },
+                ),
+              ),
         Align(
           alignment: Alignment.centerLeft,
           child: SingleChildScrollView(
@@ -78,8 +88,14 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
                     });
                   },
                 ),
-                SizedBox(
-                  width: 5,
+                HNTranslationButtonWidget(
+                  alignment: Alignment.topLeft,
+                  onTranslationClicked: () {
+                    setState(() {
+                      _translate = !_translate;
+                    });
+                  },
+                  padding: const EdgeInsets.only(bottom: 0, left: 0),
                 ),
               ],
             ),

@@ -19,7 +19,6 @@ class HNAuthorWidget extends StatelessWidget {
             color: Colors.grey,
           ),
           Container(
-            margin: const EdgeInsets.only(left: 5),
             child: Text(
               item.by,
               style: const TextStyle(color: Colors.grey),

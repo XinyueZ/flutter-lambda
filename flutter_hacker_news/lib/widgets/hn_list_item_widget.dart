@@ -45,7 +45,15 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         _translate
-                            ? HNTranslationWidget(origin: widget.item.text)
+                            ? HNTranslationWidget(
+                                origin: widget.item.text,
+                                margin: const EdgeInsets.only(left: 16.0),
+                                textStyle: const TextStyle(
+                                  height: 1.5,
+                                  letterSpacing: 2.0,
+                                  fontSize: 15.0,
+                                ),
+                              )
                             : HNTextWidget(item: widget.item),
                       ],
                     ),
@@ -71,13 +79,17 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        HNTranslationButtonWidget(
+                        Expanded(
+                          child: HNTranslationButtonWidget(
                             alignment: Alignment.topLeft,
                             onTranslationClicked: () {
                               setState(() {
                                 _translate = !_translate;
                               });
-                            }),
+                            },
+                            padding: const EdgeInsets.only(bottom: 0, left: 16),
+                          ),
+                        ),
                         HNTimeWidget(item: widget.item),
                         SizedBox(
                           width: 5,

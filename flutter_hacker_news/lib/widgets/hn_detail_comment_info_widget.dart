@@ -18,7 +18,6 @@ class HNDetailCommentInfoWidget extends StatelessWidget {
           color: comment.kids.isEmpty ? Colors.blueGrey : Colors.lightBlue,
         ),
         Container(
-          margin: const EdgeInsets.only(left: 5),
           child: Text(
             comment.kids.length.toString(),
             style: TextStyle(color: Colors.grey),

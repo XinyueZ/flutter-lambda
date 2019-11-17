@@ -34,6 +34,12 @@ class _HNDetailHeaderWidgetState extends State<HNDetailHeaderWidget> {
             _translate
                 ? HNTranslationWidget(
                     origin: model.currentHackerNews.text,
+                    margin: const EdgeInsets.only(left: 16.0),
+                    textStyle: const TextStyle(
+                      height: 1.5,
+                      letterSpacing: 2.0,
+                      fontSize: 15.0,
+                    ),
                   )
                 : HNDetailTextWidget(),
           ],
@@ -61,13 +67,17 @@ class _HNDetailHeaderWidgetState extends State<HNDetailHeaderWidget> {
               width: 5,
             ),
             HNScoreWidget(story: model.currentHackerNews),
-            HNTranslationButtonWidget(
+            Expanded(
+              child: HNTranslationButtonWidget(
                 alignment: Alignment.topRight,
                 onTranslationClicked: () {
                   setState(() {
                     _translate = !_translate;
                   });
-                }),
+                },
+                padding: const EdgeInsets.only(bottom: 0, left: 0),
+              ),
+            ),
             SizedBox(
               width: 5,
               height: 5,

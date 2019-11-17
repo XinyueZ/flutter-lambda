@@ -19,7 +19,6 @@ class HNScoreWidget extends StatelessWidget {
             color: Colors.grey,
           ),
           Container(
-            margin: const EdgeInsets.only(left: 5),
             child: Text(
               story.score.toString(),
               style: const TextStyle(color: Colors.grey),

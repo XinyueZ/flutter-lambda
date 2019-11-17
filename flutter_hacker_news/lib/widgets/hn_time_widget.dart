@@ -21,7 +21,6 @@ class HNTimeWidget extends StatelessWidget {
             color: Colors.grey,
           ),
           Container(
-            margin: const EdgeInsets.only(left: 5),
             child: Text(
               format
                   .format(DateTime.fromMillisecondsSinceEpoch(item.time * 1000)),
