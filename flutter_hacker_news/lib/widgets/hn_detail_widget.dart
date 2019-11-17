@@ -26,15 +26,16 @@ class HNDetailWidget extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: APP_PRIMARY_COLOR,
             iconTheme: IconThemeData(color: Colors.white),
+            elevation: 10,
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () {
-                  final String commentLocation =
+                  final String disCommentLocation =
                       sprintf(HN_COMMENT_PAGE, [item.id]);
                   Share.share(
                       sprintf(ITEM_SHARE_CONTENT,
-                          [this.item.text, commentLocation]),
+                          [this.item.text, disCommentLocation]),
                       subject: ITEM_SHARE_SUBJECT);
                 },
               )

@@ -23,3 +23,10 @@ void launchURL(BuildContext context, Uri target) async {
     debugPrint(e.toString());
   }
 }
+
+Widget openWebLinkText(BuildContext context, String text, Uri target) =>
+    InkWell(
+        child: Text(text,
+            style: TextStyle(
+                color: Colors.lightBlue, decoration: TextDecoration.underline)),
+        onTap: () => launchURL(context, target));
