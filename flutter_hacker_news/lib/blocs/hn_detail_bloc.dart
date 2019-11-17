@@ -20,10 +20,10 @@ class HNDetailBloc extends ChangeNotifier {
   List<HNComment> firstLayerComments;
 
   HNDetailBloc(this._item) {
-    _fetchFirstLayerComments();
+    fetchFirstLayerComments();
   }
 
-  _fetchFirstLayerComments() async {
+  fetchFirstLayerComments() async {
     List<HNComment> comments = await fetchComments(currentHackerNews);
 
     if (firstLayerComments == null)

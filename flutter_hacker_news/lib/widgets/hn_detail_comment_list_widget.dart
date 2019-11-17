@@ -16,6 +16,7 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
   RefreshController _refreshCtrl = RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
+    await Provider.of<HNDetailBloc>(context).fetchFirstLayerComments();
     _refreshCtrl.refreshCompleted();
   }
 
