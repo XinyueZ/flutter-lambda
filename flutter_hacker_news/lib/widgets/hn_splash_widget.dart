@@ -15,9 +15,23 @@ class HNSplashWidget extends StatefulWidget {
 }
 
 class _HNSplashWidgetState extends State<HNSplashWidget> {
-  @override
-  void initState() {
-    super.initState();
+  bool _showNext = false;
+
+  void _gotoHNContent() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+      return HNContentWidget();
+    }));
+  }
+
+  void _delayToShowNext() {
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      setState(() {
+        _showNext = true;
+      });
+    });
+  }
+
+  _asyncPingInternetAndDownloadLanguage() async {
     () async {
       final HNSplashBloc splashModel =
           HNSplashBloc(() => InternetAddress.lookup("g.cn"));
@@ -25,13 +39,18 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
 
       if (pingSuccessfully) {
         await initSupportedLanguage();
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return HNContentWidget();
-        }));
+        _gotoHNContent();
       } else {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       }
     }();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _delayToShowNext();
+    _asyncPingInternetAndDownloadLanguage();
   }
 
   @override
@@ -46,9 +65,23 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
                 height: 120,
                 child: Image.asset('assets/logo/hn_flutter.png')),
             SizedBox(
-              height: 8,
+              height: 10,
             ),
-            SizedBox(width: 120, height: 3, child: LinearProgressIndicator())
+            SizedBox(width: 100, height: 3, child: LinearProgressIndicator()),
+            Align(
+              alignment: Alignment.centerRight,
+              child: _showNext
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _gotoHNContent();
+                      },
+                    )
+                  : Container(),
+            ),
           ],
         )),
       );
