@@ -12,7 +12,9 @@ import 'hn_list_widget.dart';
 class HNContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final HNShareBloc model = Provider.of<HNShareBloc>(context);
+    final HNShareBloc model = HNShareBloc();
+    model.appSharing();
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<HNListBloc>.value(value: HNListBloc()),

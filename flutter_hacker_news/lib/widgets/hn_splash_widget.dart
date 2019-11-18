@@ -17,14 +17,9 @@ class HNSplashWidget extends StatefulWidget {
 class _HNSplashWidgetState extends State<HNSplashWidget> {
   bool _showNext = false;
 
-  void _gotoHNContent() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      HNShareBloc model = HNShareBloc();
-      model.appSharing();
-      return ChangeNotifierProvider<HNShareBloc>.value(
-        value: model,
-        child: HNContentWidget(),
-      );
+  void _gotoHNContent(BuildContext buildContext) {
+    Navigator.of(buildContext).pushReplacement(MaterialPageRoute(builder: (_) {
+      return HNContentWidget();
     }));
   }
 
@@ -44,7 +39,7 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
 
       if (pingSuccessfully) {
         await initSupportedLanguage();
-        _gotoHNContent();
+        _gotoHNContent(context);
       } else {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       }
@@ -82,7 +77,7 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        _gotoHNContent();
+                        _gotoHNContent(context);
                       },
                     )
                   : Container(),

@@ -19,51 +19,51 @@ class HNDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HNShareBloc model = Provider.of<HNShareBloc>(context);
+    final HNShareBloc model = HNShareBloc();
+    model.storySharing(item);
+
     return ChangeNotifierProvider<HNDetailBloc>.value(
-        value: HNDetailBloc(item),
-        child: Material(
-            child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: APP_PRIMARY_COLOR,
-            iconTheme: IconThemeData(color: Colors.white),
-            elevation: 10,
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.share),
-                onPressed: () {
-                  Share.share(
-                      model.shareStory,
-                      subject: model.subject);
-                },
-              )
+      value: HNDetailBloc(item),
+      child: Material(
+          child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: APP_PRIMARY_COLOR,
+          iconTheme: IconThemeData(color: Colors.white),
+          elevation: 10,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {
+                Share.share(model.shareStory, subject: model.subject);
+              },
+            )
+          ],
+        ),
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Container(
+                    color: APP_BACKGROUND_COLOR,
+                    margin: const EdgeInsets.only(left: 10, right: 10),
+                    child: HNDetailHeaderWidget(),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              HNDetailCommentListWidget(),
             ],
           ),
-          body: Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Container(
-                      color: APP_BACKGROUND_COLOR,
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      child: HNDetailHeaderWidget(),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                HNDetailCommentListWidget(),
-              ],
-            ),
-          ),
-        )),
-      );
+        ),
+      )),
+    );
   }
 }

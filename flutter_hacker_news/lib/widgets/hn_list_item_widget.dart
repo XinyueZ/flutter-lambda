@@ -30,19 +30,13 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    HNShareBloc model = HNShareBloc();
-    model.storySharing(widget.item);
-
     return Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       child: Card(
         child: InkWell(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ChangeNotifierProvider<HNShareBloc>.value(
-                value: model,
-                child: HNDetailWidget(item: widget.item),
-              );
+              return HNDetailWidget(item: widget.item);
             }));
           },
           child: Padding(
