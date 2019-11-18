@@ -6,12 +6,9 @@ void launchURL(BuildContext context, Uri target) async {
     await launch(
       target.toString(),
       option: CustomTabsOption(
-        toolbarColor: Colors.black,
-        //Theme.of(context).primaryColor,
         enableDefaultShare: true,
         enableUrlBarHiding: true,
         showPageTitle: true,
-        animation: CustomTabsAnimation.slideIn(),
         extraCustomTabs: <String>[
           'org.mozilla.firefox',
           'com.microsoft.emmx',

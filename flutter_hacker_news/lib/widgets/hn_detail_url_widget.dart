@@ -16,7 +16,7 @@ class HNDetailUrlWidget extends StatelessWidget {
         margin: const EdgeInsets.only(left: 16.0, right: 16),
         child: Linkify(
           onOpen: (link) async {
-            print("click link $link");
+            debugPrint("click link $link");
             launchURL(context, Uri.parse(link.url));
           },
           text: (model.currentHackerNews as HNStory).uri.toString(),
