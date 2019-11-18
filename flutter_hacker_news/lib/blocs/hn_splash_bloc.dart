@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'hn_list_view_bloc.dart';
-
 typedef InternetAddressLookup = Future<List<InternetAddress>> Function();
 
 class HNSplashBloc extends ChangeNotifier {

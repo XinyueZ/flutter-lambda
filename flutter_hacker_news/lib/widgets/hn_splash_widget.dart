@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hacker_news/blocs/hn_list_view_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/blocs/hn_splash_bloc.dart';
 import 'package:flutter_hacker_news/config.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,12 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
 
   void _gotoHNContent() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return HNContentWidget();
+      HNShareBloc model = HNShareBloc();
+      model.appSharing();
+      return ChangeNotifierProvider<HNShareBloc>.value(
+        value: model,
+        child: HNContentWidget(),
+      );
     }));
   }
 

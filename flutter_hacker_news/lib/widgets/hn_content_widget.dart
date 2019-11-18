@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/blocs/hn_app_about_bloc.dart';
 import 'package:flutter_hacker_news/blocs/hn_list_view_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/widgets/hn_app_about_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
 import 'hn_list_widget.dart';
@@ -48,7 +48,8 @@ class HNContentWidget extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () {
-                  Share.share(APP_SHARE_CONTENT, subject: APP_SHARE_SUBJECT);
+                  final HNShareBloc model = Provider.of<HNShareBloc>(context);
+                  Share.share(model.shareApp, subject: model.subject);
                 },
               )
             ],

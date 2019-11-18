@@ -23,7 +23,7 @@ const APP_SHARE_SUBJECT = "$APP_SHARE";
 const APP_SHARE_CONTENT = "$APP_SHARE\nGoogle Play: $GOOGLE_PLAY_LOCATION";
 const HN_COMMENT_PAGE = "Discussion: https://news.ycombinator.com/item?id=%s";
 const ITEM_SHARE_SUBJECT = "Shared by HN Tree";
-const ITEM_SHARE_CONTENT = "%s\n%s\n====\n$APP_SHARE_CONTENT";
+const ITEM_SHARE_CONTENT = "%s\n%s\n%s\n====\n$APP_SHARE_CONTENT";
 const API_PROVIDER = "https://github.com/HackerNews/API";
 const APP_OPEN_SOURCE = "http://tinyurl.com/s6kmvwb";
 

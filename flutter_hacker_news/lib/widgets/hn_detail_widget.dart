@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
 import 'hn_detail_comment_list_widget.dart';
@@ -18,8 +18,9 @@ class HNDetailWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) =>
-      ChangeNotifierProvider<HNDetailBloc>.value(
+  Widget build(BuildContext context) {
+    final HNShareBloc model = Provider.of<HNShareBloc>(context);
+    return ChangeNotifierProvider<HNDetailBloc>.value(
         value: HNDetailBloc(item),
         child: Material(
             child: Scaffold(
@@ -31,12 +32,9 @@ class HNDetailWidget extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () {
-                  final String disCommentLocation =
-                      sprintf(HN_COMMENT_PAGE, [item.id]);
                   Share.share(
-                      sprintf(ITEM_SHARE_CONTENT,
-                          [this.item.text, disCommentLocation]),
-                      subject: ITEM_SHARE_SUBJECT);
+                      model.shareStory,
+                      subject: model.subject);
                 },
               )
             ],
@@ -67,4 +65,5 @@ class HNDetailWidget extends StatelessWidget {
           ),
         )),
       );
+  }
 }
