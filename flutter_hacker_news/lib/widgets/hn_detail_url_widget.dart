@@ -14,13 +14,15 @@ class HNDetailUrlWidget extends StatelessWidget {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(left: 16.0, right: 16),
-        child: Linkify(
-          onOpen: (link) async {
-            debugPrint("click link $link");
-            launchURL(context, Uri.parse(link.url));
-          },
-          text: (model.currentHackerNews as HNStory).uri.toString(),
-          linkStyle: TextStyle(color: Colors.lightBlue),
+        child: InkResponse(
+          child: Linkify(
+            onOpen: (link) async {
+              debugPrint("click link $link");
+              launchURL(context, Uri.parse(link.url));
+            },
+            text: (model.currentHackerNews as HNStory).uri.toString(),
+            linkStyle: TextStyle(color: Colors.lightBlue),
+          ),
         ),
       ),
     );
