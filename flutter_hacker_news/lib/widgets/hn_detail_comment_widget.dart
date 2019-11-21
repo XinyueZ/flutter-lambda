@@ -35,17 +35,17 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
       children: <Widget>[
         Divider(),
         _translate
-            ? Row(
+            ? Flex(
+                direction: Axis.horizontal,
                 children: <Widget>[
                   HNTranslationWidget(
                     origin: widget.comment.text,
-                    margin: const EdgeInsets.all(0),
                     textStyle: DefaultTextStyle.of(context).style,
                   ),
                 ],
               )
             : SingleChildScrollView(
-                padding: EdgeInsets.only(bottom: 10),
+                padding: ButtonTheme.of(context).padding,
                 child: Html(
                   useRichText: true,
                   data: widget.comment.text,
@@ -55,49 +55,51 @@ class _HNDetailCommentWidgetState extends State<HNDetailCommentWidget> {
                   },
                 ),
               ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: <Widget>[
-                HNTimeWidget(item: widget.comment),
-                SizedBox(
-                  width: 5,
-                ),
-                HNAuthorWidget(item: widget.comment),
-                SizedBox(
-                  width: 5,
-                ),
-                InkWell(
-                  child: HNDetailCommentInfoWidget(comment: widget.comment),
-                  onTap: () async {
-                    setState(() {
-                      _showLoadingIndicator = true;
-                    });
-                    final list = await Provider.of<HNDetailBloc>(context)
-                        .fetchComments(widget.comment);
-                    setState(() {
-                      _showLoadingIndicator = false;
-                    });
-                    if (list.isEmpty) {
-                      return;
-                    }
-                    setState(() {
-                      _listOfChildComment = list;
-                    });
-                  },
-                ),
-                HNTranslationButtonWidget(
-                  alignment: Alignment.topLeft,
-                  onTranslationClicked: () {
-                    setState(() {
-                      _translate = !_translate;
-                    });
-                  },
-                  padding: const EdgeInsets.only(bottom: 0, left: 0),
-                ),
-              ],
+        Container(
+          padding: ButtonTheme.of(context).padding,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  HNTimeWidget(item: widget.comment),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  HNAuthorWidget(item: widget.comment),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  InkWell(
+                    child: HNDetailCommentInfoWidget(comment: widget.comment),
+                    onTap: () async {
+                      setState(() {
+                        _showLoadingIndicator = true;
+                      });
+                      final list = await Provider.of<HNDetailBloc>(context)
+                          .fetchComments(widget.comment);
+                      setState(() {
+                        _showLoadingIndicator = false;
+                      });
+                      if (list.isEmpty) {
+                        return;
+                      }
+                      setState(() {
+                        _listOfChildComment = list;
+                      });
+                    },
+                  ),
+                  HNTranslationButtonWidget(
+                    alignment: Alignment.topLeft,
+                    onTranslationClicked: () {
+                      setState(() {
+                        _translate = !_translate;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

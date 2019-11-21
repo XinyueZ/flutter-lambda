@@ -22,8 +22,12 @@ void launchURL(BuildContext context, Uri target) async {
 }
 
 Widget openWebLinkText(BuildContext context, String text, Uri target) =>
-    InkWell(
+    FlatButton(
+      child: Align(
+        alignment: Alignment.centerLeft,
         child: Text(text,
             style: TextStyle(
                 color: Colors.lightBlue, decoration: TextDecoration.underline)),
-        onTap: () => launchURL(context, target));
+      ),
+      onPressed: () => launchURL(context, target),
+    );

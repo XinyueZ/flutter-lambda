@@ -15,8 +15,9 @@ class HNTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Expanded(
         child: Container(
-          margin: const EdgeInsets.only(left: 16.0, top: 8),
+          padding: ButtonTheme.of(context).padding,
           child: ListView(
+            shrinkWrap: true,
             physics: ClampingScrollPhysics(),
             children: <Widget>[
               Html(
