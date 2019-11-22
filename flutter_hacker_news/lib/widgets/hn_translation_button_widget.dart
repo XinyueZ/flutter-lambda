@@ -5,26 +5,25 @@ typedef OnTranslationClicked = Function();
 class HNTranslationButtonWidget extends StatelessWidget {
   final AlignmentGeometry alignment;
   final OnTranslationClicked onTranslationClicked;
-  final EdgeInsetsGeometry padding;
 
-  const HNTranslationButtonWidget(
-      {Key key, this.alignment, this.onTranslationClicked, this.padding})
-      : super(key: key);
+  const HNTranslationButtonWidget({
+    Key key,
+    this.alignment,
+    this.onTranslationClicked,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Align(
+  Widget build(BuildContext context) => FittedBox(
         alignment: this.alignment,
-        child: IconButton(
-          padding: this.padding,
-          icon: SizedBox(
-            child: Icon(
+        child: Align(
+          alignment: this.alignment,
+          child: IconButton(
+            icon: Icon(
               Icons.translate,
               color: Colors.grey,
             ),
+            onPressed: () => onTranslationClicked(),
           ),
-          onPressed: () {
-            onTranslationClicked();
-          },
         ),
       );
 }

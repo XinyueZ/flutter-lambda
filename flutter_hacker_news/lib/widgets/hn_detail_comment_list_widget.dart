@@ -31,7 +31,6 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
 
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.only(left: 18, right: 18, bottom: 8),
         child: SmartRefresher(
           header: const MaterialClassicHeader(),
           enablePullDown: true,

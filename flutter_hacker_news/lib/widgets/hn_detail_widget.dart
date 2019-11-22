@@ -43,15 +43,11 @@ class HNDetailWidget extends StatelessWidget {
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
               Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Container(
                     color: APP_BACKGROUND_COLOR,
-                    margin: const EdgeInsets.only(left: 10, right: 10),
                     child: HNDetailHeaderWidget(),
                   ),
                 ],

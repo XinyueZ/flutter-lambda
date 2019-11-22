@@ -39,31 +39,30 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
               return HNDetailWidget(item: widget.item);
             }));
           },
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 5),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  flex: 5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      _translate
-                          ? HNTranslationWidget(
-                              origin: widget.item.text,
-                              margin: const EdgeInsets.only(left: 16.0),
-                              textStyle: const TextStyle(
-                                height: 1.5,
-                                letterSpacing: 2.0,
-                                fontSize: 15.0,
-                              ),
-                            )
-                          : HNTextWidget(item: widget.item),
-                    ],
-                  ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 5,
+                child: Flex(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    _translate
+                        ? HNTranslationWidget(
+                            origin: widget.item.text,
+                            textStyle: const TextStyle(
+                              height: 1.5,
+                              letterSpacing: 2.0,
+                              fontSize: 15.0,
+                            ),
+                          )
+                        : HNTextWidget(item: widget.item),
+                  ],
                 ),
-                Expanded(
-                  flex: 2,
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: ButtonTheme.of(context).padding,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
@@ -78,10 +77,14 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: 2,
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: ButtonTheme.of(context).padding,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
                         child: HNTranslationButtonWidget(
@@ -91,7 +94,6 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                               _translate = !_translate;
                             });
                           },
-                          padding: const EdgeInsets.only(bottom: 0, left: 16),
                         ),
                       ),
                       HNTimeWidget(item: widget.item),
@@ -105,8 +107,8 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

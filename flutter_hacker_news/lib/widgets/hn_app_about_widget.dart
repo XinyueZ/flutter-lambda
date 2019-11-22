@@ -8,10 +8,9 @@ class HNAppAboutWidget extends StatelessWidget {
     final HNAppAboutBloc model = Provider.of<HNAppAboutBloc>(context);
 
     return AlertDialog(
-      title: Text("About"),
+      title: Text("About", style: TextStyle(fontSize: 27),),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: model.aboutList,
       ),
       actions: <Widget>[

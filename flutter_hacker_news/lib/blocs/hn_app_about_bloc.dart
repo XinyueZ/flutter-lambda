@@ -18,16 +18,15 @@ class HNAppAboutBloc extends ChangeNotifier {
     final String version = "$versionName ($versionCode)";
 
     aboutList = [
-      Padding(
-        padding: EdgeInsets.all(15),
-        child:
-            openWebLinkText(context, "API provider", Uri.parse(API_PROVIDER)),
-      ),
+      openWebLinkText(context, "API provider", Uri.parse(API_PROVIDER)),
       openWebLinkText(context, "Source on Github", Uri.parse(APP_OPEN_SOURCE)),
-      Padding(
-        padding: EdgeInsets.all(15),
-        child: Text("Version: $version"),
-      ),
+      FlatButton(
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: Text("Version: $version"),
+        ),
+        onPressed: null,
+      )
     ];
 
     notifyListeners();

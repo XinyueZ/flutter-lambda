@@ -6,13 +6,11 @@ import '../utils.dart';
 
 class HNTranslationWidget extends StatefulWidget {
   final String origin;
-  final EdgeInsetsGeometry margin;
   final TextStyle textStyle;
 
   HNTranslationWidget({
     Key key,
     @required this.origin,
-    this.margin,
     this.textStyle,
   });
 
@@ -29,7 +27,7 @@ class _HNTranslationWidgetState extends State<HNTranslationWidget> {
     super.initState();
     () async {
       final HNTranslationBloc model = HNTranslationBloc(widget.origin);
-      debugPrint("want to translate: ${widget.origin}");
+      debugPrint("translated: ${widget.origin}");
       await model.translate();
       setState(() {
         if (model?.translated?.isNotEmpty == true) {
@@ -46,7 +44,7 @@ class _HNTranslationWidgetState extends State<HNTranslationWidget> {
   Widget build(BuildContext context) => !_untranslated
       ? Expanded(
           child: Container(
-            margin: widget.margin,
+            padding: ButtonTheme.of(context).padding,
             child: ListView(
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
