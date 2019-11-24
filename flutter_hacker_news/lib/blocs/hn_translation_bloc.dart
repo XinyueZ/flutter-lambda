@@ -14,6 +14,12 @@ class HNTranslationBloc extends ChangeNotifier {
     _languageIdentifier = FirebaseLanguage.instance.languageIdentifier();
   }
 
+  static initSupportedLanguage() async {
+    final ModelManager modelManager = FirebaseLanguage.instance.modelManager();
+    debugPrint("dl lang: ${window.locale.languageCode}");
+    await modelManager.downloadModel(window.locale.languageCode);
+  }
+
   _findLanguageId() async {
     final List<LanguageLabel> labels =
         await _languageIdentifier.processText(_origin);

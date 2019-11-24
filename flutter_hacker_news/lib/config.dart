@@ -26,9 +26,3 @@ const ITEM_SHARE_SUBJECT = "Shared by $APP_NAME";
 const ITEM_SHARE_CONTENT = "%s\n%s\n%s\n====\n$APP_SHARE_CONTENT";
 const API_PROVIDER = "https://github.com/HackerNews/API";
 const APP_OPEN_SOURCE = "http://tinyurl.com/s6kmvwb";
-
-initSupportedLanguage() async {
-  final ModelManager modelManager = FirebaseLanguage.instance.modelManager();
-  debugPrint("dl lang: ${window.locale.languageCode}");
-  await modelManager.downloadModel(window.locale.languageCode);
-}

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/blocs/hn_splash_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_translation_bloc.dart';
 import 'package:flutter_hacker_news/config.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,7 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
       final bool pingSuccessfully = await splashModel.pingInternet();
 
       if (pingSuccessfully) {
-        await initSupportedLanguage();
+        await HNTranslationBloc.initSupportedLanguage();
         _gotoHNContent(context);
       } else {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
