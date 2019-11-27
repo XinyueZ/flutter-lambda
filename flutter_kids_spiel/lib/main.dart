@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_kids_spiel/service/gateway.dart';
 import 'package:flutter_kids_spiel/share_app_button.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -8,7 +9,10 @@ import 'about_button.dart';
 import 'map.dart';
 import 'weather_chip.dart';
 
-void main() => runApp(App());
+void main() {
+  loadMOIAServiceAreas();
+  runApp(App());
+}
 
 typedef LoadingGroundsCallback = Function(bool isDone);
 

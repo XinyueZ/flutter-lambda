@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_kids_spiel/app_credentials.dart';
 import 'package:flutter_kids_spiel/domain/ground.dart';
 import 'package:flutter_kids_spiel/domain/grounds.dart';
 import 'package:flutter_kids_spiel/domain/latlng_bounds.dart';
@@ -61,4 +63,20 @@ class Gateway {
         DecoderHelper.getJsonDecoder().convert(response.toString());
     return Weather.from(feedsMap);
   }
+}
+
+loadMOIAServiceAreas() async {
+  final String pathAuth = sprintf(MOIA_API_HOST, [MOIA_API_AUTH]);
+  final String pathServiceAreas =
+  sprintf(MOIA_API_HOST, [MOIA_API_SERVICE_AREAS]);
+  final Dio dio = Dio();
+  dio.options.headers = {
+    "Content-Type": "application/json",
+    "accept": "application/vnd.moia+json",
+    "authorization": MOIA_AUTHORIZATION
+  };
+  final response = await dio.post(pathAuth, data: MOIA_USER);
+  final Map<String, dynamic> feedsMap =
+  DecoderHelper.getJsonDecoder().convert(response.toString());
+  debugPrint(feedsMap.toString());
 }
