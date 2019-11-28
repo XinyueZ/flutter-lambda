@@ -9,10 +9,7 @@ import 'about_button.dart';
 import 'map.dart';
 import 'weather_chip.dart';
 
-void main() {
-  loadMOIAServiceAreas();
-  runApp(App());
-}
+void main() => runApp(App());
 
 typedef LoadingGroundsCallback = Function(bool isDone);
 

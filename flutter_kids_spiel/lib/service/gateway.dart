@@ -4,6 +4,7 @@ import 'package:flutter_kids_spiel/app_credentials.dart';
 import 'package:flutter_kids_spiel/domain/ground.dart';
 import 'package:flutter_kids_spiel/domain/grounds.dart';
 import 'package:flutter_kids_spiel/domain/latlng_bounds.dart';
+import 'package:flutter_kids_spiel/domain/moia/service_area.dart';
 import 'package:flutter_kids_spiel/domain/peek_size.dart';
 import 'package:flutter_kids_spiel/domain/request.dart';
 import 'package:flutter_kids_spiel/domain/weather.dart';
@@ -65,18 +66,27 @@ class Gateway {
   }
 }
 
-loadMOIAServiceAreas() async {
-  final String pathAuth = sprintf(MOIA_API_HOST, [MOIA_API_AUTH]);
-  final String pathServiceAreas =
-  sprintf(MOIA_API_HOST, [MOIA_API_SERVICE_AREAS]);
-  final Dio dio = Dio();
+Future<ServiceAreas> loadMOIAServiceAreas() async {
+  final String pathAuth = sprintf("%s%s", [MOIA_API_HOST, MOIA_API_AUTH]);
+  var dio = Dio();
   dio.options.headers = {
     "Content-Type": "application/json",
     "accept": "application/vnd.moia+json",
     "authorization": MOIA_AUTHORIZATION
   };
-  final response = await dio.post(pathAuth, data: MOIA_USER);
-  final Map<String, dynamic> feedsMap =
-  DecoderHelper.getJsonDecoder().convert(response.toString());
-  debugPrint(feedsMap.toString());
+  var response = await dio.post(pathAuth, data: MOIA_USER);
+  var feedsMap = DecoderHelper.getJsonDecoder().convert(response.toString());
+  final String idToken = feedsMap["id_token"];
+
+  dio = Dio();
+  dio.options.headers = {
+    "Content-Type": "application/vnd.moia.v1+json",
+    "accept": "application/vnd.moia.v1+json",
+    "moia-auth": idToken
+  };
+  final String pathServiceAreas =
+      sprintf("%s%s", [MOIA_API_HOST, MOIA_API_SERVICE_AREAS]);
+  response = await dio.get(pathServiceAreas);
+  feedsMap = DecoderHelper.getJsonDecoder().convert(response.toString());
+  return ServiceAreas.from(feedsMap);
 }
