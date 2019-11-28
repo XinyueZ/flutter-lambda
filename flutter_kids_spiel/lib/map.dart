@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'config.dart';
 import 'domain/grounds.dart';
 import 'domain/latlng_bounds.dart' as llb;
+import 'domain/moia/service_area.dart';
 import 'domain/peek_size.dart';
 import 'main.dart';
 import 'navi/navi.dart';
@@ -34,6 +35,7 @@ class MapView extends StatefulWidget {
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer();
   final Set<Marker> allMarkers = Set<Marker>();
+  final Set<Polygon> polygons = Set<Polygon>();
 
   BitmapDescriptor _markerIcon;
   bool _myLocationEnabled = false;
@@ -54,6 +56,7 @@ class MapViewState extends State<MapView> {
           _mapController.complete(controller);
         },
         markers: allMarkers,
+        polygons: polygons,
         onCameraIdle: _onCameraIdle,
         myLocationEnabled: _myLocationEnabled,
         myLocationButtonEnabled: false,
@@ -94,6 +97,10 @@ class MapViewState extends State<MapView> {
         await Gateway.instance.loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
 
+    final ServiceAreas serviceAreas =
+        await Gateway.instance.loadMOIAServiceAreas();
+    _postMOIAService(serviceAreas);
+
     loadingGroundsCallback(true);
   }
 
@@ -111,6 +118,31 @@ class MapViewState extends State<MapView> {
           },
         ));
       });
+    });
+  }
+
+  void _postMOIAService(ServiceAreas serviceAreas) async {
+    setState(() {
+      polygons.clear();
+
+      final listOfLatLng = List<LatLng>();
+
+      serviceAreas.listOfServiceArea[0].locationAttributes.area.locations
+          .forEach((loc) {
+        final LatLng latlng = LatLng(loc.lat, loc.lng);
+        debugPrint("$latlng");
+        listOfLatLng.add(latlng);
+      });
+
+      final Polygon polygon = Polygon(
+          polygonId: PolygonId("polygon_id_1"),
+          strokeWidth: 10,
+          points: listOfLatLng,
+          strokeColor: Colors.pink,
+          fillColor: Colors.transparent,
+          visible: true);
+
+      polygons.add(polygon);
     });
   }
 
