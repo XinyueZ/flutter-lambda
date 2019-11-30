@@ -8,6 +8,7 @@ import 'config.dart';
 import 'domain/weather.dart';
 import 'map.dart';
 import 'service/gateway.dart';
+import 'extensions.dart';
 
 typedef LoadingWeatherCallback = Function(Weather weather);
 
@@ -29,9 +30,7 @@ class _WeatherChipState extends State<WeatherChip> {
   }
 
   _updateWeather(weather) {
-    setState(() {
-      this._weather = weather;
-    });
+    this._weather = weather;
   }
 
   @override
@@ -48,13 +47,12 @@ class _WeatherChipState extends State<WeatherChip> {
               ///TODO Optimise duplicated codes below, there's same code in [map.dart].
               Position position = await Geolocator()
                   .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-              Locale myLocale = Localizations.localeOf(context);
-              final weather = await gateway.loadWeather(
-                  position.latitude,
-                  position.longitude,
-                  myLocale.toLanguageTag());
 
-              loadingWeatherCallback(weather);
+              gateway.fetchWeather(position.latitude, position.longitude,
+                  Localizations.localeOf(context).toLanguageTag());
+              gateway.weatherController.setStreamListener((weather) {
+                loadingWeatherCallback(weather);
+              });
             },
             child: Chip(
               padding: EdgeInsets.only(left: 3),

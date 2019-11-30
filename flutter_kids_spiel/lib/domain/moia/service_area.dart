@@ -60,32 +60,32 @@ class ServiceParameters {
   }
 }
 
-class ServiceArea {
+class MOIAServiceArea {
   final ServiceAreaLocationAttributes locationAttributes;
   final ServiceParameters serviceParameters;
 
-  ServiceArea(this.locationAttributes, this.serviceParameters);
+  MOIAServiceArea(this.locationAttributes, this.serviceParameters);
 
-  factory ServiceArea.from(Map<String, dynamic> map) {
+  factory MOIAServiceArea.from(Map<String, dynamic> map) {
     final locationAttributes =
         ServiceAreaLocationAttributes.from(map["locationAttributes"]);
     final serviceParameters = ServiceParameters.from(map["serviceParameters"]);
-    return ServiceArea(locationAttributes, serviceParameters);
+    return MOIAServiceArea(locationAttributes, serviceParameters);
   }
 }
 
-class ServiceAreas {
-  final List<ServiceArea> listOfServiceArea;
+class MOIAServiceAreas {
+  final List<MOIAServiceArea> listOfServiceArea;
 
-  ServiceAreas(this.listOfServiceArea);
+  MOIAServiceAreas(this.listOfServiceArea);
 
-  factory ServiceAreas.from(Map<String, dynamic> map) {
-    final listOfServiceArea = List<ServiceArea>();
+  factory MOIAServiceAreas.from(Map<String, dynamic> map) {
+    final listOfServiceArea = List<MOIAServiceArea>();
 
     map["serviceAreas"].forEach((l) {
-      listOfServiceArea.add(ServiceArea.from(l));
+      listOfServiceArea.add(MOIAServiceArea.from(l));
     });
 
-    return ServiceAreas(listOfServiceArea);
+    return MOIAServiceAreas(listOfServiceArea);
   }
 }

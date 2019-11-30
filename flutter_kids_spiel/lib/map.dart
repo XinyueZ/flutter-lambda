@@ -16,6 +16,7 @@ import 'main.dart';
 import 'navi/navi.dart';
 import 'service/gateway.dart';
 import 'weather_chip.dart';
+import 'extensions.dart';
 
 LoadingGroundsCallback loadingGroundsCallback;
 LoadingWeatherCallback loadingWeatherCallback;
@@ -35,20 +36,29 @@ class MapView extends StatefulWidget {
 
 class MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer();
-  final Set<Marker> allMarkers = Set<Marker>();
-  final Set<Polygon> polygons = Set<Polygon>();
-
-  BitmapDescriptor _markerIcon;
-  bool _myLocationEnabled = false;
-
-  CameraPosition _cameraPosition = CameraPosition(
+  final Set<Marker> _allMarkers = Set<Marker>();
+  final Set<Polygon> _polygons = Set<Polygon>();
+  final CameraPosition _cameraPosition = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 17,
   );
 
+  BitmapDescriptor _markerIcon;
+  bool _myLocationEnabled = false;
+  Gateway _gateway;
+
+  @override
+  void dispose() {
+    _gateway.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _gateway = Provider.of<Gateway>(context);
+
     _createMarkerImageFromAsset(context);
+
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -56,8 +66,8 @@ class MapViewState extends State<MapView> {
         onMapCreated: (GoogleMapController controller) {
           _mapController.complete(controller);
         },
-        markers: allMarkers,
-        polygons: polygons,
+        markers: _allMarkers,
+        polygons: _polygons,
         onCameraIdle: _onCameraIdle,
         myLocationEnabled: _myLocationEnabled,
         myLocationButtonEnabled: false,
@@ -67,7 +77,6 @@ class MapViewState extends State<MapView> {
   }
 
   void animateCamera(Position position) async {
-    final Gateway gateway = Provider.of<Gateway>(context);
     final GoogleMapController c = await _mapController.future;
     c.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(position.latitude, position.longitude),
@@ -77,15 +86,9 @@ class MapViewState extends State<MapView> {
     setState(() {
       _myLocationEnabled = Platform.isIOS ? false : true;
     });
-
-    Locale myLocale = Localizations.localeOf(context);
-    final weather = await gateway.loadWeather(
-        position.latitude, position.longitude, myLocale.toLanguageTag());
-    loadingWeatherCallback(weather);
   }
 
   void _onCameraIdle() async {
-    final Gateway gateway = Provider.of<Gateway>(context);
     final GoogleMapController c = await _mapController.future;
 
     final double width = MediaQuery.of(context).size.width;
@@ -96,35 +99,60 @@ class MapViewState extends State<MapView> {
     final bounds = await c.getVisibleRegion();
     final latLngBounds = llb.LatLngBounds.from(bounds);
 
-    final Grounds grounds = await gateway.loadGrounds(latLngBounds, peekSize);
-    _postGroundsOnMap(grounds);
-
-    final ServiceAreas serviceAreas = await gateway.loadMOIAServiceAreas();
-    _postMOIAService(serviceAreas);
-
-    loadingGroundsCallback(true);
+    _populateGrounds(latLngBounds, peekSize);
+    _populateMOIAServiceAreas();
+    _populateWeather(c);
   }
 
-  _postGroundsOnMap(Grounds grounds) async {
-    setState(() {
-      allMarkers.clear();
-      grounds.data.forEach((ground) {
-        allMarkers.add(Marker(
-          visible: true,
-          markerId: MarkerId(ground.id ?? "unknown ID"),
-          position: ground.latLng,
-          icon: _markerIcon,
-          onTap: () {
-            INavi.build().openMap(ground.latLng);
-          },
-        ));
-      });
+  _populateWeather(GoogleMapController c) async {
+    final devicePixelRatio =
+        Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1.0;
+    final latLng = await c.getLatLng(
+      ScreenCoordinate(
+        x: (context.size.width * devicePixelRatio) ~/ 2.0,
+        y: (context.size.height * devicePixelRatio) ~/ 2.0,
+      ),
+    );
+    _gateway.fetchWeather(latLng.latitude, latLng.longitude,
+        Localizations.localeOf(context).toLanguageTag());
+    _gateway.weatherController.setStreamListener((weather) {
+      loadingWeatherCallback(weather);
     });
   }
 
-  void _postMOIAService(ServiceAreas serviceAreas) async {
+  _populateMOIAServiceAreas() {
+    _gateway.fetchMOIAServiceAreas();
+    _gateway.moiaServiceAreasController.setStreamListener((serviceAreas) {
+      _postMOIAService(serviceAreas);
+    });
+  }
+
+  _populateGrounds(llb.LatLngBounds latLngBounds, PeekSize peekSize) {
+    _gateway.fetchGrounds(latLngBounds, peekSize);
+    _gateway.groundsController.setStreamListener((grounds) {
+      _postGroundsOnMap(grounds);
+      loadingGroundsCallback(true);
+    });
+  }
+
+  void _postGroundsOnMap(Grounds grounds) async {
+    _allMarkers.clear();
+    grounds.data.forEach((ground) {
+      _allMarkers.add(Marker(
+        visible: true,
+        markerId: MarkerId(ground.id ?? "unknown ID"),
+        position: ground.latLng,
+        icon: _markerIcon,
+        onTap: () {
+          INavi.build().openMap(ground.latLng);
+        },
+      ));
+    });
+  }
+
+  void _postMOIAService(MOIAServiceAreas serviceAreas) async {
     setState(() {
-      polygons.clear();
+      _polygons.clear();
 
       final listOfLatLng = List<LatLng>();
 
@@ -143,7 +171,7 @@ class MapViewState extends State<MapView> {
           fillColor: Colors.transparent,
           visible: true);
 
-      polygons.add(polygon);
+      _polygons.add(polygon);
     });
   }
 

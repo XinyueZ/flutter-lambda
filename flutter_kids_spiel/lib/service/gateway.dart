@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_kids_spiel/domain/ground.dart';
@@ -37,10 +39,20 @@ class DioProvider implements HttpProvider {
 
 class Gateway {
   final HttpProvider _httpProvider;
+  final StreamController<Grounds> groundsController = StreamController();
+  final StreamController<MOIAServiceAreas> moiaServiceAreasController =
+      StreamController();
+  final StreamController<Weather> weatherController = StreamController();
 
   Gateway(this._httpProvider);
 
-  Future<Grounds> loadGrounds(LatLngBounds bound, PeekSize peekSize) async {
+  dispose() {
+    groundsController.close();
+    moiaServiceAreasController.close();
+    weatherController.close();
+  }
+
+  fetchGrounds(LatLngBounds bound, PeekSize peekSize) async {
     final payload = GroundRequest.from(bound, peekSize).toPayload();
     final response = await _httpProvider.post(API_GROUNDS, payload);
 
@@ -53,19 +65,19 @@ class Gateway {
       res.data.add(Ground(g));
     });
 
-    return res;
+    groundsController.sink.add(res);
   }
 
-  Future<Weather> loadWeather(double lat, double lng, String lang) async {
+  fetchWeather(double lat, double lng, String lang) async {
     final path = sprintf(API_WEATHER, [lat, lng, lang]);
 
     final response = await _httpProvider.get(path);
     final Map<String, dynamic> feedsMap =
         DecoderHelper.getJsonDecoder().convert(response.toString());
-    return Weather.from(feedsMap);
+    weatherController.sink.add(Weather.from(feedsMap));
   }
 
-  Future<ServiceAreas> loadMOIAServiceAreas() async {
+  fetchMOIAServiceAreas() async {
     final String pathAuth = sprintf("%s%s", [MOIA_API_HOST, MOIA_API_AUTH]);
     var dio = Dio();
     dio.options.headers = {
@@ -87,6 +99,33 @@ class Gateway {
         sprintf("%s%s", [MOIA_API_HOST, MOIA_API_SERVICE_AREAS]);
     response = await dio.get(pathServiceAreas);
     feedsMap = DecoderHelper.getJsonDecoder().convert(response.toString());
-    return ServiceAreas.from(feedsMap);
+    moiaServiceAreasController.sink.add(MOIAServiceAreas.from(feedsMap));
+  }
+
+  @deprecated
+  Future<Grounds> loadGrounds(LatLngBounds bound, PeekSize peekSize) async {
+    final payload = GroundRequest.from(bound, peekSize).toPayload();
+    final response = await _httpProvider.post(API_GROUNDS, payload);
+
+    final Map<String, dynamic> feedsMap =
+        DecoderHelper.getJsonDecoder().convert(response.toString());
+    final List<dynamic> feedsResult = feedsMap["result"];
+
+    final res = Grounds();
+    feedsResult.forEach((g) {
+      res.data.add(Ground(g));
+    });
+
+    return res;
+  }
+
+  @deprecated
+  Future<Weather> loadWeather(double lat, double lng, String lang) async {
+    final path = sprintf(API_WEATHER, [lat, lng, lang]);
+
+    final response = await _httpProvider.get(path);
+    final Map<String, dynamic> feedsMap =
+        DecoderHelper.getJsonDecoder().convert(response.toString());
+    return Weather.from(feedsMap);
   }
 }
