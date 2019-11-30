@@ -105,14 +105,7 @@ class MapViewState extends State<MapView> {
   }
 
   _populateWeather(GoogleMapController c) async {
-    final devicePixelRatio =
-        Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1.0;
-    final latLng = await c.getLatLng(
-      ScreenCoordinate(
-        x: (context.size.width * devicePixelRatio) ~/ 2.0,
-        y: (context.size.height * devicePixelRatio) ~/ 2.0,
-      ),
-    );
+    LatLng latLng = await c.getMapCenterLatLng(context);
     _gateway.fetchWeather(latLng.latitude, latLng.longitude,
         Localizations.localeOf(context).toLanguageTag());
     _gateway.weatherController.setStreamListener((weather) {
@@ -177,7 +170,7 @@ class MapViewState extends State<MapView> {
         pin = "asserts/images/ic_ios_pin.png";
       } else {
         imageConfiguration =
-            createLocalImageConfiguration(context, size: Size(300, 300));
+            createLocalImageConfiguration(context, size: Size(250, 250));
       }
 
       BitmapDescriptor.fromAssetImage(imageConfiguration, pin)
