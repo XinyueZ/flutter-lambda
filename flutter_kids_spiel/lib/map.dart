@@ -137,17 +137,17 @@ class MapViewState extends State<MapView> {
 
   void _postGroundsOnMap(Grounds grounds) async {
     _allMarkers.clear();
-    grounds.data.forEach((ground) {
-      _allMarkers.add(Marker(
-        visible: true,
-        markerId: MarkerId(ground.id ?? "unknown ID"),
-        position: ground.latLng,
-        icon: _markerIcon,
-        onTap: () {
-          INavi.build().openMap(ground.latLng);
-        },
-      ));
-    });
+    _allMarkers.addAll(grounds.data
+        .map((ground) => Marker(
+              visible: true,
+              markerId: MarkerId(ground.id ?? "unknown ID"),
+              position: ground.latLng,
+              icon: _markerIcon,
+              onTap: () {
+                INavi.build().openMap(ground.latLng);
+              },
+            ))
+        .toSet());
   }
 
   void _postMOIAService(MOIAServiceAreas serviceAreas) async {
