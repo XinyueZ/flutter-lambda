@@ -153,25 +153,17 @@ class MapViewState extends State<MapView> {
   void _postMOIAService(MOIAServiceAreas serviceAreas) async {
     setState(() {
       _polygons.clear();
-
-      final listOfLatLng = List<LatLng>();
-
-      serviceAreas.listOfServiceArea[0].locationAttributes.area.locations
-          .forEach((loc) {
-        final LatLng latlng = LatLng(loc.lat, loc.lng);
-        debugPrint("$latlng");
-        listOfLatLng.add(latlng);
-      });
-
-      final Polygon polygon = Polygon(
+      _polygons.add(Polygon(
           polygonId: PolygonId("polygon_id_1"),
           strokeWidth: 10,
-          points: listOfLatLng,
+          points: serviceAreas
+              .listOfServiceArea[0].locationAttributes.area.locations
+              .map((loc) {
+            return LatLng(loc.lat, loc.lng);
+          }).toList(),
           strokeColor: Colors.pink,
           fillColor: Colors.transparent,
-          visible: true);
-
-      _polygons.add(polygon);
+          visible: true));
     });
   }
 
