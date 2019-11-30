@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 import 'config.dart';
 import 'domain/weather.dart';
@@ -35,6 +36,7 @@ class _WeatherChipState extends State<WeatherChip> {
 
   @override
   Widget build(BuildContext context) {
+    final Gateway gateway = Provider.of<Gateway>(context);
     return Align(
         alignment: Alignment.topLeft,
         child: Container(
@@ -47,7 +49,7 @@ class _WeatherChipState extends State<WeatherChip> {
               Position position = await Geolocator()
                   .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
               Locale myLocale = Localizations.localeOf(context);
-              final weather = await Gateway.instance.loadWeather(
+              final weather = await gateway.loadWeather(
                   position.latitude,
                   position.longitude,
                   myLocale.toLanguageTag());

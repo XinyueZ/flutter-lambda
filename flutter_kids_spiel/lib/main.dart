@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kids_spiel/share_app_button.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import 'about_button.dart';
 import 'map.dart';
+import 'service/gateway.dart';
 import 'weather_chip.dart';
 
-void main() => runApp(App());
+void main() => runApp(MultiProvider(providers: [
+      Provider<Gateway>(
+        create: (BuildContext context) => Gateway(DioProvider()),
+      )
+    ], child: App()));
 
 typedef LoadingGroundsCallback = Function(bool isDone);
 

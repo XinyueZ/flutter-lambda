@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_kids_spiel/domain/ground.dart';
 import 'package:flutter_kids_spiel/domain/grounds.dart';
 import 'package:flutter_kids_spiel/domain/latlng_bounds.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_kids_spiel/domain/moia/service_area.dart';
 import 'package:flutter_kids_spiel/domain/peek_size.dart';
 import 'package:flutter_kids_spiel/domain/request.dart';
 import 'package:flutter_kids_spiel/domain/weather.dart';
+import 'package:provider/provider.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
@@ -35,7 +37,6 @@ class DioProvider implements HttpProvider {
 
 class Gateway {
   final HttpProvider _httpProvider;
-  static final Gateway instance = Gateway(DioProvider.instance);
 
   Gateway(this._httpProvider);
 

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'config.dart';
 import 'domain/grounds.dart';
@@ -66,6 +67,7 @@ class MapViewState extends State<MapView> {
   }
 
   void animateCamera(Position position) async {
+    final Gateway gateway = Provider.of<Gateway>(context);
     final GoogleMapController c = await _mapController.future;
     c.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(position.latitude, position.longitude),
@@ -77,12 +79,13 @@ class MapViewState extends State<MapView> {
     });
 
     Locale myLocale = Localizations.localeOf(context);
-    final weather = await Gateway.instance.loadWeather(
+    final weather = await gateway.loadWeather(
         position.latitude, position.longitude, myLocale.toLanguageTag());
     loadingWeatherCallback(weather);
   }
 
   void _onCameraIdle() async {
+    final Gateway gateway = Provider.of<Gateway>(context);
     final GoogleMapController c = await _mapController.future;
 
     final double width = MediaQuery.of(context).size.width;
@@ -93,12 +96,10 @@ class MapViewState extends State<MapView> {
     final bounds = await c.getVisibleRegion();
     final latLngBounds = llb.LatLngBounds.from(bounds);
 
-    final Grounds grounds =
-        await Gateway.instance.loadGrounds(latLngBounds, peekSize);
+    final Grounds grounds = await gateway.loadGrounds(latLngBounds, peekSize);
     _postGroundsOnMap(grounds);
 
-    final ServiceAreas serviceAreas =
-        await Gateway.instance.loadMOIAServiceAreas();
+    final ServiceAreas serviceAreas = await gateway.loadMOIAServiceAreas();
     _postMOIAService(serviceAreas);
 
     loadingGroundsCallback(true);
