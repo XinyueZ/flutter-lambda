@@ -100,12 +100,12 @@ class MapViewState extends State<MapView> {
     final latLngBounds = llb.LatLngBounds.from(bounds);
 
     _populateGrounds(latLngBounds, peekSize);
-    _populateMOIAServiceAreas();
+    _populateMOIAServiceAreas(c);
     _populateWeather(c);
   }
 
   _populateWeather(GoogleMapController c) async {
-    LatLng latLng = await c.getMapCenterLatLng(context);
+    final LatLng latLng = await c.getMapCenterLatLng();
     _gateway.fetchWeather(latLng.latitude, latLng.longitude,
         Localizations.localeOf(context).toLanguageTag());
     _gateway.weatherController.setStreamListener((weather) {
@@ -113,10 +113,11 @@ class MapViewState extends State<MapView> {
     });
   }
 
-  _populateMOIAServiceAreas() {
+  _populateMOIAServiceAreas(GoogleMapController c) async {
     _gateway.fetchMOIAServiceAreas();
-    _gateway.moiaServiceAreasController.setStreamListener((serviceAreas) {
-      _postMOIAService(serviceAreas);
+    _gateway.moiaServiceAreasController.setStreamListener((serviceAreas) async {
+      final LatLng mapCenter = await c.getMapCenterLatLng();
+      _postMOIAService(serviceAreas, mapCenter);
     });
   }
 
@@ -128,7 +129,7 @@ class MapViewState extends State<MapView> {
     });
   }
 
-  void _postGroundsOnMap(Grounds grounds) async {
+  void _postGroundsOnMap(Grounds grounds) {
     _allMarkers.clear();
     _allMarkers.addAll(grounds.data
         .map((ground) => Marker(
@@ -143,15 +144,24 @@ class MapViewState extends State<MapView> {
         .toSet());
   }
 
-  void _postMOIAService(MOIAServiceAreas serviceAreas) async {
+  void _postMOIAService(MOIAServiceAreas serviceAreas, LatLng mapCenter) async {
     setState(() {
+      final List<MOIAServiceArea> listOfArea =
+          serviceAreas.listOfServiceArea.where((area) {
+        final ServiceAreaLocationAttributes attr = area.locationAttributes;
+        final LatLngBounds bounds = LatLngBounds(
+            southwest: LatLng(attr.bottomRight.lat, attr.topLeft.lng),
+            northeast: LatLng(attr.topLeft.lat, attr.bottomRight.lng));
+        return bounds.contains(mapCenter);
+      }).toList();
+
+      if (listOfArea.isEmpty) return;
+
       _polygons.clear();
       _polygons.add(Polygon(
           polygonId: PolygonId("polygon_id_1"),
           strokeWidth: 10,
-          points: serviceAreas
-              .listOfServiceArea[0].locationAttributes.area.locations
-              .map((loc) {
+          points: listOfArea.first.locationAttributes.area.locations.map((loc) {
             return LatLng(loc.lat, loc.lng);
           }).toList(),
           strokeColor: Colors.pink,

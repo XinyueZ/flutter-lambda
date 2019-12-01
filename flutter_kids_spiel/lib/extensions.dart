@@ -15,15 +15,13 @@ extension StreamControllerExtension<T> on StreamController<T> {
 }
 
 extension GoogleMapControllerExtension on GoogleMapController {
-  Future<LatLng> getMapCenterLatLng(BuildContext context) async {
-    final devicePixelRatio =
-        Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1.0;
-    final latLng = await getLatLng(
-      ScreenCoordinate(
-        x: (context.size.width * devicePixelRatio) ~/ 2.0,
-        y: (context.size.height * devicePixelRatio) ~/ 2.0,
-      ),
-    );
-    return latLng;
+  Future<LatLng> getMapCenterLatLng() async {
+    final LatLngBounds latLngBounds = await getVisibleRegion();
+    final double lat =
+        (latLngBounds.southwest.latitude + latLngBounds.northeast.latitude) / 2;
+    final double lng =
+        (latLngBounds.southwest.longitude + latLngBounds.northeast.longitude) /
+            2;
+    return LatLng(lat, lng);
   }
 }
