@@ -141,11 +141,10 @@ class _AppState extends State<App> {
   get _noPermissions => _permissionStatus != PermissionStatus.granted;
 
   void _loadingCompleted(bool completed) {
-    if (_hasPermissions)
-      setState(() {
-        _isLoadingCompleted = completed;
-        _updateFAB();
-      });
+    if (_hasPermissions) {
+      _isLoadingCompleted = completed;
+      _updateFAB();
+    }
   }
 
   Future _moveMapCamera() async {
