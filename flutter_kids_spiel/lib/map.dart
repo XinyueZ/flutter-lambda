@@ -173,22 +173,13 @@ class MapViewState extends State<MapView> {
   _createMarkerImageFromAsset(BuildContext context) async {
     if (_markerIcon == null) {
       var imageConfiguration;
-      var pin = "asserts/images/ic_pin.png";
+      var pin = "assets/images/ic_pin.png";
+      imageConfiguration =
+          createLocalImageConfiguration(context, size: Size(250, 250));
 
-      if (Platform.isIOS) {
-        imageConfiguration = createLocalImageConfiguration(context);
-        pin = "asserts/images/ic_ios_pin.png";
-      } else {
-        imageConfiguration =
-            createLocalImageConfiguration(context, size: Size(250, 250));
-      }
-
-      BitmapDescriptor.fromAssetImage(imageConfiguration, pin)
-          .then((BitmapDescriptor bitmap) {
-        setState(() {
-          _markerIcon = bitmap;
-        });
-      });
+      final BitmapDescriptor bitmap =
+          await BitmapDescriptor.fromAssetImage(imageConfiguration, pin);
+      _markerIcon = bitmap;
     }
   }
 }
