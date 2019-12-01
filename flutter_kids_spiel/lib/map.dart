@@ -17,6 +17,7 @@ import 'navi/navi.dart';
 import 'service/gateway.dart';
 import 'weather_chip.dart';
 import 'extensions.dart';
+import 'domain/moia/extensions.dart';
 
 LoadingGroundsCallback loadingGroundsCallback;
 LoadingWeatherCallback loadingWeatherCallback;
@@ -130,6 +131,8 @@ class MapViewState extends State<MapView> {
   }
 
   _postGroundsOnMap(Grounds grounds) async {
+    if (grounds.data.isEmpty) return;
+
     _allMarkers.clear();
     _allMarkers.addAll(grounds.data
         .map((ground) => Marker(
@@ -145,28 +148,25 @@ class MapViewState extends State<MapView> {
   }
 
   _postMOIAService(MOIAServiceAreas serviceAreas, LatLng mapCenter) async {
+    final List<MOIAServiceArea> listOfArea =
+        serviceAreas.filterAreasBy(mapCenter);
+
+    if (listOfArea.isEmpty) return;
+
     setState(() {
-      final List<MOIAServiceArea> listOfArea =
-          serviceAreas.listOfServiceArea.where((area) {
-        final ServiceAreaLocationAttributes attr = area.locationAttributes;
-        final LatLngBounds bounds = LatLngBounds(
-            southwest: LatLng(attr.bottomRight.lat, attr.topLeft.lng),
-            northeast: LatLng(attr.topLeft.lat, attr.bottomRight.lng));
-        return bounds.contains(mapCenter);
-      }).toList();
-
-      if (listOfArea.isEmpty) return;
-
       _polygons.clear();
-      _polygons.add(Polygon(
-          polygonId: PolygonId("polygon_id_1"),
-          strokeWidth: 10,
-          points: listOfArea.first.locationAttributes.area.locations.map((loc) {
-            return LatLng(loc.lat, loc.lng);
-          }).toList(),
-          strokeColor: Colors.pink,
-          fillColor: Colors.transparent,
-          visible: true));
+      _polygons.addAll([
+        Polygon(
+            polygonId: PolygonId("polygon_id_1"),
+            strokeWidth: 10,
+            points:
+                listOfArea.first.locationAttributes.area.locations.map((loc) {
+              return LatLng(loc.lat, loc.lng);
+            }).toList(),
+            strokeColor: Colors.pink,
+            fillColor: Colors.transparent,
+            visible: true)
+      ]);
     });
   }
 
