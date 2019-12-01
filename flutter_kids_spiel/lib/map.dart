@@ -129,7 +129,7 @@ class MapViewState extends State<MapView> {
     });
   }
 
-  void _postGroundsOnMap(Grounds grounds) {
+  _postGroundsOnMap(Grounds grounds) async {
     _allMarkers.clear();
     _allMarkers.addAll(grounds.data
         .map((ground) => Marker(
@@ -144,7 +144,7 @@ class MapViewState extends State<MapView> {
         .toSet());
   }
 
-  void _postMOIAService(MOIAServiceAreas serviceAreas, LatLng mapCenter) async {
+  _postMOIAService(MOIAServiceAreas serviceAreas, LatLng mapCenter) async {
     setState(() {
       final List<MOIAServiceArea> listOfArea =
           serviceAreas.listOfServiceArea.where((area) {
