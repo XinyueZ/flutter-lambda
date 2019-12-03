@@ -57,6 +57,34 @@ class HNContentWidget extends StatelessWidget {
             ],
           ),
           body: HNListWidget(),
+          bottomNavigationBar: Builder(
+            builder: (context) => BottomNavigationBar(
+              elevation: 10,
+              backgroundColor: APP_PRIMARY_COLOR,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.fiber_new,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "NEWS",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.work,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "JOBS",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          ),
         )));
   }
 }
