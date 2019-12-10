@@ -36,7 +36,7 @@ class HNListBloc extends ChangeNotifier {
     final List<dynamic> feedsMap =
         DecoderHelper.getJsonDecoder().convert(response.toString());
     feedsMap.forEach((elementId) {
-      _elements.add(HNElement(elementId));
+      _elements.add(HNObject(elementId));
     });
   }
 
