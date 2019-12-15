@@ -28,6 +28,7 @@ dependencies:
   dio: ^3.0.4
   flutter_launcher_icons: ^0.7.4
   flutter_html: ^0.11.0
+  flutter_offline: ^0.3.0
   firebase_ml_vision: 0.9.2
   firebase_mlkit_language:
     git:
