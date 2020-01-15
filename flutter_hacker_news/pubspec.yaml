@@ -14,7 +14,7 @@ description: HN Tree, a Hacker News feeds app made by flutter.
 version: 0.0.3+4
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:

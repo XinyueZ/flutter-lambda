@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
 import '../decoder_helper.dart';
-import 'hn_item.dart';
 
 extension HNStoryGenerator on List<HNElement> {
   Future<List<HNStory>> buildStories(final Dio dio) async {
