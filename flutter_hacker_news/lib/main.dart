@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/config.dart';
+import 'package:flutter_hacker_news/router/root_router.dart';
 import 'package:flutter_hacker_news/widgets/hn_splash_widget.dart';
 
 void main() => runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColorBrightness: Brightness.light,
       ),
+      onGenerateRoute: generateRootRoute,
       home: Material(child: HNSplashWidget()),
     );
   }

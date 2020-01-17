@@ -19,9 +19,7 @@ class _HNSplashWidgetState extends State<HNSplashWidget> {
   bool _showNext = false;
 
   void _gotoHNContent(BuildContext buildContext) {
-    Navigator.of(buildContext).pushReplacement(MaterialPageRoute(builder: (_) {
-      return HNContentWidget();
-    }));
+    Navigator.of(buildContext).pushReplacementNamed("/content");
   }
 
   void _delayToShowNext() {
