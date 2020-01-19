@@ -3,7 +3,7 @@ import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:intl/intl.dart';
 
 class HNTimeWidget extends StatelessWidget {
-  final HNItem item;
+  final HNTextItem item;
   final DateFormat format = DateFormat("yyyy.MM.dd HH:mm");
 
   HNTimeWidget({

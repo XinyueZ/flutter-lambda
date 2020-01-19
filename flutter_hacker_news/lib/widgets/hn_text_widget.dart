@@ -5,7 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import '../utils.dart';
 
 class HNTextWidget extends StatelessWidget {
-  final HNItem item;
+  final HNTextItem item;
 
   HNTextWidget({
     Key key,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_news_detail_bloc.dart';
 import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:provider/provider.dart';
@@ -9,10 +9,10 @@ import '../config.dart';
 import 'hn_detail_comment_list_widget.dart';
 import 'hn_detail_header_widget.dart';
 
-class HNDetailWidget extends StatelessWidget {
-  final HNItem item;
+class HNNewsDetailWidget extends StatelessWidget {
+  final HNStory item;
 
-  HNDetailWidget({
+  HNNewsDetailWidget({
     Key key,
     @required this.item,
   });
@@ -22,8 +22,8 @@ class HNDetailWidget extends StatelessWidget {
     final HNShareBloc model = HNShareBloc();
     model.storySharing(item);
 
-    return ChangeNotifierProvider<HNDetailBloc>.value(
-      value: HNDetailBloc(item),
+    return ChangeNotifierProvider<HNNewsDetailBloc>.value(
+      value: HNNewsDetailBloc(item),
       child: Material(
           child: Scaffold(
         appBar: AppBar(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_news_detail_bloc.dart';
 import 'package:flutter_hacker_news/widgets/hn_translation_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class _HNDetailHeaderWidgetState extends State<HNDetailHeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final HNDetailBloc model = Provider.of<HNDetailBloc>(context);
+    final HNNewsDetailBloc model = Provider.of<HNNewsDetailBloc>(context);
 
     return Column(
       children: <Widget>[
@@ -67,7 +67,7 @@ class _HNDetailHeaderWidgetState extends State<HNDetailHeaderWidget> {
               SizedBox(
                 width: 5,
               ),
-              HNScoreWidget(story: model.currentHackerNews),
+              HNScoreWidget(scoredItem: model.currentHackerNews),
               HNTranslationButtonWidget(
                 alignment: Alignment.topLeft,
                 onTranslationClicked: () {

@@ -65,3 +65,27 @@ extension HNCommentListGenerator on List<HNItem> {
     return comments;
   }
 }
+
+extension HNJobGenerator on Iterable<HNElement> {
+  Future<List<HNJob>> buildJobs(final Dio dio) async {
+    final List<HNJob> jobs = List();
+    await Future.forEach(this, (element) async {
+      final String getPath = sprintf(CONTENT, [element.toString()]);
+      final Response response = await dio.get(getPath);
+      if (response != null) {
+        final Map<String, dynamic> feedsMap =
+            DecoderHelper.getJsonDecoder().convert(response.toString());
+
+        if (feedsMap != null) {
+          final HNJob job = HNJob.from(feedsMap);
+          jobs.add(job);
+
+          //Debug output
+          print("Job: ${job.toString()}");
+        }
+      }
+    });
+
+    return jobs;
+  }
+}
