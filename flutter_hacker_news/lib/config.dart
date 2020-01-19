@@ -19,7 +19,8 @@ const NULL_PLACEHOLDER = "n/a";
 const NULL_NUM = null;
 const NULL_URI = "https://www.google.com";
 const GOOGLE_PLAY_LOCATION = "http://tinyurl.com/tdh4b39";
-const APP_SLOGAN = "Share different ideas, discussions and topics of IT, Geek and various technoledge.";
+const APP_SLOGAN =
+    "Share different ideas, discussions and topics of IT, Geek and various technoledge.";
 const APP_SHARE_SUBJECT = "Hacker News by $APP_NAME";
 const APP_SHARE_CONTENT = "$APP_SLOGAN\nGoogle Play: $GOOGLE_PLAY_LOCATION";
 const HN_COMMENT_PAGE = "Discussion: https://news.ycombinator.com/item?id=%s";

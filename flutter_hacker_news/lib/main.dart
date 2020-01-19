@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<HNTopStoriesBloc>.value(value: HNTopStoriesBloc()),
+        ChangeNotifierProvider<HNTopStoriesBloc>.value(
+            value: HNTopStoriesBloc()),
         ChangeNotifierProvider<HNJobsBloc>.value(value: HNJobsBloc()),
       ],
       child: MaterialApp(

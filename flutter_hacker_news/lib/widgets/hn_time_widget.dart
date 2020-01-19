@@ -22,8 +22,8 @@ class HNTimeWidget extends StatelessWidget {
           ),
           Container(
             child: Text(
-              format
-                  .format(DateTime.fromMillisecondsSinceEpoch(item.time * 1000)),
+              format.format(
+                  DateTime.fromMillisecondsSinceEpoch(item.time * 1000)),
               style: TextStyle(color: Colors.grey),
             ),
           )

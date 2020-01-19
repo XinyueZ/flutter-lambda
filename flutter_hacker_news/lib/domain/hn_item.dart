@@ -58,17 +58,17 @@ class HNStory extends HNItem with HNLink, HNScore, HNTitle {
   }
 
   factory HNStory.from(Map<String, dynamic> map) => HNStory(
-    map["id"],
-    map["by"] ?? NULL_UNKNOWN,
-    map["time"],
-    from(map["type"]),
-    map["text"] ?? (map["title"] ?? NULL_PLACEHOLDER),
-    map["kids"] ?? List(),
-    map["title"] ?? NULL_PLACEHOLDER,
-    map["url"] != null ? Uri.parse(map["url"]) : Uri.parse(NULL_URI),
-    map["score"],
-    map["descendants"] ?? NULL_NUM,
-  );
+        map["id"],
+        map["by"] ?? NULL_UNKNOWN,
+        map["time"],
+        from(map["type"]),
+        map["text"] ?? (map["title"] ?? NULL_PLACEHOLDER),
+        map["kids"] ?? List(),
+        map["title"] ?? NULL_PLACEHOLDER,
+        map["url"] != null ? Uri.parse(map["url"]) : Uri.parse(NULL_URI),
+        map["score"],
+        map["descendants"] ?? NULL_NUM,
+      );
 
   @override
   String toString() => sprintf("[%s]: %s", [id, title]);
@@ -81,14 +81,14 @@ class HNComment extends HNItem {
       : super(id, by, time, type, text, kids);
 
   factory HNComment.from(Map<String, dynamic> map) => HNComment(
-    map["id"],
-    map["by"] ?? NULL_UNKNOWN,
-    map["time"],
-    from(map["type"]),
-    map["text"] ?? NULL_PLACEHOLDER,
-    map["kids"] ?? List(),
-    map["parent"] ?? NULL_NUM,
-  );
+        map["id"],
+        map["by"] ?? NULL_UNKNOWN,
+        map["time"],
+        from(map["type"]),
+        map["text"] ?? NULL_PLACEHOLDER,
+        map["kids"] ?? List(),
+        map["parent"] ?? NULL_NUM,
+      );
 
   @override
   String toString() => sprintf("[%s] by %s: %s", [id, by, text]);
@@ -103,15 +103,15 @@ class HNJob extends HNTextItem with HNLink, HNScore, HNTitle {
   }
 
   factory HNJob.from(Map<String, dynamic> map) => HNJob(
-    map["id"],
-    map["by"] ?? NULL_UNKNOWN,
-    map["time"],
-    from(map["type"]),
-    map["text"] ?? (map["title"] ?? NULL_PLACEHOLDER),
-    map["title"] ?? NULL_PLACEHOLDER,
-    map["url"] != null ? Uri.parse(map["url"]) : Uri.parse(NULL_URI),
-    map["score"],
-  );
+        map["id"],
+        map["by"] ?? NULL_UNKNOWN,
+        map["time"],
+        from(map["type"]),
+        map["text"] ?? (map["title"] ?? NULL_PLACEHOLDER),
+        map["title"] ?? NULL_PLACEHOLDER,
+        map["url"] != null ? Uri.parse(map["url"]) : Uri.parse(NULL_URI),
+        map["score"],
+      );
 
   @override
   String toString() => sprintf("[%s] job at %s: %s", [id, by, title]);
