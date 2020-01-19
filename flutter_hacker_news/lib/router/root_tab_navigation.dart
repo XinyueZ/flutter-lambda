@@ -6,7 +6,7 @@ import 'hn_jobs_navigation.dart';
 import 'hn_news_navigation.dart';
 
 class RootTabNavigation extends StatelessWidget {
-  GlobalKey<NavigatorState> currentNavigatorKey() {
+  GlobalKey<NavigatorState> _currentNavigatorKey() {
     switch (_tabController.index) {
       case HNNewsNavigation.TAB_HN_NEWS_INDEX:
         return HNNewsNavigation.newsTabNavKey;
@@ -22,7 +22,7 @@ class RootTabNavigation extends StatelessWidget {
     return Material(
       child: WillPopScope(
         onWillPop: () async {
-          return !await currentNavigatorKey()?.currentState?.maybePop();
+          return !await _currentNavigatorKey()?.currentState?.maybePop();
         },
         child: CupertinoTabScaffold(
             controller: _tabController,
