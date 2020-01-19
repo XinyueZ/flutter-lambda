@@ -10,7 +10,8 @@ class RootTabNavigation extends StatelessWidget {
     switch (_tabController.index) {
       case HNNewsNavigation.TAB_HN_NEWS_INDEX:
         return HNNewsNavigation.newsTabNavKey;
-        break;
+      case HNJobsNavigation.TAB_HN_JOBS_INDEX:
+        return HNJobsNavigation.jobsTabNavKey;
     }
 
     return null;
@@ -21,7 +22,7 @@ class RootTabNavigation extends StatelessWidget {
     return Material(
       child: WillPopScope(
         onWillPop: () async {
-          return !await currentNavigatorKey().currentState.maybePop();
+          return !await currentNavigatorKey()?.currentState?.maybePop();
         },
         child: CupertinoTabScaffold(
             controller: _tabController,
