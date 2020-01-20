@@ -30,8 +30,12 @@ class RootTabNavigation extends StatelessWidget {
               backgroundColor: APP_PRIMARY_COLOR,
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
+                  activeIcon: Icon(
+                    Icons.subject,
+                    color: Colors.lime,
+                  ),
                   icon: Icon(
-                    Icons.fiber_new,
+                    Icons.subject,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -40,6 +44,10 @@ class RootTabNavigation extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
+                  activeIcon: Icon(
+                    Icons.work,
+                    color: Colors.lime,
+                  ),
                   icon: Icon(
                     Icons.work,
                     color: Colors.white,
