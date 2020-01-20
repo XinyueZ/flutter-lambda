@@ -2,13 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/blocs/hn_splash_bloc.dart';
 import 'package:flutter_hacker_news/blocs/hn_translation_bloc.dart';
 import 'package:flutter_hacker_news/config.dart';
-import 'package:provider/provider.dart';
-
-import 'hn_news_widget.dart';
 
 class HNSplashWidget extends StatefulWidget {
   @override

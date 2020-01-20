@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/blocs/hn_top_stories_bloc.dart';
-import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
-import 'package:flutter_hacker_news/router/hn_news_navigation.dart';
 import 'package:flutter_hacker_news/router/navigation_constants.dart';
 import 'package:flutter_hacker_news/widgets/hn_author_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_comment_widget.dart';
-import 'package:flutter_hacker_news/widgets/hn_detail_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_score_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_translation_widget.dart';
-import 'package:provider/provider.dart';
 
 import 'hn_text_widget.dart';
 import 'hn_time_widget.dart';

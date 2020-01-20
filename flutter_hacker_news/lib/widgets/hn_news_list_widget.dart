@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/blocs/hn_top_stories_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_news_bloc.dart';
 import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,7 +22,7 @@ class _HNNewsListWidgetState extends State<HNNewsListWidget> {
       final bool isEnd =
           _listViewCtrl.offset == _listViewCtrl.position.maxScrollExtent;
       if (isEnd) {
-        Provider.of<HNTopStoriesBloc>(context).fetchNext();
+        Provider.of<HNNewsBloc>(context).fetchNext();
       }
     });
 
@@ -30,7 +30,7 @@ class _HNNewsListWidgetState extends State<HNNewsListWidget> {
   }
 
   void _onRefresh() async {
-    await Provider.of<HNTopStoriesBloc>(context).fetchInit();
+    await Provider.of<HNNewsBloc>(context).fetchInit();
     _refreshCtrl.refreshCompleted();
   }
 
@@ -42,7 +42,7 @@ class _HNNewsListWidgetState extends State<HNNewsListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final HNTopStoriesBloc model = Provider.of<HNTopStoriesBloc>(context);
+    final HNNewsBloc model = Provider.of<HNNewsBloc>(context);
 
     return SmartRefresher(
       header: const MaterialClassicHeader(),

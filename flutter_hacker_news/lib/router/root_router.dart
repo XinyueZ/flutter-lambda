@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/router/navigation_constants.dart';
 import 'package:flutter_hacker_news/router/root_tab_navigation.dart';
-import 'package:flutter_hacker_news/widgets/hn_news_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_splash_widget.dart';
 
 Route<dynamic> generateRootRoute(RouteSettings settings) {

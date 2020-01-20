@@ -6,7 +6,7 @@ import '../config.dart';
 import '../decoder_helper.dart';
 import '../domain/extensions.dart';
 
-class HNTopStoriesBloc extends ChangeNotifier {
+class HNNewsBloc extends ChangeNotifier {
   final List<HNElement> _elements = List();
 
   final List<HNStory> _stories = List();
@@ -27,7 +27,7 @@ class HNTopStoriesBloc extends ChangeNotifier {
     responseType: ResponseType.json,
   ));
 
-  HNTopStoriesBloc() {
+  HNNewsBloc() {
     fetchInit();
   }
 

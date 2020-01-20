@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:flutter_hacker_news/widgets/hn_jobs_widget.dart';
-import 'package:flutter_hacker_news/widgets/hn_news_widget.dart';
-import 'package:flutter_hacker_news/widgets/hn_detail_widget.dart';
-import 'package:flutter_hacker_news/widgets/hn_news_list_widget.dart';
 
 import 'navigation_constants.dart';
 

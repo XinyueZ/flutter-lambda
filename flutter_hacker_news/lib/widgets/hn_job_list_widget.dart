@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/blocs/hn_jobs_bloc.dart';
-import 'package:flutter_hacker_news/blocs/hn_top_stories_bloc.dart';
 import 'package:flutter_hacker_news/widgets/hn_list_job_item_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import 'hn_list_news_item_widget.dart';
 
 class HNJobListWidget extends StatefulWidget {
   @override

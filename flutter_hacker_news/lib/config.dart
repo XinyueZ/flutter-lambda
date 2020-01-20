@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 import 'package:flutter/cupertino.dart';
 
 const APP_NAME = "HN Tree";
