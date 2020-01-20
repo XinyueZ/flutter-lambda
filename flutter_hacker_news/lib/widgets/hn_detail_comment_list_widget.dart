@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_hacker_news/blocs/hn_detail_bloc.dart';
+import 'package:flutter_hacker_news/blocs/hn_news_detail_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:flutter_hacker_news/widgets/hn_detail_comment_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_loading_widget.dart';
@@ -16,13 +16,13 @@ class _HNDetailCommentListWidgetState extends State<HNDetailCommentListWidget> {
   RefreshController _refreshCtrl = RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    await Provider.of<HNDetailBloc>(context).fetchFirstLayerComments();
+    await Provider.of<HNNewsDetailBloc>(context).fetchFirstLayerComments();
     _refreshCtrl.refreshCompleted();
   }
 
   @override
   Widget build(BuildContext context) {
-    final HNDetailBloc model = Provider.of<HNDetailBloc>(context);
+    final HNNewsDetailBloc model = Provider.of<HNNewsDetailBloc>(context);
 
     if (model.firstLayerComments == null)
       return HNLoadingWidget(

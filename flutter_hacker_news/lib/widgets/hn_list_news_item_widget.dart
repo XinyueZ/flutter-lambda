@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hacker_news/blocs/hn_list_view_bloc.dart';
-import 'package:flutter_hacker_news/blocs/hn_share_bloc.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
+import 'package:flutter_hacker_news/router/navigation_constants.dart';
 import 'package:flutter_hacker_news/widgets/hn_author_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_comment_widget.dart';
-import 'package:flutter_hacker_news/widgets/hn_detail_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_score_widget.dart';
 import 'package:flutter_hacker_news/widgets/hn_translation_widget.dart';
-import 'package:provider/provider.dart';
 
 import 'hn_text_widget.dart';
 import 'hn_time_widget.dart';
 import 'hn_translation_button_widget.dart';
 
-class HNListItemWidget extends StatefulWidget {
-  final HNItem item;
+class HNListNewsItemWidget extends StatefulWidget {
+  final HNStory item;
 
-  HNListItemWidget({
+  HNListNewsItemWidget({
     Key key,
     @required this.item,
   });
 
   @override
-  _HNListItemWidgetState createState() => _HNListItemWidgetState();
+  _HNListNewsItemWidgetState createState() => _HNListNewsItemWidgetState();
 }
 
-class _HNListItemWidgetState extends State<HNListItemWidget> {
+class _HNListNewsItemWidgetState extends State<HNListNewsItemWidget> {
   bool _translate = false;
 
   @override
@@ -35,9 +32,10 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
       child: Card(
         child: InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return HNDetailWidget(item: widget.item);
-            }));
+            Navigator.of(context).pushNamed(
+              TAB_HN_NEWS_TO_DETAIL,
+              arguments: widget.item,
+            );
           },
           child: Column(
             children: <Widget>[
@@ -70,7 +68,7 @@ class _HNListItemWidgetState extends State<HNListItemWidget> {
                       SizedBox(
                         width: 5,
                       ),
-                      HNScoreWidget(story: widget.item),
+                      HNScoreWidget(scoredItem: widget.item),
                       SizedBox(
                         width: 5,
                       ),

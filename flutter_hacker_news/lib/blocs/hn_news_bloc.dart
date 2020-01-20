@@ -6,7 +6,7 @@ import '../config.dart';
 import '../decoder_helper.dart';
 import '../domain/extensions.dart';
 
-class HNListBloc extends ChangeNotifier {
+class HNNewsBloc extends ChangeNotifier {
   final List<HNElement> _elements = List();
 
   final List<HNStory> _stories = List();
@@ -27,8 +27,8 @@ class HNListBloc extends ChangeNotifier {
     responseType: ResponseType.json,
   ));
 
-  HNListBloc() {
-    fetchInit();
+  HNNewsBloc() {
+    fetch();
   }
 
   _fetchElements() async {
@@ -36,7 +36,7 @@ class HNListBloc extends ChangeNotifier {
     final List<dynamic> feedsMap =
         DecoderHelper.getJsonDecoder().convert(response.toString());
     feedsMap.forEach((elementId) {
-      _elements.add(HNElement(elementId));
+      _elements.add(HNObject(elementId));
     });
   }
 
@@ -46,7 +46,7 @@ class HNListBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  fetchInit() async {
+  fetch() async {
     _from = 0;
     _to = _from + INIT_PAGE_SIZE;
 

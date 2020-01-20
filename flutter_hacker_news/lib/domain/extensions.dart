@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_hacker_news/domain/hn_item.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../config.dart';
 import '../decoder_helper.dart';
-import 'hn_item.dart';
 
 extension HNStoryGenerator on List<HNElement> {
   Future<List<HNStory>> buildStories(final Dio dio) async {
@@ -63,5 +63,29 @@ extension HNCommentListGenerator on List<HNItem> {
       comments.addAll(nextComments);
     });
     return comments;
+  }
+}
+
+extension HNJobGenerator on Iterable<HNElement> {
+  Future<List<HNJob>> buildJobs(final Dio dio) async {
+    final List<HNJob> jobs = List();
+    await Future.forEach(this, (element) async {
+      final String getPath = sprintf(CONTENT, [element.toString()]);
+      final Response response = await dio.get(getPath);
+      if (response != null) {
+        final Map<String, dynamic> feedsMap =
+            DecoderHelper.getJsonDecoder().convert(response.toString());
+
+        if (feedsMap != null) {
+          final HNJob job = HNJob.from(feedsMap);
+          jobs.add(job);
+
+          //Debug output
+          print("Job: ${job.toString()}");
+        }
+      }
+    });
+
+    return jobs;
   }
 }

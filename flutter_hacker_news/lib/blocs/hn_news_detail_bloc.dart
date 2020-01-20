@@ -5,7 +5,7 @@ import 'package:flutter_hacker_news/domain/hn_item.dart';
 
 import '../config.dart';
 
-class HNDetailBloc extends ChangeNotifier {
+class HNNewsDetailBloc extends ChangeNotifier {
   final Dio _dio = Dio(BaseOptions(
     baseUrl: API_HOST,
     connectTimeout: 3000,
@@ -13,13 +13,13 @@ class HNDetailBloc extends ChangeNotifier {
     responseType: ResponseType.json,
   ));
 
-  final HNItem _item;
+  final HNStory _item;
 
-  HNItem get currentHackerNews => _item;
+  HNStory get currentHackerNews => _item;
 
   List<HNComment> firstLayerComments;
 
-  HNDetailBloc(this._item) {
+  HNNewsDetailBloc(this._item) {
     fetchFirstLayerComments();
   }
 

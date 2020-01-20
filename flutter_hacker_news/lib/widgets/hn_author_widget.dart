@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hacker_news/domain/hn_item.dart';
 
 class HNAuthorWidget extends StatelessWidget {
-  final HNItem item;
+  final HNTextItem item;
 
   HNAuthorWidget({
     Key key,
