@@ -14,7 +14,7 @@ class _HNJobListWidgetState extends State<HNJobListWidget> {
   RefreshController _refreshCtrl = RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    await Provider.of<HNJobsBloc>(context).fetchInit();
+    await Provider.of<HNJobsBloc>(context).fetchAll();
     _refreshCtrl.refreshCompleted();
   }
 

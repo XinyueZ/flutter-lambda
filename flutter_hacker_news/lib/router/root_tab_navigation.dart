@@ -70,7 +70,7 @@ class RootTabNavigation extends StatelessWidget {
                   break;
                 default:
                   throw Exception(
-                      "Unexpected feature navigation at tab: $index in RootTabNavigation.}");
+                      "Unexpected tab navigation at tab: $index in RootTabNavigation.}");
               }
               return featureNavigation;
             }),

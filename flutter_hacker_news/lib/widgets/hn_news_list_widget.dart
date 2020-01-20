@@ -30,7 +30,7 @@ class _HNNewsListWidgetState extends State<HNNewsListWidget> {
   }
 
   void _onRefresh() async {
-    await Provider.of<HNNewsBloc>(context).fetchInit();
+    await Provider.of<HNNewsBloc>(context).fetch();
     _refreshCtrl.refreshCompleted();
   }
 

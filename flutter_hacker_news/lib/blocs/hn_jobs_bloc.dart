@@ -25,7 +25,7 @@ class HNJobsBloc extends ChangeNotifier {
   ));
 
   HNJobsBloc() {
-    fetchInit();
+    fetchAll();
   }
 
   _fetchElements() async {
@@ -42,7 +42,7 @@ class HNJobsBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  fetchInit() async {
+  fetchAll() async {
     _elements.clear();
     await _fetchElements();
     _jobs.clear();

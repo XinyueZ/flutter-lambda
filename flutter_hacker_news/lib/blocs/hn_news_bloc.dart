@@ -28,7 +28,7 @@ class HNNewsBloc extends ChangeNotifier {
   ));
 
   HNNewsBloc() {
-    fetchInit();
+    fetch();
   }
 
   _fetchElements() async {
@@ -46,7 +46,7 @@ class HNNewsBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  fetchInit() async {
+  fetch() async {
     _from = 0;
     _to = _from + INIT_PAGE_SIZE;
 

@@ -29,7 +29,7 @@ class HNNewsNavigation extends CupertinoTabView {
                   );
                 default:
                   throw Exception(
-                      "Unexpected route ${settings.name} in HNNewsNavigation.");
+                      "Unexpected navigation ${settings.name} in HNNewsNavigation.");
               }
             });
 

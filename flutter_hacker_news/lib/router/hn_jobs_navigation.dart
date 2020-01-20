@@ -16,7 +16,7 @@ class HNJobsNavigation extends CupertinoTabView {
                   );
                 default:
                   throw Exception(
-                      "Unexpected route ${settings.name} in HNJobsNavigation.");
+                      "Unexpected navigation ${settings.name} in HNJobsNavigation.");
               }
             });
 
