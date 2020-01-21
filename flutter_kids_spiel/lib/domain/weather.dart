@@ -6,7 +6,7 @@ class Weather {
   final num id;
   final String name;
   final Uri iconLocation;
-  final double temperature;
+  final num temperature;
   final String unit;
 
   Weather(this.id, this.name, this.iconLocation, this.temperature, this.unit);

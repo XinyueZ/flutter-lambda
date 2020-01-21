@@ -7,6 +7,10 @@ const TEMP_UNIT = "℃";
 const DATA_NULL = "N/A";
 const PROJECT_LOCATION = "http://tinyurl.com/y23y7xhb";
 const API_PROVIDER = "http://tinyurl.com/y4ch3y22";
-const ZOOM = 18;
+const ZOOM = 12;
 const APP_SHARE = "Playground searching App by Kids Spiel\n%s";
 const APP_STORE = "http://tinyurl.com/yy9ep59q";
+
+const MOIA_API_HOST = "https://api-sandbox.moia.io";
+const MOIA_API_AUTH = "/auth/token";
+const MOIA_API_SERVICE_AREAS = "/serviceareas/";

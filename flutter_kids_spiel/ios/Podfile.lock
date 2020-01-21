@@ -1,10 +1,12 @@
 PODS:
   - android_intent (0.0.1):
     - Flutter
+  - "app_settings (1.0.6+2)":
+    - Flutter
   - Flutter (1.0.0)
   - flutter_custom_tabs (0.0.1):
     - Flutter
-  - geolocator (4.0.3):
+  - geolocator (5.1.5):
     - Flutter
   - google_api_availability (2.0.1):
     - Flutter
@@ -16,17 +18,20 @@ PODS:
   - GoogleMaps/Base (2.7.0)
   - GoogleMaps/Maps (2.7.0):
     - GoogleMaps/Base
-  - location_permissions (2.0.1):
+  - location_permissions (2.0.3):
     - Flutter
   - package_info (0.0.1):
     - Flutter
-  - permission_handler (3.1.0):
+  - permission_handler (3.3.0):
+    - Flutter
+  - share (0.5.2):
     - Flutter
   - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - android_intent (from `.symlinks/plugins/android_intent/ios`)
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
@@ -35,15 +40,18 @@ DEPENDENCIES:
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - GoogleMaps
 
 EXTERNAL SOURCES:
   android_intent:
     :path: ".symlinks/plugins/android_intent/ios"
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
   flutter_custom_tabs:
@@ -60,22 +68,26 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
-  android_intent: 73316069cd1f6aac919df1c6e640cad190fd5e8b
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  android_intent: f144b3783d533cc5bc2cd04cdbd1dc2b6950bd69
+  app_settings: 27651d311385d34d91afa163c0e4539cfd0c4c5d
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_custom_tabs: 9f7596dc1593f2e0d0562ce888dde6447751e97c
-  geolocator: 42437f4ba1897906a040c826678815c059b22c80
+  geolocator: 80aba2bb48f8c7dfc5a8b70b9d13fc3edc8399c4
   google_api_availability: 163b30f802e6148c67f092aa4501c90ddd8eec8d
-  google_maps_flutter: 924970f41ec509a201b593548db005efb2a09ee9
+  google_maps_flutter: d0dd62f5a7d39bae61057eb9f52dd778d99c7c6c
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
-  location_permissions: db47e77cf4f1359866d627523fb7812899a752f3
-  package_info: 78cabb3c322943c55d39676f4a5bfc748c01d055
-  permission_handler: fa6b0d784b1a43cb96b468a5b8365cb130b1956a
-  url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
+  location_permissions: 195ff2a1182fa9029ef3f2653156961ee5a1e40b
+  package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
+  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  share: bae0a282aab4483288913fc4dc0b935d4b491f2e
+  url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
 
 PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4

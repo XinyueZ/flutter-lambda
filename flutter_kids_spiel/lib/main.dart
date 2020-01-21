@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kids_spiel/share_app_button.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import 'about_button.dart';
 import 'map.dart';
+import 'service/gateway.dart';
 import 'weather_chip.dart';
 
-void main() => runApp(App());
+void main() => runApp(MultiProvider(providers: [
+      Provider<Gateway>(
+        create: (BuildContext context) => Gateway(DioProvider()),
+      )
+    ], child: App()));
 
 typedef LoadingGroundsCallback = Function(bool isDone);
 
@@ -21,6 +27,7 @@ class _AppState extends State<App> {
   final navigatorKey = GlobalKey<NavigatorState>();
   final permissionHandler = PermissionHandler();
   final permissionGroup = PermissionGroup.location;
+  final MapView _map = MapView();
 
   PermissionStatus _permissionStatus = PermissionStatus.unknown;
   bool _isLoadingCompleted = true;
@@ -28,8 +35,6 @@ class _AppState extends State<App> {
   Color _fabColor;
   Widget _fabIcon = Icon(Icons.my_location);
   Widget _fabLabel = Container(height: 0.0, width: 0.0);
-
-  MapView _map = MapView();
 
   @override
   void initState() {
@@ -136,11 +141,10 @@ class _AppState extends State<App> {
   get _noPermissions => _permissionStatus != PermissionStatus.granted;
 
   void _loadingCompleted(bool completed) {
-    if (_hasPermissions)
-      setState(() {
-        _isLoadingCompleted = completed;
-        _updateFAB();
-      });
+    if (_hasPermissions) {
+      _isLoadingCompleted = completed;
+      _updateFAB();
+    }
   }
 
   Future _moveMapCamera() async {

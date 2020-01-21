@@ -7,3 +7,4 @@ pubspec.lock
 Test.txt
 config.dart
 google-services.json
+app_credentials.dart
